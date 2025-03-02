@@ -225,7 +225,7 @@ function BookingContent() {
               {/* Sprinter */}
               <div className="p-4 border rounded-md text-center">
                 <Image
-                  src="/sprinter.jpeg"
+                  src="/sprinter.jpg"
                   alt="Sprinter"
                   className="object-cover mb-2"
                   width={400} // adjust width as needed
