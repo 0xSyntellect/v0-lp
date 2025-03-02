@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation"
 import { useState } from "react"
 import { ChevronDown, ChevronUp } from "lucide-react"
+import Link from "next/link"
 
 export default function BookingPage() {
   const searchParams = useSearchParams()
