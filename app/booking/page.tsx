@@ -2,11 +2,11 @@
 export const dynamic = "force-dynamic"
 
 import { useSearchParams } from "next/navigation"
-import { useState } from "react"
+import { useState, Suspense } from "react"
 import { ChevronDown, ChevronUp } from "lucide-react"
 import Link from "next/link"
 
-export default function BookingPage() {
+function BookingContent() {
   const searchParams = useSearchParams()
 
   // Booking data from landing page form (Step 1)
@@ -362,5 +362,13 @@ export default function BookingPage() {
         </div>
       </div>
     </main>
+  )
+}
+
+export default function BookingPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <BookingContent />
+    </Suspense>
   )
 }
