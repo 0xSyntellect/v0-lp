@@ -53,7 +53,7 @@ export default function TestimonialsSection() {
                     />
                   ))}
                 </div>
-                <p className="mb-6 italic text-muted-foreground">"{testimonial.text}"</p>
+                <p className="mb-6 italic text-muted-foreground">&quot;{testimonial.text}&quot;</p>
                 <div>
                   <p className="font-medium">{testimonial.name}</p>
                   <p className="text-sm text-muted-foreground">{testimonial.location}</p>
@@ -66,4 +66,3 @@ export default function TestimonialsSection() {
     </section>
   )
 }
-
