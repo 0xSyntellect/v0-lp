@@ -1,22 +1,18 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image" // for images if you prefer next/image
+import Image from "next/image"
 import { useSearchParams } from "next/navigation"
-import { useState } from "react"
+import { useState, Suspense } from "react"
 import { ChevronDown, ChevronUp } from "lucide-react"
-
-/* 
-  We now store vehicle info (name, price) in selectedVehicle, 
-  and display the chosen vehicle + price in the final review.
-*/
 
 type VehicleInfo = {
   name: string
   price: number
 }
 
-export default function BookingPage() {
+// Create a separate component that uses useSearchParams
+function BookingContent() {
   const searchParams = useSearchParams()
 
   // Booking data from landing page form (Step 1)
@@ -431,5 +427,14 @@ export default function BookingPage() {
         </div>
       </div>
     </main>
+  )
+}
+
+// Main component that wraps the content in Suspense
+export default function BookingPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading booking information...</div>}>
+      <BookingContent />
+    </Suspense>
   )
 }
