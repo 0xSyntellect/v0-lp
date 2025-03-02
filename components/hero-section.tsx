@@ -10,8 +10,30 @@ import { useState } from "react"
 import { format } from "date-fns"
 
 export default function HeroSection() {
+  // Track user inputs
+  const [transferFrom, setTransferFrom] = useState("Istanbul Airport (IST)")
+  const [transferTo, setTransferTo] = useState("")
   const [date, setDate] = useState<Date | undefined>(new Date())
+  const [time, setTime] = useState("15:00") // store time as a separate string
   const [passengers, setPassengers] = useState(1)
+
+  // Combine date & time into a single string for query param
+  const getDateTimeString = () => {
+    if (!date) return ""
+    // Format date
+    const datePart = format(date, "yyyy-MM-dd")
+    return `${datePart} ${time}`
+  }
+
+  const handleBookNowClick = () => {
+    const dateTime = getDateTimeString()
+    // Redirect with query params
+    window.location.href = `/booking?from=${encodeURIComponent(
+      transferFrom
+    )}&to=${encodeURIComponent(transferTo)}&date=${encodeURIComponent(
+      dateTime
+    )}&passengers=${passengers}`
+  }
 
   return (
     <section className="relative min-h-screen pt-16 overflow-hidden">
@@ -34,7 +56,7 @@ export default function HeroSection() {
           </p>
           <div className="flex flex-wrap gap-4">
             <Button size="lg" className="bg-primary hover:bg-primary/90 text-white">
-              Book Now
+              <a href="/booking">Book Now</a>
             </Button>
             <Button
               size="lg"
@@ -57,6 +79,8 @@ export default function HeroSection() {
                 Hourly Service
               </TabsTrigger>
             </TabsList>
+
+            {/* TRANSFER TAB */}
             <TabsContent value="transfer" className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
@@ -66,7 +90,8 @@ export default function HeroSection() {
                     <Input
                       placeholder="Airport, Hotel or Address"
                       className="pl-10"
-                      defaultValue="Istanbul Airport (IST)"
+                      value={transferFrom}
+                      onChange={(e) => setTransferFrom(e.target.value)}
                     />
                   </div>
                 </div>
@@ -74,7 +99,12 @@ export default function HeroSection() {
                   <label className="text-sm font-medium">To</label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                    <Input placeholder="Airport, Hotel or Address" className="pl-10" />
+                    <Input
+                      placeholder="Airport, Hotel or Address"
+                      className="pl-10"
+                      value={transferTo}
+                      onChange={(e) => setTransferTo(e.target.value)}
+                    />
                   </div>
                 </div>
               </div>
@@ -86,13 +116,22 @@ export default function HeroSection() {
                     <PopoverTrigger asChild>
                       <Button variant="outline" className="w-full justify-start text-left font-normal">
                         <CalendarIcon className="mr-2 h-4 w-4" />
-                        {date ? format(date, "PPP, HH:mm") : <span>Pick a date</span>}
+                        {date ? format(date, "PPP") + `, ${time}` : <span>Pick a date</span>}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
-                      <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
+                      <Calendar
+                        mode="single"
+                        selected={date}
+                        onSelect={setDate}
+                        initialFocus
+                      />
                       <div className="p-3 border-t">
-                        <Input type="time" defaultValue="15:00" />
+                        <Input
+                          type="time"
+                          value={time}
+                          onChange={(e) => setTime(e.target.value)}
+                        />
                       </div>
                     </PopoverContent>
                   </Popover>
@@ -109,7 +148,9 @@ export default function HeroSection() {
                     >
                       <Minus className="h-4 w-4" />
                     </Button>
-                    <div className="flex-1 text-center font-medium">{passengers}</div>
+                    <div className="flex-1 text-center font-medium">
+                      {passengers}
+                    </div>
                     <Button
                       variant="ghost"
                       size="icon"
@@ -121,27 +162,52 @@ export default function HeroSection() {
                   </div>
                 </div>
 
-                <Button className="bg-primary hover:bg-primary/90 text-white h-10 mt-auto">BOOK NOW</Button>
+                <Button
+                  className="bg-primary hover:bg-primary/90 text-white h-10 mt-auto"
+                  onClick={handleBookNowClick}
+                >
+                  BOOK NOW
+                </Button>
               </div>
             </TabsContent>
 
+            {/* HOURLY TAB */}
             <TabsContent value="hourly" className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Pickup Location</label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                    <Input placeholder="Airport, Hotel or Address" className="pl-10" />
+                    <Input
+                      placeholder="Airport, Hotel or Address"
+                      className="pl-10"
+                      // Reuse 'transferFrom' for simplicity
+                      value={transferFrom}
+                      onChange={(e) => setTransferFrom(e.target.value)}
+                    />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Hours</label>
+                  {/* You can add a separate state if you want, or reuse 'passengers' just as example */}
                   <div className="flex items-center border rounded-md">
-                    <Button variant="ghost" size="icon" className="rounded-r-none h-10">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="rounded-r-none h-10"
+                      onClick={() => setPassengers(Math.max(1, passengers - 1))}
+                    >
                       <Minus className="h-4 w-4" />
                     </Button>
-                    <div className="flex-1 text-center font-medium">4</div>
-                    <Button variant="ghost" size="icon" className="rounded-l-none h-10">
+                    <div className="flex-1 text-center font-medium">
+                      {passengers}
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="rounded-l-none h-10"
+                      onClick={() => setPassengers(Math.min(10, passengers + 1))}
+                    >
                       <Plus className="h-4 w-4" />
                     </Button>
                   </div>
@@ -155,13 +221,22 @@ export default function HeroSection() {
                     <PopoverTrigger asChild>
                       <Button variant="outline" className="w-full justify-start text-left font-normal">
                         <CalendarIcon className="mr-2 h-4 w-4" />
-                        {date ? format(date, "PPP, HH:mm") : <span>Pick a date</span>}
+                        {date ? format(date, "PPP") + `, ${time}` : <span>Pick a date</span>}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
-                      <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
+                      <Calendar
+                        mode="single"
+                        selected={date}
+                        onSelect={setDate}
+                        initialFocus
+                      />
                       <div className="p-3 border-t">
-                        <Input type="time" defaultValue="15:00" />
+                        <Input
+                          type="time"
+                          value={time}
+                          onChange={(e) => setTime(e.target.value)}
+                        />
                       </div>
                     </PopoverContent>
                   </Popover>
@@ -178,7 +253,9 @@ export default function HeroSection() {
                     >
                       <Minus className="h-4 w-4" />
                     </Button>
-                    <div className="flex-1 text-center font-medium">{passengers}</div>
+                    <div className="flex-1 text-center font-medium">
+                      {passengers}
+                    </div>
                     <Button
                       variant="ghost"
                       size="icon"
@@ -190,7 +267,12 @@ export default function HeroSection() {
                   </div>
                 </div>
 
-                <Button className="bg-primary hover:bg-primary/90 text-white h-10 mt-auto">BOOK NOW</Button>
+                <Button
+                  className="bg-primary hover:bg-primary/90 text-white h-10 mt-auto"
+                  onClick={handleBookNowClick}
+                >
+                  BOOK NOW
+                </Button>
               </div>
             </TabsContent>
           </Tabs>
@@ -199,4 +281,3 @@ export default function HeroSection() {
     </section>
   )
 }
-
