@@ -56,9 +56,9 @@ export default function Navbar() {
             size="sm"
             className="gap-2 border-black-300 text-black-300 transition-all duration-200 hover:bg-white hover:text-indigo-800 hover:scale-105"
           >
-            <a href="tel:+905551234567">
+            <a href="tel:+905320579734">
               <PhoneCall className="h-4 w-4" />
-              <span>+90 555 123 4567</span>
+              <span>+90 532 057 97 34</span>
             </a>
           </Button>
         </nav>
