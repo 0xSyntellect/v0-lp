@@ -19,7 +19,7 @@ export default function CTASection() {
             <div className="space-y-4">
               <div className="flex justify-center md:justify-start items-center gap-3">
                 <PhoneCall className="h-5 w-5" />
-                <span>+90 555 123 4567</span>
+                <span>+90 532 057 97 34</span>
               </div>
               <div className="flex justify-center md:justify-start items-center gap-3">
                 <Mail className="h-5 w-5" />
@@ -27,7 +27,7 @@ export default function CTASection() {
               </div>
               <div className="flex justify-center md:justify-start items-center gap-3">
                 <MessageSquare className="h-5 w-5" />
-                <span>WhatsApp: +90 555 123 4567</span>
+                <span>WhatsApp: +90 532 057 97 34</span>
               </div>
             </div>
           </div>
