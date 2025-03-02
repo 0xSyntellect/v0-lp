@@ -5,6 +5,7 @@ import FleetSection from "@/components/fleet-section"
 import TestimonialsSection from "@/components/testimonials-section"
 import CTASection from "@/components/cta-section"
 import Footer from "@/components/footer"
+import Link from "next/link" // add this import
 
 /*
   Hero and Footer remain full width,

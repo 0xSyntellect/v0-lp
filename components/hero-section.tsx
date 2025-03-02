@@ -8,6 +8,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { CalendarIcon, MapPin, Minus, Plus } from "lucide-react"
 import { useState } from "react"
 import { format } from "date-fns"
+import Link from "next/link" // add this import
 
 export default function HeroSection() {
   const [transferFrom, setTransferFrom] = useState("Istanbul Airport (IST)")
@@ -55,7 +56,7 @@ export default function HeroSection() {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Button size="lg" className="bg-primary hover:bg-primary/90 text-white">
-              <a href="/booking">Book Now</a>
+              <Link href="/booking">Book Now</Link>
             </Button>
             <Button
               size="lg"

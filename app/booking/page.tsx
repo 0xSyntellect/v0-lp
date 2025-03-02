@@ -109,9 +109,9 @@ export default function BookingPage() {
             if (step === 1) {
               // Step 1 => link to landing page
               circleContent = (
-                <a href="/" className="cursor-pointer">
+                <Link href="/" className="cursor-pointer">
                   <div className={circleClass}>{step}</div>
-                </a>
+                </Link>
               )
             } else if (step < currentStep) {
               // Steps below current => clickable to go back
