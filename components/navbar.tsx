@@ -51,12 +51,15 @@ export default function Navbar() {
             CONTACT
           </Link>
           <Button
+            asChild
             variant="outline"
             size="sm"
             className="gap-2 border-black-300 text-black-300 transition-all duration-200 hover:bg-white hover:text-indigo-800 hover:scale-105"
           >
-            <PhoneCall className="h-4 w-4" />
-            <span>+90 555 123 4567</span>
+            <a href="tel:+905551234567">
+              <PhoneCall className="h-4 w-4" />
+              <span>+90 555 123 4567</span>
+            </a>
           </Button>
         </nav>
 
