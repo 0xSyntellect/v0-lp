@@ -8,7 +8,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { CalendarIcon, MapPin, Minus, Plus } from "lucide-react"
 import { useState } from "react"
 import { format } from "date-fns"
-import Link from "next/link" // add this import
 
 export default function HeroSection() {
   const [transferFrom, setTransferFrom] = useState("Istanbul Airport (IST)")
@@ -34,7 +33,7 @@ export default function HeroSection() {
 
   return (
     <section className="relative min-h-screen pt-16 overflow-hidden">
-      {/* Background Image with Overlay */}
+      {/* Background Image with Vibrant Gradient Overlay */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
@@ -42,21 +41,22 @@ export default function HeroSection() {
           backgroundPosition: "center 30%",
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
+        {/* Vibrant gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 opacity-70"></div>
       </div>
 
       <div className="relative z-10 pt-20 md:pt-32 pb-20">
-        {/* Hero Text - Centered */}
+        {/* Centered Hero Text */}
         <div className="max-w-3xl mx-auto text-center text-white mb-12 md:mb-16">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4 drop-shadow-lg">
             Premium Transport Services in Istanbul
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 mb-8">
+          <p className="text-xl md:text-2xl text-white/90 mb-8 drop-shadow-sm">
             Secure, reliable and luxurious transfer services for business and leisure travelers
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-white">
-              <Link href="/booking">Book Now</Link>
+            <Button size="lg" className="bg-indigo-600 hover:bg-indigo-700 text-white">
+              <a href="/booking">Book Now</a>
             </Button>
             <Button
               size="lg"
@@ -68,7 +68,7 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Booking Form - Centered */}
+        {/* Centered Booking Form */}
         <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl p-6">
           <Tabs defaultValue="transfer" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-6">
@@ -114,29 +114,15 @@ export default function HeroSection() {
                   <label className="text-sm font-medium">Date & Time</label>
                   <Popover>
                     <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start text-left font-normal"
-                      >
+                      <Button variant="outline" className="w-full justify-start text-left font-normal">
                         <CalendarIcon className="mr-2 h-4 w-4" />
-                        {date
-                          ? format(date, "PPP") + `, ${time}`
-                          : <span>Pick a date</span>}
+                        {date ? format(date, "PPP") + `, ${time}` : <span>Pick a date</span>}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
-                      <Calendar
-                        mode="single"
-                        selected={date}
-                        onSelect={setDate}
-                        initialFocus
-                      />
+                      <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
                       <div className="p-3 border-t">
-                        <Input
-                          type="time"
-                          value={time}
-                          onChange={(e) => setTime(e.target.value)}
-                        />
+                        <Input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
                       </div>
                     </PopoverContent>
                   </Popover>
@@ -166,7 +152,7 @@ export default function HeroSection() {
                 </div>
 
                 <Button
-                  className="bg-primary hover:bg-primary/90 text-white h-10 mt-auto"
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white h-10 mt-auto"
                   onClick={handleBookNowClick}
                 >
                   BOOK NOW
@@ -218,29 +204,15 @@ export default function HeroSection() {
                   <label className="text-sm font-medium">Date & Time</label>
                   <Popover>
                     <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start text-left font-normal"
-                      >
+                      <Button variant="outline" className="w-full justify-start text-left font-normal">
                         <CalendarIcon className="mr-2 h-4 w-4" />
-                        {date
-                          ? format(date, "PPP") + `, ${time}`
-                          : <span>Pick a date</span>}
+                        {date ? format(date, "PPP") + `, ${time}` : <span>Pick a date</span>}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
-                      <Calendar
-                        mode="single"
-                        selected={date}
-                        onSelect={setDate}
-                        initialFocus
-                      />
+                      <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
                       <div className="p-3 border-t">
-                        <Input
-                          type="time"
-                          value={time}
-                          onChange={(e) => setTime(e.target.value)}
-                        />
+                        <Input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
                       </div>
                     </PopoverContent>
                   </Popover>
@@ -249,30 +221,17 @@ export default function HeroSection() {
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Passengers</label>
                   <div className="flex items-center border rounded-md">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="rounded-r-none h-10"
-                      onClick={() => setPassengers(Math.max(1, passengers - 1))}
-                    >
+                    <Button variant="ghost" size="icon" className="rounded-r-none h-10" onClick={() => setPassengers(Math.max(1, passengers - 1))}>
                       <Minus className="h-4 w-4" />
                     </Button>
                     <div className="flex-1 text-center font-medium">{passengers}</div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="rounded-l-none h-10"
-                      onClick={() => setPassengers(Math.min(10, passengers + 1))}
-                    >
+                    <Button variant="ghost" size="icon" className="rounded-l-none h-10" onClick={() => setPassengers(Math.min(10, passengers + 1))}>
                       <Plus className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
 
-                <Button
-                  className="bg-primary hover:bg-primary/90 text-white h-10 mt-auto"
-                  onClick={handleBookNowClick}
-                >
+                <Button className="bg-indigo-600 hover:bg-indigo-700 text-white h-10 mt-auto" onClick={handleBookNowClick}>
                   BOOK NOW
                 </Button>
               </div>
