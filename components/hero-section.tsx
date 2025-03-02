@@ -10,24 +10,20 @@ import { useState } from "react"
 import { format } from "date-fns"
 
 export default function HeroSection() {
-  // Track user inputs
   const [transferFrom, setTransferFrom] = useState("Istanbul Airport (IST)")
   const [transferTo, setTransferTo] = useState("")
   const [date, setDate] = useState<Date | undefined>(new Date())
-  const [time, setTime] = useState("15:00") // store time as a separate string
+  const [time, setTime] = useState("15:00")
   const [passengers, setPassengers] = useState(1)
 
-  // Combine date & time into a single string for query param
   const getDateTimeString = () => {
     if (!date) return ""
-    // Format date
     const datePart = format(date, "yyyy-MM-dd")
     return `${datePart} ${time}`
   }
 
   const handleBookNowClick = () => {
     const dateTime = getDateTimeString()
-    // Redirect with query params
     window.location.href = `/booking?from=${encodeURIComponent(
       transferFrom
     )}&to=${encodeURIComponent(transferTo)}&date=${encodeURIComponent(
@@ -48,13 +44,16 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
       </div>
 
-      <div className="container relative z-10 pt-20 md:pt-32 pb-20">
-        <div className="max-w-3xl text-white mb-12 md:mb-16">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">Premium Transport Services in Istanbul</h1>
+      <div className="relative z-10 pt-20 md:pt-32 pb-20">
+        {/* Hero Text - Centered */}
+        <div className="max-w-3xl mx-auto text-center text-white mb-12 md:mb-16">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4">
+            Premium Transport Services in Istanbul
+          </h1>
           <p className="text-xl md:text-2xl text-white/90 mb-8">
             Secure, reliable and luxurious transfer services for business and leisure travelers
           </p>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 justify-center">
             <Button size="lg" className="bg-primary hover:bg-primary/90 text-white">
               <a href="/booking">Book Now</a>
             </Button>
@@ -68,8 +67,8 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Booking Form */}
-        <div className="bg-white rounded-xl shadow-2xl p-6 max-w-4xl mx-auto">
+        {/* Booking Form - Centered */}
+        <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl p-6">
           <Tabs defaultValue="transfer" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-6">
               <TabsTrigger value="transfer" className="text-base">
@@ -114,9 +113,14 @@ export default function HeroSection() {
                   <label className="text-sm font-medium">Date & Time</label>
                   <Popover>
                     <PopoverTrigger asChild>
-                      <Button variant="outline" className="w-full justify-start text-left font-normal">
+                      <Button
+                        variant="outline"
+                        className="w-full justify-start text-left font-normal"
+                      >
                         <CalendarIcon className="mr-2 h-4 w-4" />
-                        {date ? format(date, "PPP") + `, ${time}` : <span>Pick a date</span>}
+                        {date
+                          ? format(date, "PPP") + `, ${time}`
+                          : <span>Pick a date</span>}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
@@ -148,9 +152,7 @@ export default function HeroSection() {
                     >
                       <Minus className="h-4 w-4" />
                     </Button>
-                    <div className="flex-1 text-center font-medium">
-                      {passengers}
-                    </div>
+                    <div className="flex-1 text-center font-medium">{passengers}</div>
                     <Button
                       variant="ghost"
                       size="icon"
@@ -181,7 +183,6 @@ export default function HeroSection() {
                     <Input
                       placeholder="Airport, Hotel or Address"
                       className="pl-10"
-                      // Reuse 'transferFrom' for simplicity
                       value={transferFrom}
                       onChange={(e) => setTransferFrom(e.target.value)}
                     />
@@ -189,7 +190,6 @@ export default function HeroSection() {
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Hours</label>
-                  {/* You can add a separate state if you want, or reuse 'passengers' just as example */}
                   <div className="flex items-center border rounded-md">
                     <Button
                       variant="ghost"
@@ -199,9 +199,7 @@ export default function HeroSection() {
                     >
                       <Minus className="h-4 w-4" />
                     </Button>
-                    <div className="flex-1 text-center font-medium">
-                      {passengers}
-                    </div>
+                    <div className="flex-1 text-center font-medium">{passengers}</div>
                     <Button
                       variant="ghost"
                       size="icon"
@@ -219,9 +217,14 @@ export default function HeroSection() {
                   <label className="text-sm font-medium">Date & Time</label>
                   <Popover>
                     <PopoverTrigger asChild>
-                      <Button variant="outline" className="w-full justify-start text-left font-normal">
+                      <Button
+                        variant="outline"
+                        className="w-full justify-start text-left font-normal"
+                      >
                         <CalendarIcon className="mr-2 h-4 w-4" />
-                        {date ? format(date, "PPP") + `, ${time}` : <span>Pick a date</span>}
+                        {date
+                          ? format(date, "PPP") + `, ${time}`
+                          : <span>Pick a date</span>}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
@@ -253,9 +256,7 @@ export default function HeroSection() {
                     >
                       <Minus className="h-4 w-4" />
                     </Button>
-                    <div className="flex-1 text-center font-medium">
-                      {passengers}
-                    </div>
+                    <div className="flex-1 text-center font-medium">{passengers}</div>
                     <Button
                       variant="ghost"
                       size="icon"
