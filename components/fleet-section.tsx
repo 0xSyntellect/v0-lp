@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -32,14 +34,14 @@ export default function FleetSection() {
     van: [
       {
         name: "Mercedes V-Class",
-        image: "/placeholder.svg?height=300&width=500",
+        image: "/minivan.jpeg",
         passengers: 6,
         luggage: 6,
         features: ["WiFi", "Air Conditioning", "Professional Driver", "Spacious Interior"],
       },
       {
-        name: "Volkswagen Caravelle",
-        image: "/placeholder.svg?height=300&width=500",
+        name: "Maybach",
+        image: "/maybach.jpeg",
         passengers: 6,
         luggage: 6,
         features: ["WiFi", "Air Conditioning", "Professional Driver", "Spacious Interior"],
@@ -48,7 +50,7 @@ export default function FleetSection() {
     minibus: [
       {
         name: "Mercedes Sprinter",
-        image: "/placeholder.svg?height=300&width=500",
+        image: "/sprinter2.jpeg",
         passengers: 12,
         luggage: 12,
         features: ["WiFi", "Air Conditioning", "Professional Driver", "Large Luggage Space"],
@@ -126,7 +128,20 @@ export default function FleetSection() {
                         ))}
                       </div>
 
-                      <Button className="w-full">Book This Vehicle</Button>
+                      <Button
+                        className="w-full"
+                        onClick={() => {
+                          const bookingForm = document.getElementById("booking-form");
+                          if (bookingForm) {
+                            const offset = 100; // Adjust offset if needed
+                            const elementPosition = bookingForm.getBoundingClientRect().top + window.scrollY;
+                            window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
+                          }
+                        }}
+                      >
+                        Book This Vehicle
+                      </Button>
+
                     </CardContent>
                   </Card>
                 ))}

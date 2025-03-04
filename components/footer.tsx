@@ -1,92 +1,46 @@
-import Link from "next/link"
-import { Facebook, Instagram, Twitter } from "lucide-react"
+import Link from "next/link";
+import Image from "next/image";
+import { Facebook, Instagram, Twitter } from "lucide-react";
 
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300">
-      <div className="container py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div>
+      <div className="container py-12 mx-auto flex flex-col items-center">
+        {/* Centered Grid Wrapper */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-5xl w-full">
+          {/* Logo + Text Section */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
             <h3 className="text-white text-lg font-bold mb-4">PICKUP ISTANBUL</h3>
-            <p className="mb-4">
+            <p className="mb-4 max-w-xs">
               Premium transportation services in Istanbul. Safe, reliable, and comfortable transfers for all your needs.
             </p>
-            <div className="flex space-x-4">
-              <Link href="#" className="hover:text-white">
-                <Facebook className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="hover:text-white">
-                <Instagram className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="hover:text-white">
-                <Twitter className="h-5 w-5" />
-              </Link>
-            </div>
+
           </div>
 
-          <div>
+          {/* Services */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
             <h3 className="text-white text-lg font-bold mb-4">Services</h3>
             <ul className="space-y-2">
-              <li>
-                <Link href="#" className="hover:text-white">
-                  Airport Transfers
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-white">
-                  City Tours
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-white">
-                  Hourly Rentals
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-white">
-                  Intercity Transfers
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-white">
-                  VIP Services
-                </Link>
-              </li>
+              <li><Link href="#" className="hover:text-white">Airport Transfers</Link></li>
+              <li><Link href="#" className="hover:text-white">City Tours</Link></li>
+              <li><Link href="#" className="hover:text-white">Hourly Rentals</Link></li>
+              <li><Link href="#" className="hover:text-white">Intercity Transfers</Link></li>
+              <li><Link href="#" className="hover:text-white">VIP Services</Link></li>
             </ul>
           </div>
 
-          <div>
+          {/* Quick Links */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
             <h3 className="text-white text-lg font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li>
-                <Link href="#" className="hover:text-white">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-white">
-                  Fleet
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-white">
-                  Pricing
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-white">
-                  FAQs
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-white">
-                  Contact
-                </Link>
-              </li>
+              <li><Link href="#" className="hover:text-white">About Us</Link></li>
+              <li><Link href="#" className="hover:text-white">Fleet</Link></li>
+              <li><Link href="#" className="hover:text-white">Contact</Link></li>
             </ul>
           </div>
 
-          <div>
+          {/* Contact */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
             <h3 className="text-white text-lg font-bold mb-4">Contact</h3>
             <ul className="space-y-2">
               <li>Phone: +90 532 057 97 34</li>
@@ -96,11 +50,11 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-12 pt-8 text-sm text-center">
+        {/* Centered Copyright Section */}
+        <div className="border-t border-gray-800 mt-12 pt-8 text-sm text-center w-full max-w-5xl">
           <p>&copy; {new Date().getFullYear()} PICKUP ISTANBUL. All rights reserved.</p>
         </div>
       </div>
     </footer>
-  )
+  );
 }
-

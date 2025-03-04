@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -26,12 +28,22 @@ export default function Navbar() {
         </Link>
 
         <nav className="hidden md:flex items-center space-x-6">
-          <Link
-            href="/services"
-            className="text-sm font-medium text-white transition-all duration-200 hover:text-yellow-300 hover:underline hover:scale-105"
-          >
-            SERVICES
-          </Link>
+        <Link
+          href="#services"
+          onClick={(e) => {
+            e.preventDefault(); // Prevent default link navigation
+            const servicesSection = document.getElementById("services");
+            if (servicesSection) {
+              const offset = 100; // Adjust this value to stop earlier if needed
+              const elementPosition = servicesSection.getBoundingClientRect().top + window.scrollY;
+              window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
+            }
+          }}
+          className="text-sm font-medium text-white transition-all duration-200 hover:text-yellow-300 hover:underline hover:scale-105"
+        >
+          SERVICES
+        </Link>
+
           <Link
             href="/features"
             className="text-sm font-medium text-white transition-all duration-200 hover:text-yellow-300 hover:underline hover:scale-105"

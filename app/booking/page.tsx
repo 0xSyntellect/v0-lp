@@ -1,34 +1,33 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import Image from "next/image"
-import { useSearchParams } from "next/navigation"
-import { useState, Suspense } from "react"
-import { ChevronDown, ChevronUp } from "lucide-react"
+import Link from "next/link";
+import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { useState, Suspense } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 type VehicleInfo = {
-  name: string
-  price: number
-}
+  name: string;
+  price: number;
+};
 
-// Create a separate component that uses useSearchParams
 function BookingContent() {
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams();
 
-  // Booking data from landing page form (Step 1)
-  const fromLocation = searchParams.get("from") || ""
-  const toLocation = searchParams.get("to") || ""
-  const dateTime = searchParams.get("date") || ""
-  const passengersParam = searchParams.get("passengers") || "1"
-  const passengersCount = parseInt(passengersParam, 10) || 1
+  // Step 1 data
+  const fromLocation = searchParams.get("from") || "";
+  const toLocation = searchParams.get("to") || "";
+  const dateTime = searchParams.get("date") || "";
+  const passengersParam = searchParams.get("passengers") || "1";
+  const passengersCount = parseInt(passengersParam, 10) || 1;
 
-  // 4-step flow: Step 1 = Form, Step 2 = Vehicle, Step 3 = Passenger, Step 4 = Review
-  const [currentStep, setCurrentStep] = useState(2) // Start from Step 2
+  // Steps: 1 = Form, 2 = Vehicle, 3 = Passenger, 4 = Review
+  const [currentStep, setCurrentStep] = useState(2);
 
-  // selectedVehicle now stores both name & price
-  const [selectedVehicle, setSelectedVehicle] = useState<VehicleInfo | null>(null)
+  // Step 2: Vehicle selection
+  const [selectedVehicle, setSelectedVehicle] = useState<VehicleInfo | null>(null);
 
-  // Step 3: Each passenger has their own data
+  // Step 3: Passenger details
   const [passengerDetails, setPassengerDetails] = useState(
     Array.from({ length: passengersCount }, () => ({
       firstName: "",
@@ -36,58 +35,65 @@ function BookingContent() {
       passportNumber: "",
       origin: "",
     }))
-  )
+  );
 
-  // Payment method for entire booking
-  const [paymentMethod, setPaymentMethod] = useState("credit-card")
+  // Payment method
+  const [paymentMethod, setPaymentMethod] = useState("credit-card");
 
-  // Accordion open states for passenger forms
+  // Accordion open states
   const [isAccordionOpen, setIsAccordionOpen] = useState(
     Array.from({ length: passengersCount }, () => false)
-  )
+  );
 
-  // Navigation between steps
+  // NEW: Contact Info for Step 4
+  const [contactInfo, setContactInfo] = useState({
+    email: "",
+    phone: "",
+    whatsapp: "",
+  });
+
+  // Step navigation
   const goNext = () => {
     if (currentStep < 4) {
-      setCurrentStep(currentStep + 1)
+      setCurrentStep(currentStep + 1);
     }
-  }
+  };
   const goPrev = () => {
     if (currentStep > 2) {
-      setCurrentStep(currentStep - 1)
+      setCurrentStep(currentStep - 1);
     }
-  }
+  };
 
-  // Step 2: select vehicle => store name & price => move to step 3
+  // Step 2: select vehicle
   const selectVehicle = (vehicleName: string, vehiclePrice: number) => {
-    setSelectedVehicle({ name: vehicleName, price: vehiclePrice })
-    setCurrentStep(3)
-  }
+    setSelectedVehicle({ name: vehicleName, price: vehiclePrice });
+    setCurrentStep(3);
+  };
 
-  // Step 3: toggling passenger accordion
+  // Step 3: toggle accordion
   const toggleAccordion = (index: number) => {
     setIsAccordionOpen((prev) =>
       prev.map((open, i) => (i === index ? !open : open))
-    )
-  }
+    );
+  };
 
-  // Step 3: handle passenger field changes
+  // Step 3: handle passenger input
   const handlePassengerChange = (
     index: number,
     field: "firstName" | "lastName" | "passportNumber" | "origin",
     value: string
   ) => {
     setPassengerDetails((prev) => {
-      const updated = [...prev]
-      updated[index] = { ...updated[index], [field]: value }
-      return updated
-    })
-  }
+      const updated = [...prev];
+      updated[index] = { ...updated[index], [field]: value };
+      return updated;
+    });
+  };
 
   // Step 3 => Step 4
   const confirmPassengerDetails = () => {
-    setCurrentStep(4)
-  }
+    setCurrentStep(4);
+  };
 
   // Steps for progress bar
   const steps = [
@@ -95,7 +101,7 @@ function BookingContent() {
     { step: 2, title: "Vehicle" },
     { step: 3, title: "Passenger" },
     { step: 4, title: "Review" },
-  ]
+  ];
 
   return (
     <main className="min-h-screen py-10 bg-gray-50">
@@ -105,15 +111,15 @@ function BookingContent() {
           {steps.map(({ step, title }, index) => {
             const circleClass = `rounded-full w-10 h-10 flex items-center justify-center text-white font-bold ${
               currentStep >= step ? "bg-primary" : "bg-gray-300"
-            }`
+            }`;
 
-            let circleContent
+            let circleContent;
             if (step === 1) {
               circleContent = (
                 <Link href="/" className="cursor-pointer">
                   <div className={circleClass}>{step}</div>
                 </Link>
-              )
+              );
             } else if (step < currentStep) {
               circleContent = (
                 <div
@@ -122,9 +128,9 @@ function BookingContent() {
                 >
                   <div className={circleClass}>{step}</div>
                 </div>
-              )
+              );
             } else {
-              circleContent = <div className={circleClass}>{step}</div>
+              circleContent = <div className={circleClass}>{step}</div>;
             }
 
             return (
@@ -141,7 +147,7 @@ function BookingContent() {
                   />
                 )}
               </div>
-            )
+            );
           })}
         </div>
 
@@ -161,7 +167,6 @@ function BookingContent() {
             <p>
               <strong>Passengers:</strong> {passengersCount}
             </p>
-            {/* Show chosen vehicle + price if selected */}
             {selectedVehicle && (
               <p>
                 <strong>Vehicle:</strong> {selectedVehicle.name} — $
@@ -178,13 +183,12 @@ function BookingContent() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Sedan */}
               <div className="p-4 border rounded-md text-center">
-                {/* If you prefer next/image, use <Image src="/sedan.jpeg" ... /> */}
                 <Image
                   src="/sedan.jpeg"
                   alt="Sedan"
                   className="object-cover mb-2"
-                  width={400} // adjust width as needed
-                  height={160} // adjust height as needed
+                  width={400}
+                  height={160}
                 />
                 <h4 className="text-base font-medium mb-1">Sedan</h4>
                 <p className="text-sm text-gray-600 mb-1">Up to 3 passengers</p>
@@ -205,9 +209,8 @@ function BookingContent() {
                   src="/minivan.jpeg"
                   alt="Minivan"
                   className="object-cover mb-2"
-                  width={400} // adjust width as needed
-                  height={160} // adjust height as needed
-
+                  width={400}
+                  height={160}
                 />
                 <h4 className="text-base font-medium mb-1">Minivan</h4>
                 <p className="text-sm text-gray-600 mb-1">Up to 6 passengers</p>
@@ -228,12 +231,13 @@ function BookingContent() {
                   src="/sprinter.jpg"
                   alt="Sprinter"
                   className="object-cover mb-2"
-                  width={400} // adjust width as needed
-                  height={160} // adjust height as needed
-
+                  width={400}
+                  height={160}
                 />
                 <h4 className="text-base font-medium mb-1">Sprinter</h4>
-                <p className="text-sm text-gray-600 mb-1">Up to 12 passengers</p>
+                <p className="text-sm text-gray-600 mb-1">
+                  Up to 12 passengers
+                </p>
                 <p className="text-sm text-gray-800 font-semibold mb-4">
                   $60 / ride
                 </p>
@@ -248,19 +252,16 @@ function BookingContent() {
           </div>
         )}
 
-        {/* STEP 3 => Passenger details in Accordion */}
+        {/* STEP 3 => Passenger details */}
         {currentStep === 3 && (
           <div className="bg-white p-6 rounded-xl shadow-md mb-8">
             <h3 className="text-lg font-semibold mb-4">
               Passenger Details & Payment
             </h3>
-
-            {/* Accordion for each passenger */}
             {passengerDetails.map((passenger, i) => {
-              const open = isAccordionOpen[i]
+              const open = isAccordionOpen[i];
               return (
                 <div key={i} className="border rounded-md mb-4">
-                  {/* Accordion Header */}
                   <button
                     type="button"
                     className="w-full flex justify-between items-center px-4 py-3 bg-gray-100 hover:bg-gray-200"
@@ -273,8 +274,6 @@ function BookingContent() {
                       <ChevronDown className="h-5 w-5" />
                     )}
                   </button>
-
-                  {/* Accordion Content */}
                   {open && (
                     <div className="px-4 py-4 space-y-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -340,10 +339,10 @@ function BookingContent() {
                     </div>
                   )}
                 </div>
-              )
+              );
             })}
 
-            {/* Payment method (one per entire booking, not per passenger) */}
+            {/* Payment method */}
             <div className="mb-4">
               <label className="block text-sm font-medium mb-1">
                 Payment Method
@@ -358,7 +357,6 @@ function BookingContent() {
               </select>
             </div>
 
-            {/* Confirm => Step 4 */}
             <button
               className="px-4 py-2 rounded-md bg-primary text-white"
               onClick={confirmPassengerDetails}
@@ -368,13 +366,12 @@ function BookingContent() {
           </div>
         )}
 
-        {/* STEP 4 => Final Review */}
+        {/* STEP 4 => Final Review & Contact Info */}
         {currentStep === 4 && (
           <div className="bg-white p-6 rounded-xl shadow-md mb-8">
             <h3 className="text-lg font-semibold mb-4">Review & Confirmation</h3>
             <p className="text-gray-700 mb-4">
-              This is the final step placeholder. You can add payment processing
-              or any extra steps here.
+              Please review your booking details and provide your contact information.
             </p>
 
             {/* Show all passenger details */}
@@ -395,20 +392,85 @@ function BookingContent() {
                 </p>
               </div>
             ))}
+
             <p className="text-gray-700 mb-2">
               <strong>Payment Method:</strong> {paymentMethod}
             </p>
-            {/* Show chosen vehicle + price */}
             {selectedVehicle && (
-              <p className="text-gray-700">
-                <strong>Vehicle:</strong> {selectedVehicle.name} — $
-                {selectedVehicle.price}
+              <p className="text-gray-700 mb-6">
+                <strong>Vehicle:</strong> {selectedVehicle.name} — ${selectedVehicle.price}
               </p>
             )}
+
+            {/* Contact Info Form */}
+            <div className="mb-4 p-4 border rounded-md">
+              <h4 className="font-medium mb-2">Contact Information</h4>
+
+              {/* Email */}
+              <div className="mb-3">
+                <label className="block text-sm font-medium mb-1">Email</label>
+                <input
+                  type="email"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  placeholder="Enter your email"
+                  value={contactInfo.email}
+                  onChange={(e) =>
+                    setContactInfo({ ...contactInfo, email: e.target.value })
+                  }
+                />
+              </div>
+
+              {/* Phone */}
+              <div className="mb-3">
+                <label className="block text-sm font-medium mb-1">Phone Number</label>
+                <input
+                  type="tel"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  placeholder="Enter your phone number"
+                  value={contactInfo.phone}
+                  onChange={(e) =>
+                    setContactInfo({ ...contactInfo, phone: e.target.value })
+                  }
+                />
+              </div>
+
+              {/* WhatsApp */}
+              <div>
+                <label className="block text-sm font-medium mb-1">WhatsApp</label>
+                <input
+                  type="text"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  placeholder="Enter your WhatsApp number"
+                  value={contactInfo.whatsapp}
+                  onChange={(e) =>
+                    setContactInfo({ ...contactInfo, whatsapp: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+
+            {/* Optional: Display Contact Info in Summary */}
+            <div className="mb-4 p-4 border rounded-md">
+              <p className="font-medium mb-2">Summary of Contact Info</p>
+              <p>
+                <strong>Email:</strong> {contactInfo.email || "N/A"}
+              </p>
+              <p>
+                <strong>Phone:</strong> {contactInfo.phone || "N/A"}
+              </p>
+              <p>
+                <strong>WhatsApp:</strong> {contactInfo.whatsapp || "N/A"}
+              </p>
+            </div>
+
+            {/* Final Confirmation */}
+            <button className="px-4 py-2 rounded-md bg-primary text-white">
+              Confirm Booking
+            </button>
           </div>
         )}
 
-        {/* Navigation buttons */}
+        {/* Navigation Buttons */}
         <div className="flex gap-4">
           <button
             onClick={goPrev}
@@ -427,14 +489,19 @@ function BookingContent() {
         </div>
       </div>
     </main>
-  )
+  );
 }
 
-// Main component that wraps the content in Suspense
 export default function BookingPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading booking information...</div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          Loading booking information...
+        </div>
+      }
+    >
       <BookingContent />
     </Suspense>
-  )
+  );
 }
