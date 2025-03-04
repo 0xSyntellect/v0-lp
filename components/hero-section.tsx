@@ -45,7 +45,7 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 opacity-70"></div>
       </div>
 
-      <div className="relative z-10 pt-20 md:pt-32 pb-20">
+      <div className="relative z-10 pt-20 md:pt-24 pb-20">
         {/* Centered Hero Text */}
         <div className="max-w-3xl mx-auto text-center text-white mb-12 md:mb-16">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4 drop-shadow-lg">
@@ -55,8 +55,15 @@ export default function HeroSection() {
             Secure, reliable and luxurious transfer services for business and leisure travelers
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Button size="lg" className="bg-indigo-600 hover:bg-indigo-700 text-white">
-              <a href="/booking">Book Now</a>
+            <Button size="lg" className="bg-indigo-600 hover:bg-indigo-700 text-white" onClick={() => {
+    const formElement = document.getElementById("booking-form");
+    if (formElement) {
+      const offset = 100; // Adjust this value to stop earlier
+      const elementPosition = formElement.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
+    }
+  }}>
+            Book Now
             </Button>
             <Button
               size="lg"
@@ -69,7 +76,7 @@ export default function HeroSection() {
         </div>
 
         {/* Centered Booking Form */}
-        <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl p-6">
+        <div id="booking-form" className="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl p-6">
           <Tabs defaultValue="transfer" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-6">
               <TabsTrigger value="transfer" className="text-base">

@@ -27,12 +27,6 @@ export default function Navbar() {
 
         <nav className="hidden md:flex items-center space-x-6">
           <Link
-            href="/about"
-            className="text-sm font-medium text-white transition-all duration-200 hover:text-yellow-300 hover:underline hover:scale-105"
-          >
-            ABOUT
-          </Link>
-          <Link
             href="/services"
             className="text-sm font-medium text-white transition-all duration-200 hover:text-yellow-300 hover:underline hover:scale-105"
           >
