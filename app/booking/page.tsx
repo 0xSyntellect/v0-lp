@@ -247,7 +247,22 @@ function BookingContent() {
                 >
                   Select
                 </button>
+              
               </div>
+                          {/* Payment method */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1">
+                Payment Method
+              </label>
+              <select
+                className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                value={paymentMethod}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              >
+                <option value="credit-card">Credit Card</option>
+                <option value="cash">Cash</option>
+              </select>
+            </div>
             </div>
           </div>
         )}
@@ -343,19 +358,7 @@ function BookingContent() {
             })}
 
             {/* Payment method */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-1">
-                Payment Method
-              </label>
-              <select
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                value={paymentMethod}
-                onChange={(e) => setPaymentMethod(e.target.value)}
-              >
-                <option value="credit-card">Credit Card</option>
-                <option value="cash">Cash</option>
-              </select>
-            </div>
+
 
             <button
               className="px-4 py-2 rounded-md bg-primary text-white"
