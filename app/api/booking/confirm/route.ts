@@ -8,8 +8,8 @@ console.log("API route /api/booking/confirm loaded. RESEND_API_KEY:", process.en
 // Initialize Resend using your environment variable
 const resend = new Resend(process.env.RESEND_API_KEY!);
 
-// GET handler for testing route availability
-export async function GET(request: Request) {
+// GET handler for testing route availability; renamed parameter to _request since it's unused.
+export async function GET(_request: Request) {
   return NextResponse.json({ message: "GET route is working" });
 }
 
