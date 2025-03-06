@@ -176,86 +176,51 @@ function BookingContent() {
           </div>
         </div>
 
-        {/* STEP 2 => Vehicle Selection */}
-        {currentStep === 2 && (
-          <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-            <h3 className="text-lg font-semibold mb-4">Choose Your Vehicle</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Sedan */}
-              <div className="p-4 border rounded-md text-center">
-                <Image
-                  src="/sedan.jpeg"
-                  alt="Sedan"
-                  className="object-cover mb-2"
-                  width={400}
-                  height={160}
-                />
-                <h4 className="text-base font-medium mb-1">Sedan</h4>
-                <p className="text-sm text-gray-600 mb-1">Up to 3 passengers</p>
-                <p className="text-sm text-gray-800 font-semibold mb-4">
-                  $25 / ride
-                </p>
-                <button
-                  className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200"
-                  onClick={() => selectVehicle("Sedan", 25)}
-                >
-                  Select
-                </button>
+          {/* STEP 2 => Vehicle Selection */}
+          {currentStep === 2 && (
+            <div className="bg-white p-6 rounded-xl shadow-md mb-8">
+              <h3 className="text-lg font-semibold mb-4">Choose Your Vehicle</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* Sedan */}
+                <div className="p-4 border rounded-md text-center">
+                  <Image src="/sedan.jpeg" alt="Sedan" className="object-cover mb-2" width={400} height={160} />
+                  <h4 className="text-base font-medium mb-1">Sedan</h4>
+                  <p className="text-sm text-gray-600 mb-1">Up to 3 passengers</p>
+                  <p className="text-sm text-gray-800 font-semibold mb-4">$25 / ride</p>
+                  <button className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200" onClick={() => selectVehicle("Sedan", 25)}>
+                    Select
+                  </button>
+                </div>
+
+                {/* Minivan */}
+                <div className="p-4 border rounded-md text-center">
+                  <Image src="/minivan.jpeg" alt="Minivan" className="object-cover mb-2" width={400} height={160} />
+                  <h4 className="text-base font-medium mb-1">Minivan</h4>
+                  <p className="text-sm text-gray-600 mb-1">Up to 6 passengers</p>
+                  <p className="text-sm text-gray-800 font-semibold mb-4">$40 / ride</p>
+                  <button className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200" onClick={() => selectVehicle("Minivan", 40)}>
+                    Select
+                  </button>
+                </div>
+
+                {/* Sprinter */}
+                <div className="p-4 border rounded-md text-center">
+                  <Image src="/sprinter.jpg" alt="Sprinter" className="object-cover mb-2" width={400} height={160} />
+                  <h4 className="text-base font-medium mb-1">Sprinter</h4>
+                  <p className="text-sm text-gray-600 mb-1">Up to 12 passengers</p>
+                  <p className="text-sm text-gray-800 font-semibold mb-4">$60 / ride</p>
+                  <button className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200" onClick={() => selectVehicle("Sprinter", 60)}>
+                    Select
+                  </button>
+                </div>
               </div>
 
-              {/* Minivan */}
-              <div className="p-4 border rounded-md text-center">
-                <Image
-                  src="/minivan.jpeg"
-                  alt="Minivan"
-                  className="object-cover mb-2"
-                  width={400}
-                  height={160}
-                />
-                <h4 className="text-base font-medium mb-1">Minivan</h4>
-                <p className="text-sm text-gray-600 mb-1">Up to 6 passengers</p>
-                <p className="text-sm text-gray-800 font-semibold mb-4">
-                  $40 / ride
-                </p>
-                <button
-                  className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200"
-                  onClick={() => selectVehicle("Minivan", 40)}
-                >
-                  Select
-                </button>
-              </div>
-
-              {/* Sprinter */}
-              <div className="p-4 border rounded-md text-center">
-                <Image
-                  src="/sprinter.jpg"
-                  alt="Sprinter"
-                  className="object-cover mb-2"
-                  width={400}
-                  height={160}
-                />
-                <h4 className="text-base font-medium mb-1">Sprinter</h4>
-                <p className="text-sm text-gray-600 mb-1">
-                  Up to 12 passengers
-                </p>
-                <p className="text-sm text-gray-800 font-semibold mb-4">
-                  $60 / ride
-                </p>
-                <button
-                  className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200"
-                  onClick={() => selectVehicle("Sprinter", 60)}
-                >
-                  Select
-                </button>
-              
-              </div>
-                          {/* Payment method */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-1">
+              <div className="mt-6">
+              <label className="block text-sm font-medium mb-2 text-center">
                 Payment Method
               </label>
               <select
-                className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 bg-white text-center"
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value)}
               >
@@ -263,9 +228,11 @@ function BookingContent() {
                 <option value="cash">Cash</option>
               </select>
             </div>
+
+
             </div>
-          </div>
-        )}
+          )}
+
 
         {/* STEP 3 => Passenger details */}
         {currentStep === 3 && (
@@ -473,23 +440,7 @@ function BookingContent() {
           </div>
         )}
 
-        {/* Navigation Buttons */}
-        <div className="flex gap-4">
-          <button
-            onClick={goPrev}
-            className="px-4 py-2 bg-gray-300 rounded-md disabled:opacity-50"
-            disabled={currentStep <= 2}
-          >
-            Previous
-          </button>
-          <button
-            onClick={goNext}
-            className="px-4 py-2 bg-primary text-white rounded-md disabled:opacity-50"
-            disabled={currentStep === 4}
-          >
-            Next
-          </button>
-        </div>
+
       </div>
     </main>
   );
