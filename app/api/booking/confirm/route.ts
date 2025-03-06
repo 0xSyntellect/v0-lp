@@ -49,7 +49,7 @@ WhatsApp: ${bookingData.contactInfo.whatsapp}
 
     const emailResponse = await resend.emails.send({
       from: "onboarding@resend.dev", // Replace with your verified sender email
-      to: "erdaltuncberk@gmail.com",           // Replace with your recipient email
+      to: "0xsyntellect@gmail.com",           // Replace with your recipient email
       subject: "New Booking Confirmation",
       text: emailContent,
     });
