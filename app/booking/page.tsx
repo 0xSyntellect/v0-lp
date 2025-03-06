@@ -45,13 +45,12 @@ function BookingContent() {
     Array.from({ length: passengersCount }, () => false)
   );
 
-  // NEW: Contact Info for Step 4
+  // Contact Info state (moved to Step 3)
   const [contactInfo, setContactInfo] = useState({
     email: "",
     phone: "",
     whatsapp: "",
   });
-
 
   // Step 2: select vehicle
   const selectVehicle = (vehicleName: string, vehiclePrice: number) => {
@@ -82,6 +81,37 @@ function BookingContent() {
   // Step 3 => Step 4
   const confirmPassengerDetails = () => {
     setCurrentStep(4);
+  };
+
+  // Confirm booking: show success popup and send booking info via resend
+  const confirmBooking = async () => {
+    const bookingData = {
+      from: fromLocation,
+      to: toLocation,
+      dateTime,
+      passengers: passengersCount,
+      selectedVehicle,
+      passengerDetails,
+      paymentMethod,
+      contactInfo,
+    };
+
+    try {
+      const response = await fetch("/api/booking/confirm", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bookingData),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to confirm booking");
+      }
+      window.alert("Booking confirmed! Confirmation email sent.");
+    } catch (error) {
+      console.error("Error confirming booking:", error);
+      window.alert("There was an error confirming your booking. Please try again.");
+    }
   };
 
   // Steps for progress bar
@@ -165,46 +195,46 @@ function BookingContent() {
           </div>
         </div>
 
-          {/* STEP 2 => Vehicle Selection */}
-          {currentStep === 2 && (
-            <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-              <h3 className="text-lg font-semibold mb-4">Choose Your Vehicle</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* Sedan */}
-                <div className="p-4 border rounded-md text-center">
-                  <Image src="/sedan.jpeg" alt="Sedan" className="object-cover mb-2" width={400} height={160} />
-                  <h4 className="text-base font-medium mb-1">Sedan</h4>
-                  <p className="text-sm text-gray-600 mb-1">Up to 3 passengers</p>
-                  <p className="text-sm text-gray-800 font-semibold mb-4">$25 / ride</p>
-                  <button className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200" onClick={() => selectVehicle("Sedan", 25)}>
-                    Select
-                  </button>
-                </div>
-
-                {/* Minivan */}
-                <div className="p-4 border rounded-md text-center">
-                  <Image src="/minivan.jpeg" alt="Minivan" className="object-cover mb-2" width={400} height={160} />
-                  <h4 className="text-base font-medium mb-1">Minivan</h4>
-                  <p className="text-sm text-gray-600 mb-1">Up to 6 passengers</p>
-                  <p className="text-sm text-gray-800 font-semibold mb-4">$40 / ride</p>
-                  <button className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200" onClick={() => selectVehicle("Minivan", 40)}>
-                    Select
-                  </button>
-                </div>
-
-                {/* Sprinter */}
-                <div className="p-4 border rounded-md text-center">
-                  <Image src="/sprinter.jpg" alt="Sprinter" className="object-cover mb-2" width={400} height={160} />
-                  <h4 className="text-base font-medium mb-1">Sprinter</h4>
-                  <p className="text-sm text-gray-600 mb-1">Up to 12 passengers</p>
-                  <p className="text-sm text-gray-800 font-semibold mb-4">$60 / ride</p>
-                  <button className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200" onClick={() => selectVehicle("Sprinter", 60)}>
-                    Select
-                  </button>
-                </div>
+        {/* STEP 2 => Vehicle Selection */}
+        {currentStep === 2 && (
+          <div className="bg-white p-6 rounded-xl shadow-md mb-8">
+            <h3 className="text-lg font-semibold mb-4">Choose Your Vehicle</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Sedan */}
+              <div className="p-4 border rounded-md text-center">
+                <Image src="/sedan.jpeg" alt="Sedan" className="object-cover mb-2" width={400} height={160} />
+                <h4 className="text-base font-medium mb-1">Sedan</h4>
+                <p className="text-sm text-gray-600 mb-1">Up to 3 passengers</p>
+                <p className="text-sm text-gray-800 font-semibold mb-4">$25 / ride</p>
+                <button className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200" onClick={() => selectVehicle("Sedan", 25)}>
+                  Select
+                </button>
               </div>
 
-              <div className="mt-6">
+              {/* Minivan */}
+              <div className="p-4 border rounded-md text-center">
+                <Image src="/minivan.jpeg" alt="Minivan" className="object-cover mb-2" width={400} height={160} />
+                <h4 className="text-base font-medium mb-1">Minivan</h4>
+                <p className="text-sm text-gray-600 mb-1">Up to 6 passengers</p>
+                <p className="text-sm text-gray-800 font-semibold mb-4">$40 / ride</p>
+                <button className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200" onClick={() => selectVehicle("Minivan", 40)}>
+                  Select
+                </button>
+              </div>
+
+              {/* Sprinter */}
+              <div className="p-4 border rounded-md text-center">
+                <Image src="/sprinter.jpg" alt="Sprinter" className="object-cover mb-2" width={400} height={160} />
+                <h4 className="text-base font-medium mb-1">Sprinter</h4>
+                <p className="text-sm text-gray-600 mb-1">Up to 12 passengers</p>
+                <p className="text-sm text-gray-800 font-semibold mb-4">$60 / ride</p>
+                <button className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200" onClick={() => selectVehicle("Sprinter", 60)}>
+                  Select
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-6">
               <label className="block text-sm font-medium mb-2 text-center">
                 Payment Method
               </label>
@@ -217,13 +247,10 @@ function BookingContent() {
                 <option value="cash">Cash</option>
               </select>
             </div>
+          </div>
+        )}
 
-
-            </div>
-          )}
-
-
-        {/* STEP 3 => Passenger details */}
+        {/* STEP 3 => Passenger Details and Contact Information */}
         {currentStep === 3 && (
           <div className="bg-white p-6 rounded-xl shadow-md mb-8">
             <h3 className="text-lg font-semibold mb-4">
@@ -313,8 +340,46 @@ function BookingContent() {
               );
             })}
 
-            {/* Payment method */}
-
+            {/* Contact Information Form */}
+            <div className="mb-4 p-4 border rounded-md">
+              <h4 className="font-medium mb-2">Contact Information</h4>
+              <div className="mb-3">
+                <label className="block text-sm font-medium mb-1">Email</label>
+                <input
+                  type="email"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  placeholder="Enter your email"
+                  value={contactInfo.email}
+                  onChange={(e) =>
+                    setContactInfo({ ...contactInfo, email: e.target.value })
+                  }
+                />
+              </div>
+              <div className="mb-3">
+                <label className="block text-sm font-medium mb-1">Phone Number</label>
+                <input
+                  type="tel"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  placeholder="Enter your phone number"
+                  value={contactInfo.phone}
+                  onChange={(e) =>
+                    setContactInfo({ ...contactInfo, phone: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">WhatsApp</label>
+                <input
+                  type="text"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  placeholder="Enter your WhatsApp number"
+                  value={contactInfo.whatsapp}
+                  onChange={(e) =>
+                    setContactInfo({ ...contactInfo, whatsapp: e.target.value })
+                  }
+                />
+              </div>
+            </div>
 
             <button
               className="px-4 py-2 rounded-md bg-primary text-white"
@@ -325,15 +390,14 @@ function BookingContent() {
           </div>
         )}
 
-        {/* STEP 4 => Final Review & Contact Info */}
+        {/* STEP 4 => Final Review & Confirmation with Contact Summary */}
         {currentStep === 4 && (
           <div className="bg-white p-6 rounded-xl shadow-md mb-8">
             <h3 className="text-lg font-semibold mb-4">Review & Confirmation</h3>
             <p className="text-gray-700 mb-4">
-              Please review your booking details and provide your contact information.
+              Please review your booking details.
             </p>
 
-            {/* Show all passenger details */}
             {passengerDetails.map((p, i) => (
               <div key={i} className="mb-4 p-4 border rounded-md">
                 <p className="font-medium mb-2">Passenger #{i + 1}</p>
@@ -361,54 +425,7 @@ function BookingContent() {
               </p>
             )}
 
-            {/* Contact Info Form */}
-            <div className="mb-4 p-4 border rounded-md">
-              <h4 className="font-medium mb-2">Contact Information</h4>
-
-              {/* Email */}
-              <div className="mb-3">
-                <label className="block text-sm font-medium mb-1">Email</label>
-                <input
-                  type="email"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  placeholder="Enter your email"
-                  value={contactInfo.email}
-                  onChange={(e) =>
-                    setContactInfo({ ...contactInfo, email: e.target.value })
-                  }
-                />
-              </div>
-
-              {/* Phone */}
-              <div className="mb-3">
-                <label className="block text-sm font-medium mb-1">Phone Number</label>
-                <input
-                  type="tel"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  placeholder="Enter your phone number"
-                  value={contactInfo.phone}
-                  onChange={(e) =>
-                    setContactInfo({ ...contactInfo, phone: e.target.value })
-                  }
-                />
-              </div>
-
-              {/* WhatsApp */}
-              <div>
-                <label className="block text-sm font-medium mb-1">WhatsApp</label>
-                <input
-                  type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  placeholder="Enter your WhatsApp number"
-                  value={contactInfo.whatsapp}
-                  onChange={(e) =>
-                    setContactInfo({ ...contactInfo, whatsapp: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-
-            {/* Optional: Display Contact Info in Summary */}
+            {/* Contact Summary */}
             <div className="mb-4 p-4 border rounded-md">
               <p className="font-medium mb-2">Summary of Contact Info</p>
               <p>
@@ -422,14 +439,11 @@ function BookingContent() {
               </p>
             </div>
 
-            {/* Final Confirmation */}
-            <button className="px-4 py-2 rounded-md bg-primary text-white">
+            <button className="px-4 py-2 rounded-md bg-primary text-white" onClick={confirmBooking}>
               Confirm Booking
             </button>
           </div>
         )}
-
-
       </div>
     </main>
   );
