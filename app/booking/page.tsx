@@ -52,17 +52,6 @@ function BookingContent() {
     whatsapp: "",
   });
 
-  // Step navigation
-  const goNext = () => {
-    if (currentStep < 4) {
-      setCurrentStep(currentStep + 1);
-    }
-  };
-  const goPrev = () => {
-    if (currentStep > 2) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
 
   // Step 2: select vehicle
   const selectVehicle = (vehicleName: string, vehiclePrice: number) => {
