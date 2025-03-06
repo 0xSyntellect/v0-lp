@@ -2,23 +2,17 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-// Log to verify that the API route is loaded and check the API key
-console.log("API route /api/booking/confirm loaded. RESEND_API_KEY:", process.env.RESEND_API_KEY);
-
-// Initialize Resend using your environment variable
 const resend = new Resend(process.env.RESEND_API_KEY!);
 
-// GET handler for testing route availability; renamed parameter to _request since it's unused.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(_request: Request) {
   return NextResponse.json({ message: "GET route is working" });
 }
 
-// POST handler for booking confirmation
 export async function POST(request: Request) {
   try {
     const bookingData = await request.json();
 
-    // Prepare email content
     const emailContent = `
 New Booking Received:
 
@@ -35,8 +29,7 @@ Vehicle: ${
 Passenger Details:
 ${bookingData.passengerDetails
   .map(
-    (
-      p: { firstName: string; lastName: string; passportNumber: string; origin: string },
+    (p: { firstName: string; lastName: string; passportNumber: string; origin: string },
       i: number
     ) => `Passenger ${i + 1}:
   First Name: ${p.firstName}
