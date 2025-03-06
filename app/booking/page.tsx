@@ -116,9 +116,9 @@ function BookingContent() {
 
   // Steps for progress bar
   const steps = [
-    { step: 1, title: "Form" },
-    { step: 2, title: "Vehicle" },
-    { step: 3, title: "Passenger" },
+    { step: 1, title: "Location & Date" },
+    { step: 2, title: "Vehicle & Payment" },
+    { step: 3, title: "Passenger Information" },
     { step: 4, title: "Review" },
   ];
 
