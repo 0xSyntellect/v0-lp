@@ -38,7 +38,7 @@ function BookingContent() {
   );
 
   // Payment method
-  const [paymentMethod, setPaymentMethod] = useState("credit-card");
+  const [paymentMethod, setPaymentMethod] = useState("");
 
   // Accordion open states
   const [isAccordionOpen, setIsAccordionOpen] = useState(
@@ -172,8 +172,8 @@ function BookingContent() {
 
         {/* Booking Details Card */}
         <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-          <h2 className="text-xl font-semibold mb-4">Your Booking Details</h2>
-          <div className="text-gray-700 mb-2">
+          <h2 className="text-xl font-semibold mb-4 text-center">Your Booking Details</h2>
+          <div className="text-gray-700 mb-2 text-center">
             <p>
               <strong>From:</strong> {fromLocation}
             </p>
@@ -198,7 +198,7 @@ function BookingContent() {
         {/* STEP 2 => Vehicle Selection */}
         {currentStep === 2 && (
           <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-            <h3 className="text-lg font-semibold mb-4">Choose Your Vehicle</h3>
+            <h3 className="text-lg font-semibold mb-4 text-center">Choose Your Vehicle</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Sedan */}
               <div className="p-4 border rounded-md text-center">
@@ -206,7 +206,7 @@ function BookingContent() {
                 <h4 className="text-base font-medium mb-1">Sedan</h4>
                 <p className="text-sm text-gray-600 mb-1">Up to 3 passengers</p>
                 <p className="text-sm text-gray-800 font-semibold mb-4">$25 / ride</p>
-                <button className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200" onClick={() => selectVehicle("Sedan", 25)}>
+                <button className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => selectVehicle("Sedan", 25)}>
                   Select
                 </button>
               </div>
@@ -217,7 +217,7 @@ function BookingContent() {
                 <h4 className="text-base font-medium mb-1">Minivan</h4>
                 <p className="text-sm text-gray-600 mb-1">Up to 6 passengers</p>
                 <p className="text-sm text-gray-800 font-semibold mb-4">$40 / ride</p>
-                <button className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200" onClick={() => selectVehicle("Minivan", 40)}>
+                <button className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => selectVehicle("Minivan", 40)}>
                   Select
                 </button>
               </div>
@@ -228,7 +228,7 @@ function BookingContent() {
                 <h4 className="text-base font-medium mb-1">Sprinter</h4>
                 <p className="text-sm text-gray-600 mb-1">Up to 12 passengers</p>
                 <p className="text-sm text-gray-800 font-semibold mb-4">$60 / ride</p>
-                <button className="px-4 py-2 rounded-md bg-gray-100 hover:bg-gray-200" onClick={() => selectVehicle("Sprinter", 60)}>
+                <button className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => selectVehicle("Sprinter", 60)}>
                   Select
                 </button>
               </div>
@@ -245,6 +245,7 @@ function BookingContent() {
               >
                 <option value="credit-card">Credit Card</option>
                 <option value="cash">Cash</option>
+  
               </select>
             </div>
           </div>
