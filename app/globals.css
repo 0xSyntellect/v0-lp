@@ -218,3 +218,28 @@ html {
     padding-right: env(safe-area-inset-right);
   }
 }
+/* Safari-specific fixes */
+@media not all and (min-resolution:.001dpcm) {
+  @supports (-webkit-appearance:none) {
+    .safari-fix {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    input[type="time"]::-webkit-calendar-picker-indicator {
+      background: none;
+    }
+    
+    /* Force redraw for flexbox issues in Safari */
+    .grid {
+      transform: translateZ(0);
+    }
+  }
+}
+
+/* Explicitly set height for Safari */
+@supports (-webkit-touch-callout: none) {
+  .h-10 {
+    height: 2.5rem !important;
+  }
+}

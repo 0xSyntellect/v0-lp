@@ -206,42 +206,58 @@ export default function HeroSection() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Date & Time</label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button variant="outline" className="w-full justify-start text-left font-normal">
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {date ? format(date, "PPP") + `, ${time}` : <span>Pick a date</span>}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                      <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
-                      <div className="p-3 border-t">
-                        <Input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Passengers</label>
-                  <div className="flex items-center border rounded-md">
-                    <Button variant="ghost" size="icon" className="rounded-r-none h-10" onClick={() => setPassengers(Math.max(1, passengers - 1))}>
-                      <Minus className="h-4 w-4" />
-                    </Button>
-                    <div className="flex-1 text-center font-medium">{passengers}</div>
-                    <Button variant="ghost" size="icon" className="rounded-l-none h-10" onClick={() => setPassengers(Math.min(10, passengers + 1))}>
-                      <Plus className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-
-                <Button className="bg-indigo-600 hover:bg-indigo-700 text-white h-10 mt-auto" onClick={handleBookNowClick}>
-                  BOOK NOW
-                </Button>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="space-y-2 lg:col-span-1">
+          <label className="text-sm font-medium">Date & Time</label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="w-full justify-start text-left font-normal">
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {date ? format(date, "PPP") + `, ${time}` : <span>Pick a date</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
+              <div className="p-3 border-t">
+                <Input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
               </div>
+            </PopoverContent>
+          </Popover>
+        </div>
+
+        <div className="space-y-2 lg:col-span-1">
+          <label className="text-sm font-medium">Passengers</label>
+          <div className="flex items-center border rounded-md h-10">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-r-none h-full"
+              onClick={() => setPassengers(Math.max(1, passengers - 1))}
+            >
+              <Minus className="h-4 w-4" />
+            </Button>
+            <div className="flex-1 text-center font-medium">{passengers}</div>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-l-none h-full"
+              onClick={() => setPassengers(Math.min(10, passengers + 1))}
+            >
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+
+  <div className="lg:col-span-1 flex items-end">
+    <Button
+      className="bg-indigo-600 hover:bg-indigo-700 text-white h-10 w-full"
+      onClick={handleBookNowClick}
+    >
+      BOOK NOW
+    </Button>
+  </div>
+</div>
             </TabsContent>
           </Tabs>
         </div>
