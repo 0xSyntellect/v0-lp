@@ -203,3 +203,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Safari-specific adjustments */
+html {
+  -webkit-text-size-adjust: none; /* Prevents unwanted font-size zoom in Safari on mobile */
+  -webkit-font-smoothing: antialiased; /* Improves text rendering on Safari */
+}
+
