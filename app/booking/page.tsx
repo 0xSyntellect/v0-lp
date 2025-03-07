@@ -37,28 +37,28 @@ function BookingContent() {
     }))
   );
 
-  // Payment method: empty string => user must pick one
+  // Payment method
   const [paymentMethod, setPaymentMethod] = useState("");
 
-  // Accordion open states
+  // Each passenger's accordion open state
   const [isAccordionOpen, setIsAccordionOpen] = useState(
     Array.from({ length: passengersCount }, () => false)
   );
 
-  // Contact Info state (moved to Step 3)
+  // Contact Info
   const [contactInfo, setContactInfo] = useState({
     email: "",
     phone: "",
     whatsapp: "",
   });
 
-  // Step 2: select vehicle
+  // Step 2: Vehicle selection handler
   const selectVehicle = (vehicleName: string, vehiclePrice: number) => {
     setSelectedVehicle({ name: vehicleName, price: vehiclePrice });
     setCurrentStep(3);
   };
 
-  // If user tries to click "Select" but hasn't chosen a payment method:
+  // If user tries to select a vehicle but paymentMethod is not chosen
   const handleSelectClick = (vehicleName: string, vehiclePrice: number) => {
     if (!paymentMethod) {
       window.alert("Please choose a payment method first.");
@@ -67,14 +67,14 @@ function BookingContent() {
     selectVehicle(vehicleName, vehiclePrice);
   };
 
-  // Step 3: toggle accordion
+  // Toggle passenger accordion
   const toggleAccordion = (index: number) => {
     setIsAccordionOpen((prev) =>
       prev.map((open, i) => (i === index ? !open : open))
     );
   };
 
-  // Step 3: handle passenger input
+  // Handle typed passenger fields
   const handlePassengerChange = (
     index: number,
     field: "firstName" | "lastName" | "passportNumber" | "origin",
@@ -87,12 +87,40 @@ function BookingContent() {
     });
   };
 
+  // Check all fields in Step 3 are filled
+  function allFieldsFilled(): boolean {
+    // Contact fields
+    if (
+      !contactInfo.email.trim() ||
+      !contactInfo.phone.trim() ||
+      !contactInfo.whatsapp.trim()
+    ) {
+      return false;
+    }
+    // Passenger fields
+    for (const p of passengerDetails) {
+      if (
+        !p.firstName.trim() ||
+        !p.lastName.trim() ||
+        !p.passportNumber.trim() ||
+        !p.origin.trim()
+      ) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   // Step 3 => Step 4
   const confirmPassengerDetails = () => {
+    if (!allFieldsFilled()) {
+      window.alert("Please fill in all required fields before continuing.");
+      return;
+    }
     setCurrentStep(4);
   };
 
-  // Confirm booking: show success popup and send booking info via resend
+  // Step 4 => Confirm booking
   const confirmBooking = async () => {
     const bookingData = {
       from: fromLocation,
@@ -143,6 +171,7 @@ function BookingContent() {
 
             let circleContent;
             if (step === 1) {
+              // Link to "/" if they want to go back to step 1
               circleContent = (
                 <Link href="/" className="cursor-pointer">
                   <div className={circleClass}>{step}</div>
@@ -150,10 +179,7 @@ function BookingContent() {
               );
             } else if (step < currentStep) {
               circleContent = (
-                <div
-                  className="cursor-pointer"
-                  onClick={() => setCurrentStep(step)}
-                >
+                <div className="cursor-pointer" onClick={() => setCurrentStep(step)}>
                   <div className={circleClass}>{step}</div>
                 </div>
               );
@@ -181,8 +207,8 @@ function BookingContent() {
 
         {/* Booking Details Card */}
         <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-          <h2 className="text-xl font-semibold mb-4">Your Booking Details</h2>
-          <div className="text-gray-700 mb-2">
+          <h2 className="text-xl font-semibold mb-4 text-center">Your Booking Details</h2>
+          <div className="text-gray-700 mb-2 text-center">
             <p>
               <strong>From:</strong> {fromLocation}
             </p>
@@ -310,16 +336,65 @@ function BookingContent() {
           </div>
         )}
 
-        {/* STEP 3 => Passenger Details and Contact Information */}
+        {/* STEP 3 => Passenger & Contact Information */}
         {currentStep === 3 && (
-          <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-            <h3 className="text-lg font-semibold mb-4">
-              Passenger Details & Payment
+          <div className="bg-white p-6 rounded-xl shadow-md mb-8 text-center">
+            <h3 className="text-lg font-semibold mb-8">
+              Passenger & Contact Details
             </h3>
+
+            {/* Contact Information Form */}
+            <div className="mb-6 p-4 border rounded-md inline-block text-left">
+              <h4 className="font-medium mb-4 text-center">Contact Information</h4>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Email</label>
+                  <input
+                    type="email"
+                    className="w-64 px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="Enter your email"
+                    value={contactInfo.email}
+                    onChange={(e) =>
+                      setContactInfo({ ...contactInfo, email: e.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Phone Number</label>
+                  <input
+                    type="tel"
+                    className="w-64 px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="Enter your phone number"
+                    value={contactInfo.phone}
+                    onChange={(e) =>
+                      setContactInfo({ ...contactInfo, phone: e.target.value })
+                    }
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">WhatsApp</label>
+                  <input
+                    type="text"
+                    className="w-64 px-3 py-2 border border-gray-300 rounded-md"
+                    placeholder="Enter your WhatsApp number"
+                    value={contactInfo.whatsapp}
+                    onChange={(e) =>
+                      setContactInfo({ ...contactInfo, whatsapp: e.target.value })
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Passenger Details */}
+            <h4 className="font-medium mb-4">Passenger Details</h4>
             {passengerDetails.map((passenger, i) => {
               const open = isAccordionOpen[i];
               return (
-                <div key={i} className="border rounded-md mb-4">
+                <div
+                  key={i}
+                  className="border rounded-md mb-4 inline-block text-left w-full max-w-md"
+                >
                   <button
                     type="button"
                     className="w-full flex justify-between items-center px-4 py-3 bg-gray-100 hover:bg-gray-200"
@@ -400,67 +475,29 @@ function BookingContent() {
               );
             })}
 
-            {/* Contact Information Form */}
-            <div className="mb-4 p-4 border rounded-md">
-              <h4 className="font-medium mb-2">Contact Information</h4>
-              <div className="mb-3">
-                <label className="block text-sm font-medium mb-1">Email</label>
-                <input
-                  type="email"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  placeholder="Enter your email"
-                  value={contactInfo.email}
-                  onChange={(e) =>
-                    setContactInfo({ ...contactInfo, email: e.target.value })
-                  }
-                />
-              </div>
-              <div className="mb-3">
-                <label className="block text-sm font-medium mb-1">Phone Number</label>
-                <input
-                  type="tel"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  placeholder="Enter your phone number"
-                  value={contactInfo.phone}
-                  onChange={(e) =>
-                    setContactInfo({ ...contactInfo, phone: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">WhatsApp</label>
-                <input
-                  type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  placeholder="Enter your WhatsApp number"
-                  value={contactInfo.whatsapp}
-                  onChange={(e) =>
-                    setContactInfo({ ...contactInfo, whatsapp: e.target.value })
-                  }
-                />
-              </div>
+            {/* Single Confirm button for Step 3 */}
+            <div className="flex justify-center mt-6">
+              <button
+                className="px-40 py-2 rounded-md bg-primary text-white"
+                onClick={confirmPassengerDetails}
+              >
+                Confirm
+              </button>
             </div>
-
-            <button
-              className="px-4 py-2 rounded-md bg-primary text-white"
-              onClick={confirmPassengerDetails}
-            >
-              Confirm
-            </button>
           </div>
         )}
 
-        {/* STEP 4 => Final Review & Confirmation with Contact Summary */}
+        {/* STEP 4 => Final Review & Confirmation */}
         {currentStep === 4 && (
           <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-            <h3 className="text-lg font-semibold mb-4">Review & Confirmation</h3>
-            <p className="text-gray-700 mb-4">
+            <h3 className="text-lg font-semibold mb-4 text-center">Review & Confirmation</h3>
+            <p className="text-gray-700 mb-4 text-center">
               Please review your booking details.
             </p>
 
             {passengerDetails.map((p, i) => (
-              <div key={i} className="mb-4 p-4 border rounded-md">
-                <p className="font-medium mb-2">Passenger #{i + 1}</p>
+              <div key={i} className="mb-4 p-4 border rounded-md text-center">
+                <p className="font-medium mb-2 text-center">Passenger #{i + 1}</p>
                 <p>
                   <strong>First Name:</strong> {p.firstName}
                 </p>
@@ -476,19 +513,19 @@ function BookingContent() {
               </div>
             ))}
 
-            <p className="text-gray-700 mb-2">
+            <p className="text-gray-700 mb-2 text-center">
               <strong>Payment Method:</strong> {paymentMethod}
             </p>
             {selectedVehicle && (
-              <p className="text-gray-700 mb-6">
+              <p className="text-gray-700 mb-6 text-center">
                 <strong>Vehicle:</strong> {selectedVehicle.name} — $
                 {selectedVehicle.price}
               </p>
             )}
 
             {/* Contact Summary */}
-            <div className="mb-4 p-4 border rounded-md">
-              <p className="font-medium mb-2">Summary of Contact Info</p>
+            <div className="mb-4 p-4 border rounded-md text-center">
+              <p className="font-medium mb-2 text-center">Summary of Contact Info</p>
               <p>
                 <strong>Email:</strong> {contactInfo.email || "N/A"}
               </p>
@@ -500,12 +537,15 @@ function BookingContent() {
               </p>
             </div>
 
+            {/* Only ONE button in Step 4: Confirm Booking */}
+          <div className="flex justify-center mt-6">
             <button
-              className="px-4 py-2 rounded-md bg-primary text-white"
+              className="px-40 py-2 rounded-md bg-primary text-white"
               onClick={confirmBooking}
             >
               Confirm Booking
             </button>
+            </div>
           </div>
         )}
       </div>
