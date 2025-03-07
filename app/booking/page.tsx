@@ -37,7 +37,7 @@ function BookingContent() {
     }))
   );
 
-  // Payment method
+  // Payment method: empty string => user must pick one
   const [paymentMethod, setPaymentMethod] = useState("");
 
   // Accordion open states
@@ -56,6 +56,15 @@ function BookingContent() {
   const selectVehicle = (vehicleName: string, vehiclePrice: number) => {
     setSelectedVehicle({ name: vehicleName, price: vehiclePrice });
     setCurrentStep(3);
+  };
+
+  // If user tries to click "Select" but hasn't chosen a payment method:
+  const handleSelectClick = (vehicleName: string, vehiclePrice: number) => {
+    if (!paymentMethod) {
+      window.alert("Please choose a payment method first.");
+      return;
+    }
+    selectVehicle(vehicleName, vehiclePrice);
   };
 
   // Step 3: toggle accordion
@@ -172,8 +181,8 @@ function BookingContent() {
 
         {/* Booking Details Card */}
         <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-          <h2 className="text-xl font-semibold mb-4 text-center">Your Booking Details</h2>
-          <div className="text-gray-700 mb-2 text-center">
+          <h2 className="text-xl font-semibold mb-4">Your Booking Details</h2>
+          <div className="text-gray-700 mb-2">
             <p>
               <strong>From:</strong> {fromLocation}
             </p>
@@ -198,37 +207,87 @@ function BookingContent() {
         {/* STEP 2 => Vehicle Selection */}
         {currentStep === 2 && (
           <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-            <h3 className="text-lg font-semibold mb-4 text-center">Choose Your Vehicle</h3>
+            <h3 className="text-lg font-semibold mb-4 text-center">
+              Choose Your Vehicle
+            </h3>
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Sedan */}
               <div className="p-4 border rounded-md text-center">
-                <Image src="/sedan.jpeg" alt="Sedan" className="object-cover mb-2" width={400} height={160} />
+                <Image
+                  src="/sedan.jpeg"
+                  alt="Sedan"
+                  className="object-cover mb-2"
+                  width={400}
+                  height={160}
+                />
                 <h4 className="text-base font-medium mb-1">Sedan</h4>
                 <p className="text-sm text-gray-600 mb-1">Up to 3 passengers</p>
-                <p className="text-sm text-gray-800 font-semibold mb-4">$25 / ride</p>
-                <button className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => selectVehicle("Sedan", 25)}>
+                <p className="text-sm text-gray-800 font-semibold mb-4">
+                  $25 / ride
+                </p>
+                <button
+                  onClick={() => handleSelectClick("Sedan", 25)}
+                  className={
+                    paymentMethod
+                      ? "px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+                      : "px-4 py-2 rounded-md bg-gray-300 text-white hover:bg-gray-400"
+                  }
+                >
                   Select
                 </button>
               </div>
 
               {/* Minivan */}
               <div className="p-4 border rounded-md text-center">
-                <Image src="/minivan.jpeg" alt="Minivan" className="object-cover mb-2" width={400} height={160} />
+                <Image
+                  src="/minivan.jpeg"
+                  alt="Minivan"
+                  className="object-cover mb-2"
+                  width={400}
+                  height={160}
+                />
                 <h4 className="text-base font-medium mb-1">Minivan</h4>
                 <p className="text-sm text-gray-600 mb-1">Up to 6 passengers</p>
-                <p className="text-sm text-gray-800 font-semibold mb-4">$40 / ride</p>
-                <button className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => selectVehicle("Minivan", 40)}>
+                <p className="text-sm text-gray-800 font-semibold mb-4">
+                  $40 / ride
+                </p>
+                <button
+                  onClick={() => handleSelectClick("Minivan", 40)}
+                  className={
+                    paymentMethod
+                      ? "px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+                      : "px-4 py-2 rounded-md bg-gray-300 text-white hover:bg-gray-400"
+                  }
+                >
                   Select
                 </button>
               </div>
 
               {/* Sprinter */}
               <div className="p-4 border rounded-md text-center">
-                <Image src="/sprinter.jpg" alt="Sprinter" className="object-cover mb-2" width={400} height={160} />
+                <Image
+                  src="/sprinter.jpg"
+                  alt="Sprinter"
+                  className="object-cover mb-2"
+                  width={400}
+                  height={160}
+                />
                 <h4 className="text-base font-medium mb-1">Sprinter</h4>
-                <p className="text-sm text-gray-600 mb-1">Up to 12 passengers</p>
-                <p className="text-sm text-gray-800 font-semibold mb-4">$60 / ride</p>
-                <button className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => selectVehicle("Sprinter", 60)}>
+                <p className="text-sm text-gray-600 mb-1">
+                  Up to 12 passengers
+                </p>
+                <p className="text-sm text-gray-800 font-semibold mb-4">
+                  $60 / ride
+                </p>
+                <button
+                  onClick={() => handleSelectClick("Sprinter", 60)}
+                  className={
+                    paymentMethod
+                      ? "px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+                      : "px-4 py-2 rounded-md bg-gray-300 text-white hover:bg-gray-400"
+                  }
+                >
                   Select
                 </button>
               </div>
@@ -243,9 +302,9 @@ function BookingContent() {
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value)}
               >
+                <option value="">Choose Payment Method</option>
                 <option value="credit-card">Credit Card</option>
                 <option value="cash">Cash</option>
-  
               </select>
             </div>
           </div>
@@ -422,7 +481,8 @@ function BookingContent() {
             </p>
             {selectedVehicle && (
               <p className="text-gray-700 mb-6">
-                <strong>Vehicle:</strong> {selectedVehicle.name} — ${selectedVehicle.price}
+                <strong>Vehicle:</strong> {selectedVehicle.name} — $
+                {selectedVehicle.price}
               </p>
             )}
 
@@ -440,7 +500,10 @@ function BookingContent() {
               </p>
             </div>
 
-            <button className="px-4 py-2 rounded-md bg-primary text-white" onClick={confirmBooking}>
+            <button
+              className="px-4 py-2 rounded-md bg-primary text-white"
+              onClick={confirmBooking}
+            >
               Confirm Booking
             </button>
           </div>
