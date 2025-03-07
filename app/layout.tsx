@@ -15,7 +15,15 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Istanbul Transfer Service",
   description: "Pick-up Istanbul for safe and reliable transfers",
-};
+  // Add the viewport property:
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
+}
+
 
 export default function RootLayout({
   children,
