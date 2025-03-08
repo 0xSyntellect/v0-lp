@@ -8,30 +8,13 @@ import { Users, Briefcase, Wifi, Snowflake } from "lucide-react"
 
 export default function FleetSection() {
   const fleetCategories = [
-    { value: "sedan", label: "Sedan" },
-    { value: "van", label: "Van" },
+    { value: "minivan", label: "Minivan" },
     { value: "minibus", label: "Minibus" },
     { value: "vip", label: "VIP" },
   ]
 
   const fleetItems = {
-    sedan: [
-      {
-        name: "Mercedes E-Class",
-        image: "/placeholder.svg?height=300&width=500",
-        passengers: 3,
-        luggage: 3,
-        features: ["WiFi", "Air Conditioning", "Professional Driver", "Bottled Water"],
-      },
-      {
-        name: "BMW 5 Series",
-        image: "/placeholder.svg?height=300&width=500",
-        passengers: 3,
-        luggage: 3,
-        features: ["WiFi", "Air Conditioning", "Professional Driver", "Bottled Water"],
-      },
-    ],
-    van: [
+    minivan: [
       {
         name: "Mercedes V-Class",
         image: "/minivan.jpeg",
@@ -77,8 +60,8 @@ export default function FleetSection() {
           </p>
         </div>
 
-        <Tabs defaultValue="sedan" className="w-full">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-4 mb-12">
+        <Tabs defaultValue="minivan" className="w-full">
+          <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-12">
             {fleetCategories.map((category) => (
               <TabsTrigger key={category.value} value={category.value}>
                 {category.label}
