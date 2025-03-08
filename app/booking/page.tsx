@@ -237,42 +237,19 @@ function BookingContent() {
               Choose Your Vehicle
             </h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Sedan */}
-              <div className="p-4 border rounded-md text-center">
-                <Image
-                  src="/sedan.jpeg"
-                  alt="Sedan"
-                  className="object-cover mb-2"
-                  width={400}
-                  height={160}
-                />
-                <h4 className="text-base font-medium mb-1">Sedan</h4>
-                <p className="text-sm text-gray-600 mb-1">Up to 3 passengers</p>
-                <p className="text-sm text-gray-800 font-semibold mb-4">
-                  $25 / ride
-                </p>
-                <button
-                  onClick={() => handleSelectClick("Sedan", 25)}
-                  className={
-                    paymentMethod
-                      ? "px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
-                      : "px-4 py-2 rounded-md bg-gray-300 text-white hover:bg-gray-400"
-                  }
-                >
-                  Select
-                </button>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
               {/* Minivan */}
               <div className="p-4 border rounded-md text-center">
-                <Image
-                  src="/minivan.jpeg"
-                  alt="Minivan"
-                  className="object-cover mb-2"
-                  width={400}
-                  height={160}
-                />
+              <div className="relative w-[300px] h-[160px] mx-auto">
+                  <Image
+                    src="/minivan.jpeg"
+                    alt="Minivan"
+                    layout="fill"
+                    objectFit="cover" // or use "contain"
+                    className="rounded-md"
+                  />
+                </div>
                 <h4 className="text-base font-medium mb-1">Minivan</h4>
                 <p className="text-sm text-gray-600 mb-1">Up to 6 passengers</p>
                 <p className="text-sm text-gray-800 font-semibold mb-4">
@@ -292,6 +269,7 @@ function BookingContent() {
 
               {/* Sprinter */}
               <div className="p-4 border rounded-md text-center">
+              <div className="relative w-[300px] h-[160px] mx-auto">
                 <Image
                   src="/sprinter.jpg"
                   alt="Sprinter"
@@ -299,6 +277,7 @@ function BookingContent() {
                   width={400}
                   height={160}
                 />
+              </div>
                 <h4 className="text-base font-medium mb-1">Sprinter</h4>
                 <p className="text-sm text-gray-600 mb-1">
                   Up to 12 passengers
