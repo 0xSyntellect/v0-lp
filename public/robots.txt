@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://pickupist.com
+
+# Sitemaps
+Sitemap: https://pickupist.com/sitemap.xml
