@@ -43,24 +43,24 @@ export default function HeroSection() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/placeholder.svg?height=1080&width=1920')",
+          backgroundImage: "url('/background.jpg')",
           backgroundPosition: "center 30%",
         }}
       >
-        {/* Vibrant gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 opacity-70"></div>
+        {/* Vibrant gradient overlay, uncomment*/}
+        {/* <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 opacity-70"></div> */}
       </div>
 
       <div className="relative z-10 pt-20 md:pt-24 pb-20">
         {/* Centered Hero Text */}
         <div className="max-w-3xl mx-auto text-center text-white mb-12 md:mb-16">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4 drop-shadow-lg">
+          {/* <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4 drop-shadow-lg">
             Premium Transport Services in Istanbul
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 mb-8 drop-shadow-sm">
+          <p className="text-xl md:text-2xl text-indigo-700 mb-8 drop-shadow-sm">
             Secure, reliable and luxurious transfer services for business and leisure travelers
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
+          </p> */}
+          {/* <div className="flex flex-wrap gap-4 justify-center">
             <Button
               size="lg"
               className="bg-indigo-600 hover:bg-indigo-700 text-white"
@@ -71,15 +71,22 @@ export default function HeroSection() {
             <Button
               size="lg"
               variant="outline"
-              className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20"
+              className="bg-yellow-600 backdrop-blur-sm border-white/20 text-white hover:bg-white/20"
             >
               Our Fleet
             </Button>
-          </div>
+          </div> */}
         </div>
 
         {/* Centered Booking Form with service tabs */}
-        <div id="booking-form" className="max-w-4xl mx-auto bg-white rounded-xl shadow-2xl p-6">
+        <div id="booking-form" className="max-w-4xl mx-auto bg-white/80 rounded-xl shadow-2xl p-6">
+
+        <h2 className="text-2xl font-bold text-center mb-4 text-black-500">
+            Book Your Ride
+          </h2>
+          <h2 className="text-50 font-bold text-center mb-4 text-gray-600">
+          Secure, reliable and luxurious transfer services for business and leisure travelers
+          </h2>
           <Tabs defaultValue="transfer" onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-6">
               <TabsTrigger value="transfer" className="text-base">

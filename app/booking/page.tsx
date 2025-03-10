@@ -19,8 +19,14 @@ function BookingContent() {
   const toLocation = searchParams.get("to") || "";
   const dateTime = searchParams.get("date") || "";
   const passengersParam = searchParams.get("passengers") || "1";
+  // For transfer, use the query value; for hourly, use state below.
   const passengersCount = parseInt(passengersParam, 10) || 1;
   const serviceType = searchParams.get("serviceType") || "transfer";
+
+  // For hourly service, the "passengers" state represents hours selected.
+  const [passengers, setPassengers] = useState(
+    serviceType === "hourly" ? passengersCount : 1
+  );
 
   // Steps: 1 = Form, 2 = Vehicle, 3 = Passenger, 4 = Review
   const [currentStep, setCurrentStep] = useState(2);
@@ -52,6 +58,10 @@ function BookingContent() {
     phone: "",
     whatsapp: "",
   });
+
+  // Compute dynamic pricing when in hourly mode
+  const minivanPrice = serviceType === "hourly" ? passengers * 25 : 40;
+  const sprinterPrice = serviceType === "hourly" ? passengers * 40 : 60;
 
   // Step 2: Vehicle selection handler
   const selectVehicle = (vehicleName: string, vehiclePrice: number) => {
@@ -123,11 +133,13 @@ function BookingContent() {
 
   // Step 4 => Confirm booking
   const confirmBooking = async () => {
+    // For hourly, use the current "passengers" state as hours; otherwise use the query parameter
+    const hoursOrPassengers = serviceType === "hourly" ? passengers : passengersCount;
     const bookingData = {
       from: fromLocation,
       to: toLocation,
       dateTime,
-      passengers: passengersCount,
+      passengers: hoursOrPassengers,
       selectedVehicle,
       passengerDetails,
       paymentMethod,
@@ -149,9 +161,7 @@ function BookingContent() {
       window.alert("Booking confirmed! Confirmation email sent.");
     } catch (error) {
       console.error("Error confirming booking:", error);
-      window.alert(
-        "There was an error confirming your booking. Please try again."
-      );
+      window.alert("There was an error confirming your booking. Please try again.");
     }
   };
 
@@ -227,7 +237,7 @@ function BookingContent() {
               </p>
             ) : (
               <p>
-                <strong>Hours:</strong> {passengersCount}
+                <strong>Hours:</strong> {passengers}
               </p>
             )}
             <p>
@@ -268,10 +278,12 @@ function BookingContent() {
                 <h4 className="text-base font-medium mb-1">Minivan</h4>
                 <p className="text-sm text-gray-600 mb-1">Up to 6 passengers</p>
                 <p className="text-sm text-gray-800 font-semibold mb-4">
-                  $40 / ride
+                  {serviceType === "hourly"
+                    ? `$${minivanPrice} - total for ${passengers} hour${passengers > 1 ? "s" : ""}`
+                    : "$40 / ride"}
                 </p>
                 <button
-                  onClick={() => handleSelectClick("Minivan", 40)}
+                  onClick={() => handleSelectClick("Minivan", minivanPrice)}
                   className={
                     paymentMethod
                       ? "px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
@@ -296,10 +308,12 @@ function BookingContent() {
                 <h4 className="text-base font-medium mb-1">Sprinter</h4>
                 <p className="text-sm text-gray-600 mb-1">Up to 12 passengers</p>
                 <p className="text-sm text-gray-800 font-semibold mb-4">
-                  $60 / ride
+                  {serviceType === "hourly"
+                    ? `$${sprinterPrice} - total for ${passengers} hour${passengers > 1 ? "s" : ""}`
+                    : "$60 / ride"}
                 </p>
                 <button
-                  onClick={() => handleSelectClick("Sprinter", 60)}
+                  onClick={() => handleSelectClick("Sprinter", sprinterPrice)}
                   className={
                     paymentMethod
                       ? "px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
@@ -352,9 +366,7 @@ function BookingContent() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Phone Number
-                  </label>
+                  <label className="block text-sm font-medium mb-1">Phone Number</label>
                   <input
                     type="tel"
                     className="w-64 px-3 py-2 border border-gray-300 rounded-md"
@@ -366,9 +378,7 @@ function BookingContent() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
-                    WhatsApp
-                  </label>
+                  <label className="block text-sm font-medium mb-1">WhatsApp</label>
                   <input
                     type="text"
                     className="w-64 px-3 py-2 border border-gray-300 rounded-md"
@@ -495,9 +505,7 @@ function BookingContent() {
 
             {passengerDetails.map((p, i) => (
               <div key={i} className="mb-4 p-4 border rounded-md text-center">
-                <p className="font-medium mb-2 text-center">
-                  Passenger #{i + 1}
-                </p>
+                <p className="font-medium mb-2 text-center">Passenger #{i + 1}</p>
                 <p>
                   <strong>First Name:</strong> {p.firstName}
                 </p>
@@ -525,9 +533,7 @@ function BookingContent() {
 
             {/* Contact Summary */}
             <div className="mb-4 p-4 border rounded-md text-center">
-              <p className="font-medium mb-2 text-center">
-                Summary of Contact Info
-              </p>
+              <p className="font-medium mb-2 text-center">Summary of Contact Info</p>
               <p>
                 <strong>Email:</strong> {contactInfo.email || "N/A"}
               </p>
