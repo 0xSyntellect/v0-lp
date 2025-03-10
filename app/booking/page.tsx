@@ -14,12 +14,13 @@ type VehicleInfo = {
 function BookingContent() {
   const searchParams = useSearchParams();
 
-  // Step 1 data
+  // Read query parameters including serviceType
   const fromLocation = searchParams.get("from") || "";
   const toLocation = searchParams.get("to") || "";
   const dateTime = searchParams.get("date") || "";
   const passengersParam = searchParams.get("passengers") || "1";
   const passengersCount = parseInt(passengersParam, 10) || 1;
+  const serviceType = searchParams.get("serviceType") || "transfer";
 
   // Steps: 1 = Form, 2 = Vehicle, 3 = Passenger, 4 = Review
   const [currentStep, setCurrentStep] = useState(2);
@@ -131,6 +132,7 @@ function BookingContent() {
       passengerDetails,
       paymentMethod,
       contactInfo,
+      serviceType,
     };
 
     try {
@@ -147,7 +149,9 @@ function BookingContent() {
       window.alert("Booking confirmed! Confirmation email sent.");
     } catch (error) {
       console.error("Error confirming booking:", error);
-      window.alert("There was an error confirming your booking. Please try again.");
+      window.alert(
+        "There was an error confirming your booking. Please try again."
+      );
     }
   };
 
@@ -179,7 +183,10 @@ function BookingContent() {
               );
             } else if (step < currentStep) {
               circleContent = (
-                <div className="cursor-pointer" onClick={() => setCurrentStep(step)}>
+                <div
+                  className="cursor-pointer"
+                  onClick={() => setCurrentStep(step)}
+                >
                   <div className={circleClass}>{step}</div>
                 </div>
               );
@@ -207,19 +214,28 @@ function BookingContent() {
 
         {/* Booking Details Card */}
         <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-          <h2 className="text-xl font-semibold mb-4 text-center">Your Booking Details</h2>
+          <h2 className="text-xl font-semibold mb-4 text-center">
+            Your Booking Details
+          </h2>
           <div className="text-gray-700 mb-2 text-center">
             <p>
               <strong>From:</strong> {fromLocation}
             </p>
-            <p>
-              <strong>To:</strong> {toLocation}
-            </p>
+            {serviceType === "transfer" ? (
+              <p>
+                <strong>To:</strong> {toLocation}
+              </p>
+            ) : (
+              <p>
+                <strong>Hours:</strong> {passengersCount}
+              </p>
+            )}
             <p>
               <strong>Date/Time:</strong> {dateTime}
             </p>
             <p>
-              <strong>Passengers:</strong> {passengersCount}
+              <strong>Service:</strong>{" "}
+              {serviceType === "transfer" ? "Istanbul Transfer" : "Hourly Rental"}
             </p>
             {selectedVehicle && (
               <p>
@@ -238,15 +254,14 @@ function BookingContent() {
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
               {/* Minivan */}
               <div className="p-4 border rounded-md text-center">
-              <div className="relative w-[300px] h-[160px] mx-auto">
+                <div className="relative w-[300px] h-[160px] mx-auto">
                   <Image
                     src="/minivan.jpeg"
                     alt="Minivan"
                     layout="fill"
-                    objectFit="cover" // or use "contain"
+                    objectFit="cover"
                     className="rounded-md"
                   />
                 </div>
@@ -269,19 +284,17 @@ function BookingContent() {
 
               {/* Sprinter */}
               <div className="p-4 border rounded-md text-center">
-              <div className="relative w-[300px] h-[160px] mx-auto">
-                <Image
-                  src="/sprinter.jpg"
-                  alt="Sprinter"
-                  className="object-cover mb-2"
-                  width={400}
-                  height={160}
-                />
-              </div>
+                <div className="relative w-[300px] h-[160px] mx-auto">
+                  <Image
+                    src="/sprinter.jpg"
+                    alt="Sprinter"
+                    className="object-cover mb-2"
+                    width={400}
+                    height={160}
+                  />
+                </div>
                 <h4 className="text-base font-medium mb-1">Sprinter</h4>
-                <p className="text-sm text-gray-600 mb-1">
-                  Up to 12 passengers
-                </p>
+                <p className="text-sm text-gray-600 mb-1">Up to 12 passengers</p>
                 <p className="text-sm text-gray-800 font-semibold mb-4">
                   $60 / ride
                 </p>
@@ -339,7 +352,9 @@ function BookingContent() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Phone Number</label>
+                  <label className="block text-sm font-medium mb-1">
+                    Phone Number
+                  </label>
                   <input
                     type="tel"
                     className="w-64 px-3 py-2 border border-gray-300 rounded-md"
@@ -351,7 +366,9 @@ function BookingContent() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">WhatsApp</label>
+                  <label className="block text-sm font-medium mb-1">
+                    WhatsApp
+                  </label>
                   <input
                     type="text"
                     className="w-64 px-3 py-2 border border-gray-300 rounded-md"
@@ -469,14 +486,18 @@ function BookingContent() {
         {/* STEP 4 => Final Review & Confirmation */}
         {currentStep === 4 && (
           <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-            <h3 className="text-lg font-semibold mb-4 text-center">Review & Confirmation</h3>
+            <h3 className="text-lg font-semibold mb-4 text-center">
+              Review & Confirmation
+            </h3>
             <p className="text-gray-700 mb-4 text-center">
               Please review your booking details.
             </p>
 
             {passengerDetails.map((p, i) => (
               <div key={i} className="mb-4 p-4 border rounded-md text-center">
-                <p className="font-medium mb-2 text-center">Passenger #{i + 1}</p>
+                <p className="font-medium mb-2 text-center">
+                  Passenger #{i + 1}
+                </p>
                 <p>
                   <strong>First Name:</strong> {p.firstName}
                 </p>
@@ -504,7 +525,9 @@ function BookingContent() {
 
             {/* Contact Summary */}
             <div className="mb-4 p-4 border rounded-md text-center">
-              <p className="font-medium mb-2 text-center">Summary of Contact Info</p>
+              <p className="font-medium mb-2 text-center">
+                Summary of Contact Info
+              </p>
               <p>
                 <strong>Email:</strong> {contactInfo.email || "N/A"}
               </p>
@@ -516,14 +539,13 @@ function BookingContent() {
               </p>
             </div>
 
-            {/* Only ONE button in Step 4: Confirm Booking */}
-          <div className="flex justify-center mt-6">
-            <button
-              className="px-40 py-2 rounded-md bg-primary text-white"
-              onClick={confirmBooking}
-            >
-              Confirm Booking
-            </button>
+            <div className="flex justify-center mt-6">
+              <button
+                className="px-40 py-2 rounded-md bg-primary text-white"
+                onClick={confirmBooking}
+              >
+                Confirm Booking
+              </button>
             </div>
           </div>
         )}
