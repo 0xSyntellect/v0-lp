@@ -4,6 +4,8 @@ import "./globals.css";
 import Head from "next/head";
 import { Analytics } from "@vercel/analytics/react";
 import FloatingIcon from "@/components/floating-icon";
+import GoTopButton from "@/components/go-top-button";
+
 
 
 const geistSans = Geist({
@@ -47,6 +49,7 @@ export default function RootLayout({
         {children}
         <Analytics />
         <FloatingIcon />
+        <GoTopButton />
       </body>
     </html>
   );
