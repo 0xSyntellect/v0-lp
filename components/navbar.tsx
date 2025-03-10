@@ -44,18 +44,37 @@ export default function Navbar() {
           SERVICES
         </Link>
 
-          <Link
-            href="/features"
+        <Link
+            href="#fleet"
+            onClick={(e) => {
+              e.preventDefault();
+              const fleetSection = document.getElementById("fleet");
+              if (fleetSection) {
+                const offset = 0; // Adjust if needed
+                const elementPosition = fleetSection.getBoundingClientRect().top + window.scrollY;
+                window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
+              }
+            }}
             className="text-sm font-medium text-white transition-all duration-200 hover:text-yellow-300 hover:underline hover:scale-105"
           >
-            FEATURES
+            FLEET
           </Link>
           <Link
-            href="/contact"
+            href="#contact"
+            onClick={(e) => {
+              e.preventDefault();
+              const contactSection = document.getElementById("contact");
+              if (contactSection) {
+                const offset = 100; // adjust as needed
+                const elementPosition = contactSection.getBoundingClientRect().top + window.scrollY;
+                window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
+              }
+            }}
             className="text-sm font-medium text-white transition-all duration-200 hover:text-yellow-300 hover:underline hover:scale-105"
           >
             CONTACT
-          </Link>
+</Link>
+
           <Button
             asChild
             variant="outline"

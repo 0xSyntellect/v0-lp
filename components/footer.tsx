@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer id="contact" className="bg-gray-900 text-gray-300">
       <div className="container py-12 mx-auto flex flex-col items-center">
         {/* Centered Grid Wrapper */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-5xl w-full">
