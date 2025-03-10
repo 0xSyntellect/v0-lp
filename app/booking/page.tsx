@@ -286,7 +286,7 @@ function BookingContent() {
               <div className="p-4 border rounded-md text-center">
                 <div className="relative w-[300px] h-[160px] mx-auto">
                   <Image
-                    src="/sprinter.jpg"
+                    src="/sprinter w background.jpg"
                     alt="Sprinter"
                     className="object-cover mb-2"
                     width={400}
