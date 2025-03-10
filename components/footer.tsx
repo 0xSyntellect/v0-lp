@@ -42,7 +42,7 @@ export default function Footer() {
             <h3 className="text-white text-lg font-bold mb-4">Contact</h3>
             <ul className="space-y-2">
               <li>Phone: +90 532 057 97 34</li>
-              <li>Email: info@pickupistanbul.com</li>
+              <li>Email: info@pickupist.com</li>
               <li>WhatsApp: +90 532 057 97 34</li>
             </ul>
           </div>

@@ -23,7 +23,7 @@ export default function CTASection() {
               </div>
               <div className="flex justify-center md:justify-start items-center gap-3">
                 <Mail className="h-5 w-5" />
-                <span>info@pickupistanbul.com</span>
+                <span>info@pickupist.com</span>
               </div>
               <div className="flex justify-center md:justify-start items-center gap-3">
                 <MessageSquare className="h-5 w-5" />
