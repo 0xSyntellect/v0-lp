@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Head from "next/head";
 import { Analytics } from "@vercel/analytics/react";
+import FloatingIcon from "@/components/floating-icon";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,6 +46,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
         <Analytics />
+        <FloatingIcon />
       </body>
     </html>
   );
