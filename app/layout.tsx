@@ -19,8 +19,42 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Istanbul Transfer Service",
-  description: "Pick-up Istanbul for safe and reliable transfers",
+  title: "Istanbul Transfer Service | Premium Rides",
+  description:
+    "Secure, reliable, and luxurious transport services in Istanbul. Book airport transfers, hourly rentals, and more.",
+  openGraph: {
+    title: "Istanbul Transfer Service | Premium Rides",
+    description:
+      "Secure, reliable, and luxurious transport services in Istanbul. Book airport transfers, hourly rentals, and more.",
+    url: "https://pickupist.com",
+    siteName: "Pickup Istanbul",
+    images: [
+      {
+        url: "https://pickupist.com/pickupist-logo.png", // Replace with your image URL
+        width: 1200,
+        height: 630,
+        alt: "Istanbul Transfer Service",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Istanbul Transfer Service | Premium Rides",
+    description:
+      "Secure, reliable, and luxurious transport services in Istanbul.",
+    images: ["https://pickupist.com/pickupist-logo.png"], // Replace accordingly
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
   viewport: {
     width: "device-width",
     initialScale: 1,
