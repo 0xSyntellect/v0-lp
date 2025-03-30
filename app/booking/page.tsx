@@ -26,9 +26,7 @@ function BookingContent() {
   const [currentStep, setCurrentStep] = useState(2);
 
   // Step 2: Vehicle selection
-  const [selectedVehicle, setSelectedVehicle] = useState<VehicleInfo | null>(
-    null
-  );
+  const [selectedVehicle, setSelectedVehicle] = useState<VehicleInfo | null>(null);
 
   // Step 3: Passenger details
   const [passengerDetails, setPassengerDetails] = useState(
@@ -168,6 +166,11 @@ function BookingContent() {
   return (
     <main className="min-h-screen py-10 bg-black text-[#BFA15B]">
       <div className="max-w-3xl mx-auto px-4">
+        {/* Logo at the top */}
+        <div className="flex justify-center mb-6">
+          <Image src="/pickupist logo.png" alt="Brand Logo" width={150} height={50} />
+        </div>
+
         {/* Progress Bar */}
         <div className="flex items-center justify-center mb-8">
           {steps.map(({ step, title }, index) => {

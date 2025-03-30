@@ -44,7 +44,7 @@ export default function HeroSection() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/hero background img.png')",
+          backgroundImage: "url('/background2.png')",
           backgroundPosition: "center center",
         }}
       >
