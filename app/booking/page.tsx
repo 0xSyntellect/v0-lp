@@ -26,7 +26,9 @@ function BookingContent() {
   const [currentStep, setCurrentStep] = useState(2);
 
   // Step 2: Vehicle selection
-  const [selectedVehicle, setSelectedVehicle] = useState<VehicleInfo | null>(null);
+  const [selectedVehicle, setSelectedVehicle] = useState<VehicleInfo | null>(
+    null
+  );
 
   // Step 3: Passenger details
   const [passengerDetails, setPassengerDetails] = useState(
@@ -164,13 +166,17 @@ function BookingContent() {
   ];
 
   return (
-    <main className="min-h-screen py-10 bg-gray-50">
+    <main className="min-h-screen py-10 bg-black text-[#BFA15B]">
       <div className="max-w-3xl mx-auto px-4">
         {/* Progress Bar */}
         <div className="flex items-center justify-center mb-8">
           {steps.map(({ step, title }, index) => {
-            const circleClass = `rounded-full w-10 h-10 flex items-center justify-center text-white font-bold ${
-              currentStep >= step ? "bg-primary" : "bg-gray-300"
+            // Build circle classes dynamically so the active steps are gold + black text
+            // and the inactive steps are dark with gold text
+            const circleClass = `rounded-full w-10 h-10 flex items-center justify-center font-bold ${
+              currentStep >= step
+                ? "bg-[#BFA15B] text-black"
+                : "bg-[#333333] text-[#BFA15B]"
             }`;
 
             let circleContent;
@@ -198,12 +204,14 @@ function BookingContent() {
               <div key={step} className="flex items-center">
                 <div className="flex flex-col items-center">
                   {circleContent}
-                  <span className="text-sm mt-1 text-gray-600">{title}</span>
+                  <span className="text-sm mt-1 text-[#BFA15B]">{title}</span>
                 </div>
                 {index < steps.length - 1 && (
                   <div
                     className={`h-1 w-16 mx-2 ${
-                      currentStep >= step + 1 ? "bg-primary" : "bg-gray-300"
+                      currentStep >= step + 1
+                        ? "bg-[#BFA15B]"
+                        : "bg-[#333333]"
                     }`}
                   />
                 )}
@@ -213,11 +221,11 @@ function BookingContent() {
         </div>
 
         {/* Booking Details Card */}
-        <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-          <h2 className="text-xl font-semibold mb-4 text-center">
+        <div className="bg-[#1c1c1c] p-6 rounded-xl border border-[#BFA15B] mb-8">
+          <h2 className="text-xl font-semibold mb-4 text-center text-[#BFA15B]">
             Your Booking Details
           </h2>
-          <div className="text-gray-700 mb-2 text-center">
+          <div className="mb-2 text-center text-[#BFA15B]">
             <p>
               <strong>From:</strong> {fromLocation}
             </p>
@@ -235,7 +243,9 @@ function BookingContent() {
             </p>
             <p>
               <strong>Service:</strong>{" "}
-              {serviceType === "transfer" ? "Istanbul Transfer" : "Hourly Rental"}
+              {serviceType === "transfer"
+                ? "Istanbul Transfer"
+                : "Hourly Rental"}
             </p>
             {selectedVehicle && (
               <p>
@@ -248,14 +258,14 @@ function BookingContent() {
 
         {/* STEP 2 => Vehicle Selection */}
         {currentStep === 2 && (
-          <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-            <h3 className="text-lg font-semibold mb-4 text-center">
+          <div className="bg-[#1c1c1c] p-6 rounded-xl border border-[#BFA15B] mb-8">
+            <h3 className="text-lg font-semibold mb-4 text-center text-[#BFA15B]">
               Choose Your Vehicle
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Minivan */}
-              <div className="p-4 border rounded-md text-center">
+              <div className="p-4 border border-[#BFA15B] rounded-md text-center bg-transparent">
                 <div className="relative w-[300px] h-[160px] mx-auto">
                   <Image
                     src="/minivan.jpeg"
@@ -265,17 +275,15 @@ function BookingContent() {
                     className="rounded-md"
                   />
                 </div>
-                <h4 className="text-base font-medium mb-1">Minivan</h4>
-                <p className="text-sm text-gray-600 mb-1">Up to 6 passengers</p>
-                <p className="text-sm text-gray-800 font-semibold mb-4">
-                  $40 / ride
-                </p>
+                <h4 className="text-base font-medium mb-1 mt-2">Minivan</h4>
+                <p className="text-sm mb-1">Up to 6 passengers</p>
+                <p className="text-sm font-semibold mb-4">$40 / ride</p>
                 <button
                   onClick={() => handleSelectClick("Minivan", 40)}
                   className={
                     paymentMethod
-                      ? "px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
-                      : "px-4 py-2 rounded-md bg-gray-300 text-white hover:bg-gray-400"
+                      ? "px-4 py-2 rounded-md border border-[#BFA15B] text-[#BFA15B] bg-transparent hover:bg-[#BFA15B] hover:text-black transition-colors duration-300"
+                      : "px-4 py-2 rounded-md bg-[#333333] text-[#BFA15B] cursor-not-allowed"
                   }
                 >
                   Select
@@ -283,7 +291,7 @@ function BookingContent() {
               </div>
 
               {/* Sprinter */}
-              <div className="p-4 border rounded-md text-center">
+              <div className="p-4 border border-[#BFA15B] rounded-md text-center bg-transparent">
                 <div className="relative w-[300px] h-[160px] mx-auto">
                   <Image
                     src="/sprinter w background.jpg"
@@ -293,17 +301,15 @@ function BookingContent() {
                     height={160}
                   />
                 </div>
-                <h4 className="text-base font-medium mb-1">Sprinter</h4>
-                <p className="text-sm text-gray-600 mb-1">Up to 12 passengers</p>
-                <p className="text-sm text-gray-800 font-semibold mb-4">
-                  $60 / ride
-                </p>
+                <h4 className="text-base font-medium mb-1 mt-2">Sprinter</h4>
+                <p className="text-sm mb-1">Up to 12 passengers</p>
+                <p className="text-sm font-semibold mb-4">$60 / ride</p>
                 <button
                   onClick={() => handleSelectClick("Sprinter", 60)}
                   className={
                     paymentMethod
-                      ? "px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
-                      : "px-4 py-2 rounded-md bg-gray-300 text-white hover:bg-gray-400"
+                      ? "px-4 py-2 rounded-md border border-[#BFA15B] text-[#BFA15B] bg-transparent hover:bg-[#BFA15B] hover:text-black transition-colors duration-300"
+                      : "px-4 py-2 rounded-md bg-[#333333] text-[#BFA15B] cursor-not-allowed"
                   }
                 >
                   Select
@@ -316,7 +322,7 @@ function BookingContent() {
                 Payment Method
               </label>
               <select
-                className="w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 bg-white text-center"
+                className="w-full px-4 py-3 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] text-center"
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value)}
               >
@@ -330,20 +336,24 @@ function BookingContent() {
 
         {/* STEP 3 => Passenger & Contact Information */}
         {currentStep === 3 && (
-          <div className="bg-white p-6 rounded-xl shadow-md mb-8 text-center">
-            <h3 className="text-lg font-semibold mb-8">
+          <div className="bg-[#1c1c1c] p-6 rounded-xl border border-[#BFA15B] mb-8 text-center">
+            <h3 className="text-lg font-semibold mb-8 text-[#BFA15B]">
               Passenger & Contact Details
             </h3>
 
             {/* Contact Information Form */}
-            <div className="mb-6 p-4 border rounded-md inline-block text-left">
-              <h4 className="font-medium mb-4 text-center">Contact Information</h4>
+            <div className="mb-6 p-4 border border-[#BFA15B] rounded-md inline-block text-left">
+              <h4 className="font-medium mb-4 text-center text-[#BFA15B]">
+                Contact Information
+              </h4>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium mb-1">Email</label>
+                  <label className="block text-sm font-medium mb-1">
+                    Email
+                  </label>
                   <input
                     type="email"
-                    className="w-64 px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-64 px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
                     placeholder="Enter your email"
                     value={contactInfo.email}
                     onChange={(e) =>
@@ -357,7 +367,7 @@ function BookingContent() {
                   </label>
                   <input
                     type="tel"
-                    className="w-64 px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-64 px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
                     placeholder="Enter your phone number"
                     value={contactInfo.phone}
                     onChange={(e) =>
@@ -371,11 +381,14 @@ function BookingContent() {
                   </label>
                   <input
                     type="text"
-                    className="w-64 px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-64 px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
                     placeholder="Enter your WhatsApp number"
                     value={contactInfo.whatsapp}
                     onChange={(e) =>
-                      setContactInfo({ ...contactInfo, whatsapp: e.target.value })
+                      setContactInfo({
+                        ...contactInfo,
+                        whatsapp: e.target.value,
+                      })
                     }
                   />
                 </div>
@@ -383,17 +396,17 @@ function BookingContent() {
             </div>
 
             {/* Passenger Details */}
-            <h4 className="font-medium mb-4">Passenger Details</h4>
+            <h4 className="font-medium mb-4 text-[#BFA15B]">Passenger Details</h4>
             {passengerDetails.map((passenger, i) => {
               const open = isAccordionOpen[i];
               return (
                 <div
                   key={i}
-                  className="border rounded-md mb-4 inline-block text-left w-full max-w-md"
+                  className="border border-[#BFA15B] rounded-md mb-4 inline-block text-left w-full max-w-md"
                 >
                   <button
                     type="button"
-                    className="w-full flex justify-between items-center px-4 py-3 bg-gray-100 hover:bg-gray-200"
+                    className="w-full flex justify-between items-center px-4 py-3 bg-[#333333] hover:bg-[#444444] text-[#BFA15B]"
                     onClick={() => toggleAccordion(i)}
                   >
                     <span className="font-medium">Passenger #{i + 1}</span>
@@ -412,7 +425,7 @@ function BookingContent() {
                           </label>
                           <input
                             type="text"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                            className="w-full px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
                             placeholder="First name"
                             value={passenger.firstName}
                             onChange={(e) =>
@@ -426,7 +439,7 @@ function BookingContent() {
                           </label>
                           <input
                             type="text"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                            className="w-full px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
                             placeholder="Last name"
                             value={passenger.lastName}
                             onChange={(e) =>
@@ -442,11 +455,15 @@ function BookingContent() {
                           </label>
                           <input
                             type="text"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                            className="w-full px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
                             placeholder="Passport number"
                             value={passenger.passportNumber}
                             onChange={(e) =>
-                              handlePassengerChange(i, "passportNumber", e.target.value)
+                              handlePassengerChange(
+                                i,
+                                "passportNumber",
+                                e.target.value
+                              )
                             }
                           />
                         </div>
@@ -456,7 +473,7 @@ function BookingContent() {
                           </label>
                           <input
                             type="text"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                            className="w-full px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
                             placeholder="Your country/origin"
                             value={passenger.origin}
                             onChange={(e) =>
@@ -474,7 +491,7 @@ function BookingContent() {
             {/* Single Confirm button for Step 3 */}
             <div className="flex justify-center mt-6">
               <button
-                className="px-40 py-2 rounded-md bg-primary text-white"
+                className="px-40 py-2 rounded-md border border-[#BFA15B] text-[#BFA15B] bg-transparent hover:bg-[#BFA15B] hover:text-black transition-colors duration-300"
                 onClick={confirmPassengerDetails}
               >
                 Confirm
@@ -485,17 +502,20 @@ function BookingContent() {
 
         {/* STEP 4 => Final Review & Confirmation */}
         {currentStep === 4 && (
-          <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-            <h3 className="text-lg font-semibold mb-4 text-center">
+          <div className="bg-[#1c1c1c] p-6 rounded-xl border border-[#BFA15B] mb-8">
+            <h3 className="text-lg font-semibold mb-4 text-center text-[#BFA15B]">
               Review & Confirmation
             </h3>
-            <p className="text-gray-700 mb-4 text-center">
+            <p className="mb-4 text-center text-[#BFA15B]">
               Please review your booking details.
             </p>
 
             {passengerDetails.map((p, i) => (
-              <div key={i} className="mb-4 p-4 border rounded-md text-center">
-                <p className="font-medium mb-2 text-center">
+              <div
+                key={i}
+                className="mb-4 p-4 border border-[#BFA15B] rounded-md text-center"
+              >
+                <p className="font-medium mb-2 text-center text-[#BFA15B]">
                   Passenger #{i + 1}
                 </p>
                 <p>
@@ -513,19 +533,19 @@ function BookingContent() {
               </div>
             ))}
 
-            <p className="text-gray-700 mb-2 text-center">
+            <p className="mb-2 text-center text-[#BFA15B]">
               <strong>Payment Method:</strong> {paymentMethod}
             </p>
             {selectedVehicle && (
-              <p className="text-gray-700 mb-6 text-center">
+              <p className="mb-6 text-center text-[#BFA15B]">
                 <strong>Vehicle:</strong> {selectedVehicle.name} — $
                 {selectedVehicle.price}
               </p>
             )}
 
             {/* Contact Summary */}
-            <div className="mb-4 p-4 border rounded-md text-center">
-              <p className="font-medium mb-2 text-center">
+            <div className="mb-4 p-4 border border-[#BFA15B] rounded-md text-center">
+              <p className="font-medium mb-2 text-center text-[#BFA15B]">
                 Summary of Contact Info
               </p>
               <p>
@@ -541,7 +561,7 @@ function BookingContent() {
 
             <div className="flex justify-center mt-6">
               <button
-                className="px-40 py-2 rounded-md bg-primary text-white"
+                className="px-40 py-2 rounded-md border border-[#BFA15B] text-[#BFA15B] bg-transparent hover:bg-[#BFA15B] hover:text-black transition-colors duration-300"
                 onClick={confirmBooking}
               >
                 Confirm Booking
@@ -558,7 +578,7 @@ export default function BookingPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center bg-black text-[#BFA15B]">
           Loading booking information...
         </div>
       }
