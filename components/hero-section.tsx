@@ -75,17 +75,45 @@ export default function HeroSection() {
         {/* Booking Form — colors updated */}
         <div
           id="booking-form"
-          className="max-w-4xl mx-auto rounded-xl shadow-2xl p-6 bg-[#1F1F1F]"
+          className="max-w-4xl mx-auto rounded-xl shadow-2xl px-6 py-6 bg-[#1F1F1F]"
         >
           <Tabs defaultValue="transfer" onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-6">
-              <TabsTrigger value="transfer" className="ext-base bg-[#C2A36C] text-black border border-[#C2A36C] transition-all duration-200">
-                Istanbul Transfer
-              </TabsTrigger>
-              <TabsTrigger value="hourly" className="ext-base bg-[#C2A36C] text-black border border-[#C2A36C] transition-all duration-200">
-                Hourly Service
-              </TabsTrigger>
-            </TabsList>
+          <TabsList className="grid w-full grid-cols-2 mb-8">
+  <TabsTrigger
+    value="transfer"
+    className="
+      text-base
+      bg-[#2C2C2C] 
+      text-white 
+      border 
+      border-[#444] 
+      transition-all 
+      duration-200
+      data-[state=active]:bg-[#C2A36C]
+      data-[state=active]:text-black
+    "
+  >
+    Istanbul Transfer
+  </TabsTrigger>
+
+  <TabsTrigger
+    value="hourly"
+    className="
+      text-base
+      bg-[#2C2C2C] 
+      text-white 
+      border 
+      border-[#444] 
+      transition-all 
+      duration-200
+      data-[state=active]:bg-[#C2A36C]
+      data-[state=active]:text-black
+    "
+  >
+    Hourly Service
+  </TabsTrigger>
+</TabsList>
+
 
             {/* TRANSFER TAB */}
             <TabsContent value="transfer" className="space-y-6">
