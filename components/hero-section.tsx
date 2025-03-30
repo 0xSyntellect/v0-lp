@@ -31,14 +31,16 @@ export default function HeroSection() {
   const handleSearchClick = () => {
     const dateTime = getDateTimeString()
     const toParam = activeTab === "hourly" ? "" : transferTo
-    window.location.href = `/booking?from=${encodeURIComponent(transferFrom)}&to=${encodeURIComponent(
-      toParam
-    )}&date=${encodeURIComponent(dateTime)}&passengers=${passengers}&serviceType=${activeTab}`
+    window.location.href = `/booking?from=${encodeURIComponent(
+      transferFrom
+    )}&to=${encodeURIComponent(toParam)}&date=${encodeURIComponent(
+      dateTime
+    )}&passengers=${passengers}&serviceType=${activeTab}`
   }
 
   return (
     <section className="relative min-h-screen pt-16 overflow-hidden">
-      {/* Background Image + Overlay (unchanged) */}
+      {/* Background Image + Overlay */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
@@ -46,11 +48,12 @@ export default function HeroSection() {
           backgroundPosition: "center center",
         }}
       >
-<div className="absolute inset-0 bg-black/40"></div>      </div>
+        <div className="absolute inset-0 bg-black/40"></div>
+      </div>
 
-      {/* Hero content */}
+      {/* Hero Content */}
       <div className="relative z-10 pt-20 md:pt-24 pb-20">
-        {/* Centered Hero Text (unchanged) */}
+        {/* Centered Hero Text */}
         <div className="max-w-3xl mx-auto text-center text-white mb-12 md:mb-16">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4 drop-shadow-lg">
             Premium Transport Services in Istanbul
@@ -59,7 +62,10 @@ export default function HeroSection() {
             Secure, reliable and luxurious transfer services for business and leisure travelers
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Button size="lg" className="text-base bg-[#C2A36C] text-black border border-[#C2A36C] transition-all duration-200 hover:bg-[#b1945e] hover:scale-105">
+            <Button
+              size="lg"
+              className="text-base bg-[#C2A36C] text-black border border-[#C2A36C] transition-all duration-200 hover:bg-[#b1945e] hover:scale-105"
+            >
               Book Now
             </Button>
             <Button
@@ -72,55 +78,34 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Booking Form — colors updated */}
+        {/* Booking Form */}
         <div
           id="booking-form"
-          className="max-w-4xl mx-auto rounded-xl shadow-2xl px-6 py-6 bg-[#1F1F1F]"
+          className="max-w-4xl mx-auto rounded-xl shadow-2xl p-3 bg-[#1F1F1F]"
         >
-          <Tabs defaultValue="transfer" onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8">
-  <TabsTrigger
-    value="transfer"
-    className="
-      text-base
-      bg-[#2C2C2C] 
-      text-white 
-      border 
-      border-[#444] 
-      transition-all 
-      duration-200
-      data-[state=active]:bg-[#C2A36C]
-      data-[state=active]:text-black
-    "
-  >
-    Istanbul Transfer
-  </TabsTrigger>
+          {/* Redesigned Tabs: no extra white space at the top */}
+          <Tabs defaultValue="transfer" onValueChange={setActiveTab}>
+            <TabsList className="flex w-full h-12 m-0 p-0">
+              <TabsTrigger
+                value="transfer"
+                className="w-1/2 h-full flex items-center justify-center text-sm font-semibold text-white bg-[#2C2C2C] border border-[#444] transition-all duration-200 data-[state=active]:bg-[#C2A36C] data-[state=active]:text-black"
+              >
+                Istanbul Transfer
+              </TabsTrigger>
+              <TabsTrigger
+                value="hourly"
+                className="w-1/2 h-full flex items-center justify-center text-sm font-semibold text-white bg-[#2C2C2C] border border-[#444] transition-all duration-200 data-[state=active]:bg-[#C2A36C] data-[state=active]:text-black"
+              >
+                Hourly Service
+              </TabsTrigger>
+            </TabsList>
 
-  <TabsTrigger
-    value="hourly"
-    className="
-      text-base
-      bg-[#2C2C2C] 
-      text-white 
-      border 
-      border-[#444] 
-      transition-all 
-      duration-200
-      data-[state=active]:bg-[#C2A36C]
-      data-[state=active]:text-black
-    "
-  >
-    Hourly Service
-  </TabsTrigger>
-</TabsList>
-
-
-            {/* TRANSFER TAB */}
-            <TabsContent value="transfer" className="space-y-6">
+            {/* Transfer Tab Content */}
+            <TabsContent value="transfer" className="p-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* "From" Field */}
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-white">From</label>
+                  <label className="text-white text-sm">From</label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                     <Input
@@ -131,10 +116,9 @@ export default function HeroSection() {
                     />
                   </div>
                 </div>
-
                 {/* "To" Field */}
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-white">To</label>
+                  <label className="text-white text-sm">To</label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                     <Input
@@ -147,11 +131,10 @@ export default function HeroSection() {
                 </div>
               </div>
 
-              {/* Date & Time, Passengers, Button */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
                 {/* Date & Time */}
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-white">Date & Time</label>
+                  <label className="text-white text-sm">Date & Time</label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button variant="outline" className="w-full justify-start text-left font-normal bg-[#2C2C2C] text-white border border-[#444]">
@@ -174,7 +157,7 @@ export default function HeroSection() {
 
                 {/* Passengers */}
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-white">Passengers</label>
+                  <label className="text-white text-sm">Passengers</label>
                   <div className="flex items-center border border-[#444] rounded-md bg-[#2C2C2C]">
                     <Button
                       variant="ghost"
@@ -199,21 +182,22 @@ export default function HeroSection() {
                 </div>
 
                 {/* Search Button */}
-                <Button
-                  className="bg-[#C2A36C] hover:bg-[#b1945e] text-black h-10 mt-auto"
-                  onClick={handleSearchClick}
-                >
-                  Book Now
-                </Button>
+                <div className="flex items-end">
+                  <Button
+                    className="bg-[#C2A36C] hover:bg-[#b1945e] text-black h-10 w-full"
+                    onClick={handleSearchClick}
+                  >
+                    Book Now
+                  </Button>
+                </div>
               </div>
             </TabsContent>
 
-            {/* HOURLY TAB */}
-            <TabsContent value="hourly" className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Pickup Location */}
+            {/* Hourly Tab Content */}
+            <TabsContent value="hourly" className="p-4">
+              <div className="grid grid-cols-1 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-white">Pickup Location</label>
+                  <label className="text-white text-sm">Pickup Location</label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                     <Input
@@ -224,70 +208,54 @@ export default function HeroSection() {
                     />
                   </div>
                 </div>
-
-                {/* Hours */}
-                <div className="space-y-2">
-  <label className="text-sm font-medium text-white">Hours</label>
-  <div className="flex items-center w-full border rounded-md bg-[#2C2C2C]">
-    <Button
-      variant="ghost"
-      size="icon"
-      className="rounded-r-none h-10 text-white"
-      onClick={() => setPassengers(Math.max(1, passengers - 1))}
-    >
-      <Minus className="h-4 w-4" />
-    </Button>
-    <div className="flex-1 text-center font-medium text-white">
-      {passengers}
-    </div>
-    <Button
-      variant="ghost"
-      size="icon"
-      className="rounded-l-none h-10 text-white"
-      onClick={() => setPassengers(Math.min(10, passengers + 1))}
-    >
-      <Plus className="h-4 w-4" />
-    </Button>
-  </div>
-</div>
-
-              </div>
-
-              {/* Date & Time + Hours + Search Button */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Date & Time */}
-                <div className="space-y-2 lg:col-span-1">
-                  <label className="text-sm font-medium text-white">Date & Time</label>
-                  <Popover>
-                    <PopoverTrigger asChild>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                  <div className="space-y-2">
+                    <label className="text-white text-sm">Date & Time</label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button variant="outline" className="w-full justify-start text-left font-normal bg-[#2C2C2C] text-white border border-[#444]">
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {date ? format(date, "PPP") + `, ${time}` : <span>Pick a date</span>}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
+                        <div className="p-3 border-t">
+                          <Input
+                            type="time"
+                            value={time}
+                            onChange={(e) => setTime(e.target.value)}
+                          />
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-white text-sm">Hours</label>
+                    <div className="flex items-center border border-[#444] rounded-md bg-[#2C2C2C]">
                       <Button
-                        variant="outline"
-                        className="w-full justify-start text-left font-normal bg-[#2C2C2C] text-white border border-[#444]"
+                        variant="ghost"
+                        size="icon"
+                        className="rounded-r-none h-10 text-white"
+                        onClick={() => setPassengers(Math.max(1, passengers - 1))}
                       >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {date ? format(date, "PPP") + `, ${time}` : <span>Pick a date</span>}
+                        <Minus className="h-4 w-4" />
                       </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                      <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
-                      <div className="p-3 border-t">
-                        <Input
-                          type="time"
-                          value={time}
-                          onChange={(e) => setTime(e.target.value)}
-                        />
+                      <div className="flex-1 text-center font-medium text-white">
+                        {passengers}
                       </div>
-                    </PopoverContent>
-                  </Popover>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="rounded-l-none h-10 text-white"
+                        onClick={() => setPassengers(Math.min(10, passengers + 1))}
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-
-                {/* Hours (already shown above) */}
-                <div className="space-y-2 lg:col-span-1">
-                  {/* We keep it as is to maintain layout */}
-                </div>
-
-                {/* Search Button */}
-                <div className="lg:col-span-1 flex items-end">
+                <div className="flex items-end mt-6">
                   <Button
                     className="bg-[#C2A36C] hover:bg-[#b1945e] text-black h-10 w-full"
                     onClick={handleSearchClick}
