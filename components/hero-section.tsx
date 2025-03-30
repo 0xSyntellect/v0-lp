@@ -88,13 +88,13 @@ export default function HeroSection() {
             <TabsList className="flex w-full h-12 m-0 p-0">
               <TabsTrigger
                 value="transfer"
-                className="w-1/2 h-full flex items-center justify-center text-sm font-semibold text-white bg-[#2C2C2C] border border-[#444] transition-all duration-200 data-[state=active]:bg-[#C2A36C] data-[state=active]:text-black"
+                className="w-1/2 h-full flex items-center justify-center text-sm font-semibold text-white bg-[#2C2C2C] border-7 border-[#444] transition-all duration-200 data-[state=active]:bg-[#C2A36C] data-[state=active]:text-black"
               >
                 Istanbul Transfer
               </TabsTrigger>
               <TabsTrigger
-                value="hourly"
-                className="w-1/2 h-full flex items-center justify-center text-sm font-semibold text-white bg-[#2C2C2C] border border-[#444] transition-all duration-200 data-[state=active]:bg-[#C2A36C] data-[state=active]:text-black"
+                value="hourly"  
+                className="w-1/2 h-full flex items-center justify-center text-sm font-semibold text-white bg-[#2C2C2C] border-7 border-[#444] transition-all duration-200 data-[state=active]:bg-[#C2A36C] data-[state=active]:text-black"
               >
                 Hourly Service
               </TabsTrigger>
