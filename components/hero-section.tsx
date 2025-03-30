@@ -175,7 +175,7 @@ export default function HeroSection() {
                   className="bg-[#C2A36C] hover:bg-[#b1945e] text-black h-10 mt-auto"
                   onClick={handleSearchClick}
                 >
-                  Search
+                  Book Now
                 </Button>
               </div>
             </TabsContent>
@@ -264,7 +264,7 @@ export default function HeroSection() {
                     className="bg-[#C2A36C] hover:bg-[#b1945e] text-black h-10 w-full"
                     onClick={handleSearchClick}
                   >
-                    Search
+                    Book Now
                   </Button>
                 </div>
               </div>
