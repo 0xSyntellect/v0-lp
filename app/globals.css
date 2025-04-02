@@ -82,13 +82,14 @@
   --sidebar-accent-foreground: #333333;
   --sidebar-border: #e0e0e0;
   --sidebar-ring: #a0a0a0;
+  
 }
 
 /* Override fallbacks with oklch() if supported */
 @supports (color: oklch(1 0 0)) {
   :root {
-    --background: oklch(31, 31, 31);
-    --foreground: oklch(0.145 0 0);
+    --background: oklch(0.24 0 0);  /* services background color */
+    --foreground: oklch(1 0 0); /* title text colors */
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
@@ -157,7 +158,7 @@
   --sidebar-border: #404040;
   --sidebar-ring: #6c6c6c;
 }
-
+/* oklch(239 19 19); */
 @supports (color: oklch(1 0 0)) {
   .dark {
     --background: oklch(0.145 0 0);

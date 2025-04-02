@@ -20,18 +20,18 @@ export default function ServicesSection() {
       icon: <Clock className="h-12 w-12 text-[#C2A36C]" />,
       title: "Hourly Rentals",
       description: "Flexible hourly service for business meetings or shopping trips around the city",
-      image: "/hourly-rental.jpg",
+      image: "/hourly.png",
     },
     {
       icon: <MapPin className="h-12 w-12 text-[#C2A36C]" />,
       title: "Intercity Transfers",
       description: "Comfortable long-distance transfers to other cities in Turkey",
-      image: "/intercity-transfer.jpg",
+      image: "/intercity.png",
     },
   ]
 
   return (
-    <section id="services" className="py-24 bg-white">
+    <section id="services" className="py-24 bg-[var(--background)]">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center mb-16">
@@ -39,7 +39,7 @@ export default function ServicesSection() {
             <span className="text-[#C2A36C] font-medium">Our Services</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Premium Transportation Solutions</h2>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-white">
             Comprehensive transportation services tailored to your needs in Istanbul and beyond
           </p>
         </div>
