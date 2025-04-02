@@ -3,41 +3,66 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { PhoneCall } from "lucide-react"
+import { PhoneCall, Menu, X } from "lucide-react"
+import { useState, useEffect } from "react"
 
 export default function Navbar() {
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  // Handle scroll event to change navbar appearance
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 10) {
+        setIsScrolled(true)
+      } else {
+        setIsScrolled(false)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  // Smooth scroll to section
+  const scrollToSection = (sectionId: string) => {
+    setIsMobileMenuOpen(false)
+    const section = document.getElementById(sectionId)
+    if (section) {
+      const offset = 80 // Adjust offset if needed
+      const elementPosition = section.getBoundingClientRect().top + window.scrollY
+      window.scrollTo({ top: elementPosition - offset, behavior: "smooth" })
+    }
+  }
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#1F1F1F] shadow-md">
-      <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-4">
-        <Link
-          href="/"
-          className="flex items-center space-x-2 transition-transform duration-200 hover:scale-105"
-        >
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? "bg-[#1F1F1F]/95 backdrop-blur-md shadow-md" : "bg-transparent"
+      }`}
+    >
+      <div className="container mx-auto flex h-20 items-center justify-between px-4">
+        <Link href="/" className="flex items-center space-x-2 transition-transform duration-200 hover:scale-105">
           <Image
             src="/pickupist logo.png"
             alt="Pickup Istanbul Logo"
             width={68}
             height={68}
             priority
+            className="h-12 w-auto"
           />
-          <span className="text-xl font-bold tracking-tight text-white">
-            PICKUP ISTANBUL
-          </span>
+          <span className="text-xl font-bold tracking-tight text-white">PICKUP ISTANBUL</span>
         </Link>
 
-        <nav className="hidden md:flex items-center space-x-6">
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center space-x-8">
           <Link
             href="#services"
             onClick={(e) => {
-              e.preventDefault();
-              const servicesSection = document.getElementById("services");
-              if (servicesSection) {
-                const offset = 100;
-                const elementPosition = servicesSection.getBoundingClientRect().top + window.scrollY;
-                window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
-              }
+              e.preventDefault()
+              scrollToSection("services")
             }}
-            className="text-sm font-medium text-white transition-all duration-200 hover:text-[#C2A36C] hover:underline hover:scale-105"
+            className="text-sm font-medium text-white transition-all duration-200 hover:text-[#C2A36C]"
           >
             SERVICES
           </Link>
@@ -45,15 +70,10 @@ export default function Navbar() {
           <Link
             href="#fleet"
             onClick={(e) => {
-              e.preventDefault();
-              const fleetSection = document.getElementById("fleet");
-              if (fleetSection) {
-                const offset = 0;
-                const elementPosition = fleetSection.getBoundingClientRect().top + window.scrollY;
-                window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
-              }
+              e.preventDefault()
+              scrollToSection("fleet")
             }}
-            className="text-sm font-medium text-white transition-all duration-200 hover:text-[#C2A36C] hover:underline hover:scale-105"
+            className="text-sm font-medium text-white transition-all duration-200 hover:text-[#C2A36C]"
           >
             FLEET
           </Link>
@@ -61,15 +81,10 @@ export default function Navbar() {
           <Link
             href="#contact"
             onClick={(e) => {
-              e.preventDefault();
-              const contactSection = document.getElementById("contact");
-              if (contactSection) {
-                const offset = 100;
-                const elementPosition = contactSection.getBoundingClientRect().top + window.scrollY;
-                window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
-              }
+              e.preventDefault()
+              scrollToSection("contact")
             }}
-            className="text-sm font-medium text-white transition-all duration-200 hover:text-[#C2A36C] hover:underline hover:scale-105"
+            className="text-sm font-medium text-white transition-all duration-200 hover:text-[#C2A36C]"
           >
             CONTACT
           </Link>
@@ -78,8 +93,7 @@ export default function Navbar() {
             asChild
             variant="outline"
             size="sm"
-            className="gap-2 bg-[#C2A36C] text-black border-[#C2A36C] transition-all duration-200 hover:bg-[#b1945e] hover:scale-105"
-
+            className="gap-2 bg-[#C2A36C] text-black border-[#C2A36C] transition-all duration-200 hover:bg-[#b1945e]"
           >
             <a href="tel:+905320579734">
               <PhoneCall className="h-4 w-4" />
@@ -88,25 +102,64 @@ export default function Navbar() {
           </Button>
         </nav>
 
-        <Button variant="outline" size="icon" className="md:hidden border-white text-white">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-6 w-6"
-          >
-            <line x1="4" x2="20" y1="12" y2="12" />
-            <line x1="4" x2="20" y1="6" y2="6" />
-            <line x1="4" x2="20" y1="18" y2="18" />
-          </svg>
+        {/* Mobile Menu Button */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden text-white hover:bg-white/10"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </Button>
       </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-[#1F1F1F]/95 backdrop-blur-md">
+          <div className="container mx-auto px-4 py-6 flex flex-col space-y-4">
+            <Link
+              href="#services"
+              onClick={(e) => {
+                e.preventDefault()
+                scrollToSection("services")
+              }}
+              className="text-white py-2 px-4 hover:bg-white/10 rounded-md"
+            >
+              SERVICES
+            </Link>
+
+            <Link
+              href="#fleet"
+              onClick={(e) => {
+                e.preventDefault()
+                scrollToSection("fleet")
+              }}
+              className="text-white py-2 px-4 hover:bg-white/10 rounded-md"
+            >
+              FLEET
+            </Link>
+
+            <Link
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault()
+                scrollToSection("contact")
+              }}
+              className="text-white py-2 px-4 hover:bg-white/10 rounded-md"
+            >
+              CONTACT
+            </Link>
+
+            <Button asChild className="gap-2 bg-[#C2A36C] text-black border-[#C2A36C] w-full justify-center">
+              <a href="tel:+905320579734">
+                <PhoneCall className="h-4 w-4" />
+                <span>+90 532 057 97 34</span>
+              </a>
+            </Button>
+          </div>
+        </div>
+      )}
     </header>
   )
 }
+
