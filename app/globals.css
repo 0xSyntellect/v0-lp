@@ -49,14 +49,14 @@
 ---------------------------------------------------------------- */
 :root {
   /* Fallbacks using HEX/RGB values */
-  --background: #f0e7d8;
+  --background: #1f1f1f;
   --foreground: #252525;
   --card: #ffffff;
   --card-foreground: #252525;
   --popover: #ffffff;
   --popover-foreground: #252525;
-  --primary: #315ea7; /* Approximate fallback for oklch(0.205 0 0) */
-  --primary-foreground: #ffffff; /* Approximate fallback for oklch(0.985 0 0) */
+  --primary: #1e40af; /* Blue color */
+  --primary-foreground: #ffffff;
   --secondary: #f5f5f5;
   --secondary-foreground: #333333;
   --muted: #f5f5f5;
@@ -76,7 +76,7 @@
   --radius: 0.625rem;
   --sidebar: #ffffff;
   --sidebar-foreground: #252525;
-  --sidebar-primary: #315ea7;
+  --sidebar-primary: #1e40af;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #f5f5f5;
   --sidebar-accent-foreground: #333333;
@@ -87,7 +87,7 @@
 /* Override fallbacks with oklch() if supported */
 @supports (color: oklch(1 0 0)) {
   :root {
-    --background: oklch(240, 231, 216);
+    --background: oklch(31, 31, 31);
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
@@ -122,22 +122,137 @@
   }
 }
 
-/* Remove global background; let sections control backgrounds */
+/* Dark mode fallbacks */
+.dark {
+  --background: #252525;
+  --foreground: #ffffff;
+  --card: #252525;
+  --card-foreground: #ffffff;
+  --popover: #252525;
+  --popover-foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #252525;
+  --secondary: #d1d1d1;
+  --secondary-foreground: #ffffff;
+  --muted: #d1d1d1;
+  --muted-foreground: #b0b0b0;
+  --accent: #d1d1d1;
+  --accent-foreground: #ffffff;
+  --destructive: #a8001d;
+  --destructive-foreground: #ffffff;
+  --border: #404040;
+  --input: #404040;
+  --ring: #6c6c6c;
+  --chart-1: #a1a1a1;
+  --chart-2: #919191;
+  --chart-3: #818181;
+  --chart-4: #707070;
+  --chart-5: #606060;
+  --sidebar: #252525;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #a1a1a1;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #d1d1d1;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #404040;
+  --sidebar-ring: #6c6c6c;
+}
+
+@supports (color: oklch(1 0 0)) {
+  .dark {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.145 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.145 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.985 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.396 0.141 25.723);
+    --destructive-foreground: oklch(0.637 0.237 25.331);
+    --border: oklch(0.269 0 0);
+    --input: oklch(0.269 0 0);
+    --ring: oklch(0.439 0 0);
+    --chart-1: oklch(0.488 0.243 264.376);
+    --chart-2: oklch(0.696 0.17 162.48);
+    --chart-3: oklch(0.769 0.188 70.08);
+    --chart-4: oklch(0.627 0 303.9);
+    --chart-5: oklch(0.645 0 16.439);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(0.269 0 0);
+    --sidebar-ring: oklch(0.439 0 0);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply text-foreground;
+    @apply bg-background text-foreground;
   }
 }
 
-/* Safari-specific adjustments */
-html {
-  -webkit-text-size-adjust: none;
-  -webkit-font-smoothing: antialiased;
+/* Custom CSS for our design */
+.backdrop-blur-md {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Gradient overlays for service cards */
+.bg-gradient-overlay {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.2) 100%);
+}
+
+/* Gold accent color utilities */
+.text-gold {
+  color: #c2a36c;
+}
+
+.bg-gold {
+  background-color: #c2a36c;
+}
+
+.border-gold {
+  border-color: #c2a36c;
+}
+
+.hover\:bg-gold:hover {
+  background-color: #c2a36c;
+}
+
+.hover\:text-gold:hover {
+  color: #c2a36c;
+}
+
+.hover\:border-gold:hover {
+  border-color: #c2a36c;
+}
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: none; /* Prevents unwanted font-size zoom in Safari on mobile */
+  -webkit-font-smoothing: antialiased; /* Improves text rendering on Safari */
+}
+
+/* Safari-specific adjustments */
 @supports (padding: env(safe-area-inset-top)) {
   body {
     padding-top: env(safe-area-inset-top);
@@ -147,25 +262,64 @@ html {
   }
 }
 
-@media not all and (min-resolution:.001dpcm) {
-  @supports (-webkit-appearance:none) {
+/* Safari-specific fixes */
+@media not all and (min-resolution: .001dpcm) {
+  @supports (-webkit-appearance: none) {
     .safari-fix {
       display: flex;
       flex-direction: column;
     }
-    
+
     input[type="time"]::-webkit-calendar-picker-indicator {
       background: none;
     }
-    
+
+    /* Force redraw for flexbox issues in Safari */
     .grid {
       transform: translateZ(0);
     }
   }
 }
 
+/* Explicitly set height for Safari */
 @supports (-webkit-touch-callout: none) {
   .h-10 {
     height: 2.5rem !important;
   }
 }
+
+/* Custom animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.5s ease-out;
+}
+
+/* Background image placeholders */
+.placeholder-bg {
+  background-color: #f5f5f5;
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23dddddd' fill-opacity='0.4' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+}
+

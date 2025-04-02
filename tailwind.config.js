@@ -10,7 +10,7 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: "0",
+      padding: "2rem",
       screens: {
         "2xl": "1400px",
       },
@@ -50,6 +50,17 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Custom colors for our design
+        gold: {
+          DEFAULT: "#C2A36C",
+          light: "#D9C9A3",
+          dark: "#A68A4F",
+        },
+        dark: {
+          DEFAULT: "#1F1F1F",
+          light: "#2C2C2C",
+          lighter: "#333333",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -65,13 +76,21 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        "pulse-slow": {
+          '0%, 100%': { opacity: 1 },
+          '50%': { opacity: 0.7 },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "pulse-slow": "pulse-slow 3s ease-in-out infinite",
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
 }
-
