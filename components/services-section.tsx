@@ -38,7 +38,7 @@ export default function ServicesSection() {
   return (
     <section
       id="services"
-      className="w-full py-20 "
+      className="w-full py-20 bg-[#1F1F1F]"
     >
       {/* Centered Content Container */}
       <div className="max-w-5xl mx-auto px-4">

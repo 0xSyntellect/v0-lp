@@ -164,7 +164,7 @@ function BookingContent() {
   ];
 
   return (
-    <main className="min-h-screen py-10 bg-black text-[#BFA15B]">
+    <main className="min-h-screen py-10 bg-[#1F1F1F] text-[#BFA15B]">
       <div className="max-w-3xl mx-auto px-4">
         {/* Logo at the top */}
         <div className="flex justify-center mb-6">
@@ -174,8 +174,6 @@ function BookingContent() {
         {/* Progress Bar */}
         <div className="flex items-center justify-center mb-8">
           {steps.map(({ step, title }, index) => {
-            // Build circle classes dynamically so the active steps are gold + black text
-            // and the inactive steps are dark with gold text
             const circleClass = `rounded-full w-10 h-10 flex items-center justify-center font-bold ${
               currentStep >= step
                 ? "bg-[#BFA15B] text-black"
@@ -184,7 +182,7 @@ function BookingContent() {
 
             let circleContent;
             if (step === 1) {
-              // Link to "/" if they want to go back to step 1
+              // Link to "/" if they want to go back
               circleContent = (
                 <Link href="/" className="cursor-pointer">
                   <div className={circleClass}>{step}</div>
@@ -224,7 +222,7 @@ function BookingContent() {
         </div>
 
         {/* Booking Details Card */}
-        <div className="bg-[#1c1c1c] p-6 rounded-xl border border-[#BFA15B] mb-8">
+        <div className="bg-[#1F1F1F] p-6 rounded-xl border border-[#BFA15B] mb-8">
           <h2 className="text-xl font-semibold mb-4 text-center text-[#BFA15B]">
             Your Booking Details
           </h2>
@@ -261,7 +259,7 @@ function BookingContent() {
 
         {/* STEP 2 => Vehicle Selection */}
         {currentStep === 2 && (
-          <div className="bg-[#1c1c1c] p-6 rounded-xl border border-[#BFA15B] mb-8">
+          <div className="bg-[#1F1F1F] p-6 rounded-xl border border-[#BFA15B] mb-8">
             <h3 className="text-lg font-semibold mb-4 text-center text-[#BFA15B]">
               Choose Your Vehicle
             </h3>
@@ -339,7 +337,7 @@ function BookingContent() {
 
         {/* STEP 3 => Passenger & Contact Information */}
         {currentStep === 3 && (
-          <div className="bg-[#1c1c1c] p-6 rounded-xl border border-[#BFA15B] mb-8 text-center">
+          <div className="bg-[#1F1F1F] p-6 rounded-xl border border-[#BFA15B] mb-8 text-center">
             <h3 className="text-lg font-semibold mb-8 text-[#BFA15B]">
               Passenger & Contact Details
             </h3>
@@ -420,7 +418,7 @@ function BookingContent() {
                     )}
                   </button>
                   {open && (
-                    <div className="px-4 py-4 space-y-4">
+                    <div className="px-4 py-4 space-y-4 bg-[#1F1F1F]">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium mb-1">
@@ -505,7 +503,7 @@ function BookingContent() {
 
         {/* STEP 4 => Final Review & Confirmation */}
         {currentStep === 4 && (
-          <div className="bg-[#1c1c1c] p-6 rounded-xl border border-[#BFA15B] mb-8">
+          <div className="bg-[#1F1F1F] p-6 rounded-xl border border-[#BFA15B] mb-8">
             <h3 className="text-lg font-semibold mb-4 text-center text-[#BFA15B]">
               Review & Confirmation
             </h3>
@@ -581,7 +579,7 @@ export default function BookingPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-black text-[#BFA15B]">
+        <div className="min-h-screen flex items-center justify-center bg-[#1F1F1F] text-[#BFA15B]">
           Loading booking information...
         </div>
       }
