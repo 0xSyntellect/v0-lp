@@ -8,13 +8,13 @@ export default function ServicesSection() {
       icon: <Plane className="h-12 w-12 text-[#C2A36C]" />,
       title: "Airport Transfers",
       description: "Reliable transfers to and from Istanbul Airport (IST) and Sabiha Gökçen Airport (SAW)",
-      image: "/airport-transfer.jpg",
+      image: "/background.jpg",
     },
     {
       icon: <Car className="h-12 w-12 text-[#C2A36C]" />,
       title: "City Tours",
       description: "Explore Istanbul's historic sites and hidden gems with our professional drivers",
-      image: "/city-tour.jpg",
+      image: "/city tours.png",
     },
     {
       icon: <Clock className="h-12 w-12 text-[#C2A36C]" />,
