@@ -3,16 +3,22 @@ import { PhoneCall, Mail, MessageSquare } from "lucide-react"
 
 export default function CTASection() {
   return (
-    <section className="py-20 bg-primary text-white">
-      {/* Centered container with optional left alignment on large screens */}
+    /**
+     * NOTE:
+     * - The entire section is now gold (#BFA15B).
+     * - The text is now dark (#1F1F1F) to contrast the gold background.
+     * - Inside, the "quick inquiry" form is a black/dark background, with gold text & border
+     *   to maintain overall brand identity, while still standing out.
+     */
+    <section className="py-20 bg-[#BFA15B] text-[#1F1F1F]">
       <div className="max-w-5xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          {/* Left column text, centered on mobile, left-aligned on desktop */}
+          {/* Left column - contact info (black text because the BG is gold) */}
           <div className="text-center md:text-left">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
               Ready to Book Your Transfer?
             </h2>
-            <p className="text-lg text-white/90 mb-8">
+            <p className="text-lg mb-8">
               Contact us now to arrange your transportation in Istanbul.
               Our team is available 24/7 to assist you.
             </p>
@@ -32,8 +38,8 @@ export default function CTASection() {
             </div>
           </div>
 
-          {/* Quick Inquiry form */}
-          <div className="bg-white p-8 rounded-xl shadow-lg text-gray-900">
+          {/* Quick Inquiry form in a dark box with gold text & border */}
+          <div className="bg-[#1F1F1F] p-8 rounded-xl border border-[#BFA15B] text-[#BFA15B] shadow-lg">
             <h3 className="text-xl font-bold mb-6">Quick Inquiry</h3>
             <form className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -41,7 +47,7 @@ export default function CTASection() {
                   <label className="text-sm font-medium">Full Name</label>
                   <input
                     type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-2 bg-transparent border border-[#BFA15B] rounded-md placeholder-[#666666]"
                     placeholder="Your name"
                   />
                 </div>
@@ -49,14 +55,14 @@ export default function CTASection() {
                   <label className="text-sm font-medium">Email</label>
                   <input
                     type="email"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className="w-full px-3 py-2 bg-transparent border border-[#BFA15B] rounded-md placeholder-[#666666]"
                     placeholder="Your email"
                   />
                 </div>
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium">Service Type</label>
-                <select className="w-full px-3 py-2 border border-gray-300 rounded-md">
+                <select className="w-full px-3 py-2 bg-transparent border border-[#BFA15B] rounded-md">
                   <option>Airport Transfer</option>
                   <option>City Tour</option>
                   <option>Hourly Rental</option>
@@ -66,11 +72,13 @@ export default function CTASection() {
               <div className="space-y-2">
                 <label className="text-sm font-medium">Message</label>
                 <textarea
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md min-h-[100px]"
+                  className="w-full px-3 py-2 bg-transparent border border-[#BFA15B] rounded-md placeholder-[#666666] min-h-[100px]"
                   placeholder="Tell us about your transportation needs"
-                ></textarea>
+                />
               </div>
-              <Button className="w-full bg-primary hover:bg-primary/90 text-white">
+              <Button
+                className="w-full bg-transparent border border-[#BFA15B] text-[#BFA15B] hover:bg-[#BFA15B] hover:text-[#1F1F1F]"
+              >
                 Send Inquiry
               </Button>
             </form>
