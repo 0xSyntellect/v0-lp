@@ -1,4 +1,4 @@
-import { Car, Plane, Clock, Shield, Users, MapPin, ChevronRight } from "lucide-react"
+import { Car, Plane, Clock, MapPin, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 
