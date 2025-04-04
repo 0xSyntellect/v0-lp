@@ -113,43 +113,44 @@ export default function ServicesSection() {
         </div>
 
         {/* Additional Services */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-          <div className="bg-gray-50 rounded-2xl p-8 flex flex-col justify-between h-full">
-            <div>
-              <div className="mb-4 p-3 rounded-full bg-[#C2A36C]/10 w-fit">
-                <Users className="h-8 w-8 text-[#C2A36C]" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">Group Transfers</h3>
-              <p className="text-gray-600 mb-6">
-                Spacious vehicles for group travel, corporate events, and family vacations
-              </p>
-            </div>
-            <Button
-              variant="outline"
-              className="w-fit border-[#C2A36C] text-[#C2A36C] hover:bg-[#C2A36C] hover:text-white transition-all duration-300"
-            >
-              Learn More <ChevronRight className="ml-1 h-4 w-4" />
-            </Button>
-          </div>
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+  <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 flex flex-col justify-between h-full text-white shadow-md">
+    <div>
+      <div className="mb-4 p-3 rounded-full bg-[#C2A36C]/10 w-fit">
+        <Users className="h-8 w-8 text-[#C2A36C]" />
+      </div>
+      <h3 className="text-xl font-bold mb-2">Group Transfers</h3>
+      <p className="text-gray-300 mb-6">
+        Spacious vehicles for group travel, corporate events, and family vacations
+      </p>
+    </div>
+    <Button
+      variant="outline"
+      className="w-fit border-[#C2A36C] text-[#C2A36C] hover:bg-[#C2A36C] hover:text-white transition-all duration-300"
+    >
+      Learn More <ChevronRight className="ml-1 h-4 w-4" />
+    </Button>
+  </div>
 
-          <div className="bg-gray-50 rounded-2xl p-8 flex flex-col justify-between h-full">
-            <div>
-              <div className="mb-4 p-3 rounded-full bg-[#C2A36C]/10 w-fit">
-                <Shield className="h-8 w-8 text-[#C2A36C]" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">VIP Services</h3>
-              <p className="text-gray-600 mb-6">
-                Premium transportation with added security and privacy for VIP clients
-              </p>
-            </div>
-            <Button
-              variant="outline"
-              className="w-fit border-[#C2A36C] text-[#C2A36C] hover:bg-[#C2A36C] hover:text-white transition-all duration-300"
-            >
-              Learn More <ChevronRight className="ml-1 h-4 w-4" />
-            </Button>
-          </div>
-        </div>
+  <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 flex flex-col justify-between h-full text-white shadow-md">
+    <div>
+      <div className="mb-4 p-3 rounded-full bg-[#C2A36C]/10 w-fit">
+        <Shield className="h-8 w-8 text-[#C2A36C]" />
+      </div>
+      <h3 className="text-xl font-bold mb-2">VIP Services</h3>
+      <p className="text-gray-300 mb-6">
+        Premium transportation with added security and privacy for VIP clients
+      </p>
+    </div>
+    <Button
+      variant="outline"
+      className="w-fit border-[#C2A36C] text-[#C2A36C] hover:bg-[#C2A36C] hover:text-white transition-all duration-300"
+    >
+      Learn More <ChevronRight className="ml-1 h-4 w-4" />
+    </Button>
+  </div>
+</div> */}
+
       </div>
     </section>
   )

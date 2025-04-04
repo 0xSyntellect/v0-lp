@@ -10,20 +10,20 @@ export default function CTASection() {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <Image src="/istanbul-skyline.jpg" alt="Istanbul Skyline" fill className="object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1e40af]/90 to-[#1e40af]/70"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 to-black/70"></div>
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Text Content */}
           <div className="text-white">
-            <div className="inline-block px-4 py-1 mb-4 rounded-full bg-white/10">
-              <span className="text-white font-medium">Book Your Ride Today</span>
+            <div className="inline-block px-4 py-1 mb-4 rounded-full bg-[#C2A36C]/10">
+              <span className="text-[#C2A36C] font-medium">Book Your Ride Today</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
               Experience Premium Transportation in Istanbul
             </h2>
-            <p className="text-lg text-white/90 mb-8">
+            <p className="text-lg text-gray-300 mb-8">
               Whether you need an airport transfer, city tour, or hourly service, our professional team is ready to
               provide you with a comfortable and luxurious experience.
             </p>
@@ -76,56 +76,57 @@ export default function CTASection() {
           </div>
 
           {/* Right Column - Quick Inquiry Form */}
-          <div className="bg-white p-8 rounded-xl shadow-xl">
-            <h3 className="text-xl font-bold mb-6">Quick Inquiry</h3>
-            <form className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Full Name</label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C2A36C]/50"
-                    placeholder="Your name"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Email</label>
-                  <input
-                    type="email"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C2A36C]/50"
-                    placeholder="Your email"
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Phone Number</label>
-                <input
-                  type="tel"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C2A36C]/50"
-                  placeholder="Your phone number"
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Service Type</label>
-                <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C2A36C]/50">
-                  <option>Airport Transfer</option>
-                  <option>City Tour</option>
-                  <option>Hourly Rental</option>
-                  <option>Intercity Transfer</option>
-                </select>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Message</label>
-                <textarea
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[#C2A36C]/50"
-                  placeholder="Tell us about your transportation needs"
-                ></textarea>
-              </div>
-              <Button className="w-full bg-[#C2A36C] hover:bg-[#b1945e] text-black transition-all duration-300">
-                Send Inquiry
-              </Button>
-            </form>
-          </div>
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-8 rounded-xl shadow-xl text-white">
+  <h3 className="text-xl font-bold mb-6">Quick Inquiry</h3>
+  <form className="space-y-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-gray-300">Full Name</label>
+        <input
+          type="text"
+          className="w-full px-3 py-2 bg-white/10 border border-white/20 text-white placeholder:text-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C2A36C]/50"
+          placeholder="Your name"
+        />
+      </div>
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-gray-300">Email</label>
+        <input
+          type="email"
+          className="w-full px-3 py-2 bg-white/10 border border-white/20 text-white placeholder:text-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C2A36C]/50"
+          placeholder="Your email"
+        />
+      </div>
+    </div>
+    <div className="space-y-2">
+      <label className="text-sm font-medium text-gray-300">Phone Number</label>
+      <input
+        type="tel"
+        className="w-full px-3 py-2 bg-white/10 border border-white/20 text-white placeholder:text-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-[#C2A36C]/50"
+        placeholder="Your phone number"
+      />
+    </div>
+    <div className="space-y-2">
+      <label className="text-sm font-medium text-gray-300">Service Type</label>
+      <select className="w-full px-3 py-2 bg-white/10 border border-white/20 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#C2A36C]/50">
+        <option>Airport Transfer</option>
+        <option>City Tour</option>
+        <option>Hourly Rental</option>
+        <option>Intercity Transfer</option>
+      </select>
+    </div>
+    <div className="space-y-2">
+      <label className="text-sm font-medium text-gray-300">Message</label>
+      <textarea
+        className="w-full px-3 py-2 bg-white/10 border border-white/20 text-white placeholder:text-gray-400 rounded-md min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[#C2A36C]/50"
+        placeholder="Tell us about your transportation needs"
+      ></textarea>
+    </div>
+    <Button className="w-full bg-[#C2A36C] hover:bg-[#b1945e] text-black transition-all duration-300">
+      Send Inquiry
+    </Button>
+  </form>
+</div>
+
         </div>
       </div>
     </section>
