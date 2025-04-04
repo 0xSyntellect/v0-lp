@@ -40,7 +40,8 @@ export default function TestimonialsSection() {
               What Our Clients Say About Us
             </h2>
             <p className="text-lg text-gray-300 mb-8">
-              Don't just take our word for it. Read what our satisfied customers from around the world have to say about our premium transportation services.
+              Don&apos;t just take our word for it. Read what our satisfied customers from around the world have to say
+              about our premium transportation services.
             </p>
 
             {/* Featured Testimonial */}
@@ -55,7 +56,9 @@ export default function TestimonialsSection() {
                 ))}
               </div>
 
-              <p className="text-lg italic mb-6">"{testimonials[0].text}"</p>
+              <p className="text-lg italic mb-6">
+                &quot;{testimonials[0].text}&quot;
+              </p>
 
               <div className="flex items-center gap-4">
                 <div className="relative w-12 h-12 rounded-full overflow-hidden">
@@ -98,7 +101,9 @@ export default function TestimonialsSection() {
                       <Star key={i} className="h-5 w-5 text-yellow-400 fill-yellow-400" />
                     ))}
                   </div>
-                  <p className="italic text-gray-300 mb-6">"{testimonial.text}"</p>
+                  <p className="italic text-gray-300 mb-6">
+                    &quot;{testimonial.text}&quot;
+                  </p>
                   <div className="flex items-center gap-4">
                     <div className="relative w-12 h-12 rounded-full overflow-hidden">
                       <Image
