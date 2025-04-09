@@ -9,6 +9,12 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { CalendarIcon, MapPin, Minus, Plus, ChevronRight } from "lucide-react"
 import { format } from "date-fns"
 
+// Define a type for the suggestion items from Nominatim
+interface Suggestion {
+  display_name: string
+  // You can add more fields if needed
+}
+
 // Simple auto-complete input for free location suggestions via OpenStreetMap Nominatim
 function AutoCompleteInput({
   placeholder,
@@ -21,11 +27,11 @@ function AutoCompleteInput({
   onChange: (val: string) => void
   className?: string
 }) {
-  const [suggestions, setSuggestions] = useState<any[]>([])
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([])
   const [showSuggestions, setShowSuggestions] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // Fetch suggestions
+  // Fetch suggestions from Nominatim
   const fetchSuggestions = async (query: string) => {
     if (!query.trim()) {
       setSuggestions([])
@@ -38,10 +44,10 @@ function AutoCompleteInput({
         )}&addressdetails=1&limit=5`
       )
       if (!res.ok) return
-      const data = await res.json()
+      const data = (await res.json()) as Suggestion[]
       setSuggestions(data)
     } catch {
-      // Silently fail
+      // Silently fail on errors
     }
   }
 
