@@ -38,11 +38,7 @@ function AutoCompleteInput({
       return
     }
     try {
-      const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-          query
-        )}&addressdetails=1&limit=5`
-      )
+      const res = await fetch(`/api/nominatim?q=${encodeURIComponent(query)}`);
       if (!res.ok) return
       const data = (await res.json()) as Suggestion[]
       setSuggestions(data)
