@@ -1,34 +1,127 @@
 "use client"
 
+import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { CalendarIcon, MapPin, Minus, Plus, ChevronRight } from "lucide-react"
-import { useState } from "react"
 import { format } from "date-fns"
 
-export default function HeroSection() {
-  // State for tab switching
-  const [activeTab, setActiveTab] = useState("transfer")
+// Simple auto-complete input for free location suggestions via OpenStreetMap Nominatim
+function AutoCompleteInput({
+  placeholder,
+  value,
+  onChange,
+  className,
+}: {
+  placeholder: string
+  value: string
+  onChange: (val: string) => void
+  className?: string
+}) {
+  const [suggestions, setSuggestions] = useState<any[]>([])
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
 
-  // Form fields
+  // Fetch suggestions
+  const fetchSuggestions = async (query: string) => {
+    if (!query.trim()) {
+      setSuggestions([])
+      return
+    }
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+          query
+        )}&addressdetails=1&limit=5`
+      )
+      if (!res.ok) return
+      const data = await res.json()
+      setSuggestions(data)
+    } catch {
+      // Silently fail
+    }
+  }
+
+  // Click outside to close suggestions
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        setShowSuggestions(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
+
+  return (
+    <div ref={containerRef} className="relative">
+      <Input
+        placeholder={placeholder}
+        className={className}
+        value={value}
+        onChange={(e) => {
+          onChange(e.target.value)
+          fetchSuggestions(e.target.value)
+          setShowSuggestions(true)
+        }}
+        onFocus={() => setShowSuggestions(true)}
+      />
+      {showSuggestions && suggestions.length > 0 && (
+        <ul className="absolute left-0 right-0 bg-white border border-gray-200 mt-1 rounded shadow-md max-h-48 overflow-y-auto z-50">
+          {suggestions.map((item, i) => (
+            <li
+              key={i}
+              onClick={() => {
+                onChange(item.display_name)
+                setShowSuggestions(false)
+              }}
+              className="px-3 py-2 cursor-pointer hover:bg-gray-100 text-sm text-black"
+            >
+              {item.display_name}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+export default function HeroSection() {
+  const [activeTab, setActiveTab] = useState("transfer")
   const [transferFrom, setTransferFrom] = useState("Istanbul Airport (IST)")
   const [transferTo, setTransferTo] = useState("")
   const [date, setDate] = useState<Date | undefined>(new Date())
   const [time, setTime] = useState("15:00")
   const [passengers, setPassengers] = useState(1)
+  const [errorMessage, setErrorMessage] = useState("")
 
-  // Build date/time string
   const getDateTimeString = () => {
     if (!date) return ""
     const datePart = format(date, "yyyy-MM-dd")
     return `${datePart} ${time}`
   }
 
-  // Handle search action
   const handleSearchClick = () => {
+    if (activeTab === "transfer") {
+      if (!transferFrom.trim() || !transferTo.trim() || !date || !time.trim() || !passengers) {
+        setErrorMessage("Please fill in all required fields.")
+        return
+      }
+    } else if (activeTab === "hourly") {
+      if (!transferFrom.trim() || !date || !time.trim() || !passengers) {
+        setErrorMessage("Please fill in all required fields.")
+        return
+      }
+    }
+    setErrorMessage("")
     const dateTime = getDateTimeString()
     const toParam = activeTab === "hourly" ? "" : transferTo
     window.location.href = `/booking?from=${encodeURIComponent(
@@ -40,7 +133,6 @@ export default function HeroSection() {
 
   return (
     <section className="relative min-h-screen pt-16 overflow-hidden">
-      {/* Background Image + Overlay */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
@@ -51,10 +143,8 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
       </div>
 
-      {/* Hero Content */}
       <div className="relative z-10 container mx-auto px-4 pt-20 md:pt-24 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column - Text Content */}
           <div className="text-white max-w-xl">
             <div className="inline-block px-4 py-1 mb-6 rounded-full bg-[#C2A36C]/20 border border-[#C2A36C]/30">
               <span className="text-[#C2A36C] font-medium">Premium Transportation in Istanbul</span>
@@ -99,14 +189,17 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right Column - Booking Form */}
           <div
             id="booking-form"
             className="bg-white/10 backdrop-filter backdrop-blur-md rounded-xl shadow-2xl p-6 border border-white/20"
           >
             <h3 className="text-white text-xl font-semibold mb-6 text-center">Book Your Ride</h3>
+            {errorMessage && (
+              <div className="mb-4 text-red-500 text-center">
+                {errorMessage}
+              </div>
+            )}
 
-            {/* Redesigned Tabs */}
             <Tabs defaultValue="transfer" onValueChange={setActiveTab} className="mb-6">
               <TabsList className="w-full grid grid-cols-2 h-12 bg-white/10">
                 <TabsTrigger
@@ -123,18 +216,17 @@ export default function HeroSection() {
                 </TabsTrigger>
               </TabsList>
 
-              {/* Transfer Tab Content */}
               <TabsContent value="transfer" className="mt-6 space-y-6">
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <label className="text-white text-sm font-medium">From</label>
                     <div className="relative">
                       <MapPin className="absolute left-3 top-3 h-4 w-4 text-[#C2A36C]" />
-                      <Input
+                      <AutoCompleteInput
                         placeholder="Airport, Hotel or Address"
-                        className="pl-10 bg-white/10 text-white border border-white/20 placeholder-white/50 focus-visible:ring-[#C2A36C]/50"
                         value={transferFrom}
-                        onChange={(e) => setTransferFrom(e.target.value)}
+                        onChange={setTransferFrom}
+                        className="pl-10 bg-white/10 text-white border border-white/20 placeholder-white/50 focus-visible:ring-[#C2A36C]/50"
                       />
                     </div>
                   </div>
@@ -143,11 +235,11 @@ export default function HeroSection() {
                     <label className="text-white text-sm font-medium">To</label>
                     <div className="relative">
                       <MapPin className="absolute left-3 top-3 h-4 w-4 text-[#C2A36C]" />
-                      <Input
+                      <AutoCompleteInput
                         placeholder="Airport, Hotel or Address"
-                        className="pl-10 bg-white/10 text-white border border-white/20 placeholder-white/50 focus-visible:ring-[#C2A36C]/50"
                         value={transferTo}
-                        onChange={(e) => setTransferTo(e.target.value)}
+                        onChange={setTransferTo}
+                        className="pl-10 bg-white/10 text-white border border-white/20 placeholder-white/50 focus-visible:ring-[#C2A36C]/50"
                       />
                     </div>
                   </div>
@@ -170,7 +262,6 @@ export default function HeroSection() {
                         </PopoverContent>
                       </Popover>
                     </div>
-
                     <div className="space-y-2">
                       <label className="text-white text-sm font-medium">Time</label>
                       <Input
@@ -214,18 +305,17 @@ export default function HeroSection() {
                 </Button>
               </TabsContent>
 
-              {/* Hourly Tab Content */}
               <TabsContent value="hourly" className="mt-6 space-y-6">
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <label className="text-white text-sm font-medium">Pickup Location</label>
                     <div className="relative">
                       <MapPin className="absolute left-3 top-3 h-4 w-4 text-[#C2A36C]" />
-                      <Input
+                      <AutoCompleteInput
                         placeholder="Airport, Hotel or Address"
-                        className="pl-10 bg-white/10 text-white border border-white/20 placeholder-white/50 focus-visible:ring-[#C2A36C]/50"
                         value={transferFrom}
-                        onChange={(e) => setTransferFrom(e.target.value)}
+                        onChange={setTransferFrom}
+                        className="pl-10 bg-white/10 text-white border border-white/20 placeholder-white/50 focus-visible:ring-[#C2A36C]/50"
                       />
                     </div>
                   </div>
@@ -248,7 +338,6 @@ export default function HeroSection() {
                         </PopoverContent>
                       </Popover>
                     </div>
-
                     <div className="space-y-2">
                       <label className="text-white text-sm font-medium">Time</label>
                       <Input
@@ -296,7 +385,6 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Floating Features Bar */}
       <div className="absolute bottom-0 left-0 right-0 bg-white/10 backdrop-filter backdrop-blur-md border-t border-white/20 py-4 hidden lg:block">
         <div className="container mx-auto">
           <div className="grid grid-cols-4 gap-4">
@@ -317,4 +405,3 @@ export default function HeroSection() {
     </section>
   )
 }
-
