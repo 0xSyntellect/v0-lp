@@ -12,7 +12,7 @@ export default function FleetSection() {
   const fleetCategories = [
     { value: "minivan", label: "Minivan" },
     { value: "minibus", label: "Minibus" },
-    { value: "vip", label: "VIP" },
+    
   ]
 
   const fleetItems = {
@@ -43,17 +43,7 @@ export default function FleetSection() {
         features: ["WiFi", "Air Conditioning", "Professional Driver", "Large Luggage Space"],
         price: "$80",
       },
-    ],
-    vip: [
-      {
-        name: "Mercedes S-Class",
-        image: "/placeholder.svg?height=300&width=500",
-        passengers: 3,
-        luggage: 3,
-        features: ["WiFi", "Air Conditioning", "VIP Service", "Premium Refreshments"],
-        price: "$100",
-      },
-    ],
+    ]
   }
 
   return (
@@ -68,7 +58,7 @@ export default function FleetSection() {
         </div>
 
         <Tabs defaultValue="minivan" className="w-full">
-          <TabsList className="w-full max-w-md mx-auto grid grid-cols-3 mb-12 bg-[#C2A36C]/10 border border-[#C2A36C]/30 rounded-full shadow-sm">
+          <TabsList className="w-full max-w-md mx-auto grid grid-cols-2 mb-12 bg-[#C2A36C]/10 border border-[#C2A36C]/30 rounded-full shadow-sm">
             {fleetCategories.map((category) => (
               <TabsTrigger
                 key={category.value}
