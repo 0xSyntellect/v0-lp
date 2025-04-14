@@ -44,12 +44,12 @@ function AutoCompleteInput({
       setSuggestions([]);
       return;
     }
+    console.log("Fetching suggestions for:", val); // Log the input value
     try {
-      // *** Replaced the old /api/nominatim with /api/google-places ***
       const response = await fetch(`/api/google-places?q=${encodeURIComponent(val)}`);
       const data = await response.json();
-
-      // Google returns data.predictions
+      console.log("Received suggestions data:", data); // Log what is returned
+  
       if (data.predictions) {
         const parsed: Suggestion[] = data.predictions.map((pred: GooglePrediction) => ({
           description: pred.description,
@@ -64,6 +64,7 @@ function AutoCompleteInput({
       setSuggestions([]);
     }
   };
+  
 
   // Click outside to close suggestions
   useEffect(() => {
