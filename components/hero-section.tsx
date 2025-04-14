@@ -1,4 +1,5 @@
-"use client"
+"use client";
+console.log("AutoCompleteInput has mounted in production");
 
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
@@ -92,6 +93,7 @@ function AutoCompleteInput({
         className={className}
         value={value}
         onChange={(e) => {
+          console.log("Input changed:", e.target.value);
           onChange(e.target.value)
           fetchSuggestions(e.target.value)
           setShowSuggestions(true)
