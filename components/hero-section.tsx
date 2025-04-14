@@ -46,7 +46,9 @@ function AutoCompleteInput({
     }
     console.log("Fetching suggestions for:", val); // Log the input value
     try {
+      console.log("fetchSuggestions called with:", val);
       const response = await fetch(`/api/google-places?q=${encodeURIComponent(val)}`);
+      console.log("fetch response: ", response);
       const data = await response.json();
       console.log("Received suggestions data:", data); // Log what is returned
   
@@ -64,7 +66,7 @@ function AutoCompleteInput({
       setSuggestions([]);
     }
   };
-  
+  console.log("AutoCompleteInput component has mounted!");
 
   // Click outside to close suggestions
   useEffect(() => {
@@ -80,6 +82,7 @@ function AutoCompleteInput({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
     }
+    console.log("Running useEffect – all set?");
   }, [])
 
   return (
