@@ -32,20 +32,32 @@ function AutoCompleteInput({
   const containerRef = useRef<HTMLDivElement>(null)
 
   // Fetch suggestions from Nominatim
-  const fetchSuggestions = async (query: string) => {
-    if (!query.trim()) {
-      setSuggestions([])
-      return
+
+  const fetchSuggestions = async (val: string) => {
+    if (!val) {
+      setSuggestions([]);
+      return;
     }
     try {
-      const res = await fetch(`/api/nominatim?q=${encodeURIComponent(query)}`);
-      if (!res.ok) return
-      const data = (await res.json()) as Suggestion[]
-      setSuggestions(data)
-    } catch {
-      // Silently fail on errors
+      // *** Replaced the old /api/nominatim with /api/google-places ***
+      const response = await fetch(`/api/google-places?q=${encodeURIComponent(val)}`);
+      const data = await response.json();
+
+      // Google returns data.predictions
+      if (data.predictions) {
+        const parsed: Suggestion[] = data.predictions.map((pred: GooglePrediction) => ({
+          description: pred.description,
+          place_id: pred.place_id,
+        }));
+        setSuggestions(parsed);
+      } else {
+        setSuggestions([]);
+      }
+    } catch (error) {
+      console.error("Error fetching Google Places:", error);
+      setSuggestions([]);
     }
-  }
+  };
 
   // Click outside to close suggestions
   useEffect(() => {
