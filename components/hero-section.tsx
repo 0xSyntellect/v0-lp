@@ -9,6 +9,12 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { CalendarIcon, MapPin, Minus, Plus, ChevronRight } from "lucide-react"
 import { format } from "date-fns"
 
+// Define the GooglePrediction interface to type the predictions from the Google Places API
+interface GooglePrediction {
+  description: string;
+  place_id: string;
+}
+
 // Define a type for the suggestion items from Nominatim
 interface Suggestion {
   display_name: string
