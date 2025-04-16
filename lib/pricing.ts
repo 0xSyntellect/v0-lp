@@ -12,22 +12,31 @@ async function fetchDistanceKm(from: string, to: string): Promise<number> {
     return meters / 1000;
   }
   
-  /**
-   * Calculates price = ceil(distanceKm * rate)
-   */
-  function calculatePrice(km: number, rate: number): number {
-    return Math.ceil(km * rate);
+/**
+ * Calculates price = ceil(km * rate), then enforces a minimum fee.
+ * @param km      distance in kilometers
+ * @param rate    $ per km
+ * @param minFee  minimum total fee
+ */
+function calculatePrice(km: number, rate: number, minFee: number): number {
+    const raw = Math.ceil(km * rate);
+    return Math.max(raw, minFee);
   }
-  
-  /** $2/km for Minivan */
-  export async function getMinivanPrice(from: string, to: string): Promise<number> {
+  /** $2/km for Minivan, minimum $25 */
+export async function getMinivanPrice(
+    from: string,
+    to: string
+  ): Promise<number> {
     const km = await fetchDistanceKm(from, to);
-    return calculatePrice(km, 2);
+    return calculatePrice(km, 0.79, 25);  // minFee = 25
   }
   
-  /** $3/km for Sprinter */
-  export async function getSprinterPrice(from: string, to: string): Promise<number> {
+  /** $3/km for Sprinter, minimum $35 */
+  export async function getSprinterPrice(
+    from: string,
+    to: string
+  ): Promise<number> {
     const km = await fetchDistanceKm(from, to);
-    return calculatePrice(km, 3);
-  }
-  
+    return calculatePrice(km, 1.185, 35);  // minFee = 35
+
+}
