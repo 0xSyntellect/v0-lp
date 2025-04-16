@@ -323,7 +323,7 @@ function BookingContent() {
                 <p className="text-sm mb-1">Up to 6 passengers</p>
                 <p className="text-sm font-semibold mb-4">{dynamicPrice ? `$${dynamicPrice}` : "Calculating…"}</p>
                 <button
-                  onClick={() => handleSelectClick("Minivan", 40)}
+                  onClick={() => handleSelectClick("Minivan", dynamicPrice ?? 0)}
                   className={
                     paymentMethod
                       ? "px-4 py-2 rounded-md border border-[#BFA15B] text-[#BFA15B] bg-transparent hover:bg-[#BFA15B] hover:text-black transition-colors duration-300"
@@ -349,7 +349,7 @@ function BookingContent() {
                 <p className="text-sm mb-1">Up to 12 passengers</p>
                 <p className="text-sm font-semibold mb-4">${dynamicPrice ? `${dynamicPrice*15/10}` : "Calculating…"}</p>
                 <button
-                  onClick={() => handleSelectClick("Sprinter", 60)}
+                  onClick={() => handleSelectClick("Sprinter", dynamicPrice*15/10 ?? 0)}
                   className={
                     paymentMethod
                       ? "px-4 py-2 rounded-md border border-[#BFA15B] text-[#BFA15B] bg-transparent hover:bg-[#BFA15B] hover:text-black transition-colors duration-300"
