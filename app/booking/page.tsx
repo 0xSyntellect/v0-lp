@@ -62,31 +62,37 @@ function BookingContent() {
      (runs whenever locations or serviceType change)
   ───────────────────────────────────────────────────────────── */
   useEffect(() => {
-    if (serviceType !== "transfer" || !fromLocation || !toLocation) return;
-
-    async function calc() {
-      try {
-        // hit our existing proxy that already logs errors
-        const [rawFrom, rawTo] = await Promise.all([
-          fetch(`/api/google-places?q=${encodeURIComponent(fromLocation)}`).then(r => r.json()),
-          fetch(`/api/google-places?q=${encodeURIComponent(toLocation)}`).then(r => r.json()),
-        ]);
-
-        if (!rawFrom.length || !rawTo.length) return;
-
-        const distanceKm = getDistanceInKm(
-          parseFloat(rawFrom[0].lat), parseFloat(rawFrom[0].lon),
-          parseFloat(rawTo[0].lat),   parseFloat(rawTo[0].lon)
-        );
-
-        setDynamicPrice(Math.ceil(distanceKm * 2));       // always round up
-      } catch (err) {
-        console.error("Price calc failed:", err);
-      }
+    if (
+      serviceType !== "transfer" ||
+      !fromLocation.trim() ||
+      !toLocation.trim()
+    ) {
+      return;
     }
-
+  
+    const calc = async () => {
+      try {
+        // call your new API proxy
+        const res = await fetch(
+          `/api/distance?origins=${encodeURIComponent(fromLocation)}&destinations=${encodeURIComponent(toLocation)}`
+        );
+        const json = await res.json();
+  
+        // Distance Matrix returns meters
+        const meters = json.rows[0].elements[0].distance.value;
+        const km     = meters / 1000;
+        const price  = Math.ceil(km * 2); // $2/km
+  
+        console.log(`[Google] ${km.toFixed(1)} km → $${price}`);
+        setDynamicPrice(price);
+      } catch (err) {
+        console.error("Google Distance Matrix failed:", err);
+      }
+    };
+  
     calc();
   }, [fromLocation, toLocation, serviceType]);
+  
 
     /* ── helpers ──────────────────────────────────────────────── */
 
@@ -334,14 +340,14 @@ function BookingContent() {
                   <Image
                     src="/sprinter w background.jpg"
                     alt="Sprinter"
-                    className="object-cover mb-2"
-                    width={400}
-                    height={160}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-md"
                   />
                 </div>
                 <h4 className="text-base font-medium mb-1 mt-2">Sprinter</h4>
                 <p className="text-sm mb-1">Up to 12 passengers</p>
-                <p className="text-sm font-semibold mb-4">$60 / ride</p>
+                <p className="text-sm font-semibold mb-4">${dynamicPrice ? `${dynamicPrice*15/10}` : "Calculating…"}</p>
                 <button
                   onClick={() => handleSelectClick("Sprinter", 60)}
                   className={
