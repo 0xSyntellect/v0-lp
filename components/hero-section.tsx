@@ -122,8 +122,8 @@ function AutoCompleteInput({
 
 export default function HeroSection() {
   const [activeTab, setActiveTab] = useState("transfer")
-  const [transferFrom, setTransferFrom] = useState("Istanbul Airport (IST)")
-  const [transferTo, setTransferTo] = useState("")
+  const [transferFrom, setTransferFrom] = useState("Istanbul Airport (IST), Tayakadın, Terminal Caddesi, Arnavutköy/İstanbul, Türkiye")
+  const [transferTo, setTransferTo] = useState("Taksim Square, Kocatepe, Beyoğlu/İstanbul, Türkiye")
   const [date, setDate] = useState<Date | undefined>(new Date())
   const [time, setTime] = useState("15:00")
   const [passengers, setPassengers] = useState(1)

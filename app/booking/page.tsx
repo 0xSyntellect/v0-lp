@@ -3,8 +3,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { useState, Suspense } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { getDistanceInKm } from "@/lib/utils";
 
 type VehicleInfo = {
   name: string;
@@ -24,6 +25,9 @@ function BookingContent() {
 
   // Steps: 1 = Form, 2 = Vehicle, 3 = Passenger, 4 = Review
   const [currentStep, setCurrentStep] = useState(2);
+
+    /* ── dynamic price state ──────────────────────────────────── */
+  const [dynamicPrice, setDynamicPrice] = useState<number | null>(null);
 
   // Step 2: Vehicle selection
   const [selectedVehicle, setSelectedVehicle] = useState<VehicleInfo | null>(null);
@@ -52,6 +56,39 @@ function BookingContent() {
     phone: "",
     whatsapp: "",
   });
+
+    /* ────────────────────────────────────────────────────────────
+     1. CALCULATE DISTANCE  ➜  2. SET PRICE
+     (runs whenever locations or serviceType change)
+  ───────────────────────────────────────────────────────────── */
+  useEffect(() => {
+    if (serviceType !== "transfer" || !fromLocation || !toLocation) return;
+
+    async function calc() {
+      try {
+        // hit our existing proxy that already logs errors
+        const [rawFrom, rawTo] = await Promise.all([
+          fetch(`/api/google-places?q=${encodeURIComponent(fromLocation)}`).then(r => r.json()),
+          fetch(`/api/google-places?q=${encodeURIComponent(toLocation)}`).then(r => r.json()),
+        ]);
+
+        if (!rawFrom.length || !rawTo.length) return;
+
+        const distanceKm = getDistanceInKm(
+          parseFloat(rawFrom[0].lat), parseFloat(rawFrom[0].lon),
+          parseFloat(rawTo[0].lat),   parseFloat(rawTo[0].lon)
+        );
+
+        setDynamicPrice(Math.ceil(distanceKm * 2));       // always round up
+      } catch (err) {
+        console.error("Price calc failed:", err);
+      }
+    }
+
+    calc();
+  }, [fromLocation, toLocation, serviceType]);
+
+    /* ── helpers ──────────────────────────────────────────────── */
 
   // Step 2: Vehicle selection handler
   const selectVehicle = (vehicleName: string, vehiclePrice: number) => {
@@ -278,7 +315,7 @@ function BookingContent() {
                 </div>
                 <h4 className="text-base font-medium mb-1 mt-2">Minivan</h4>
                 <p className="text-sm mb-1">Up to 6 passengers</p>
-                <p className="text-sm font-semibold mb-4">$40 / ride</p>
+                <p className="text-sm font-semibold mb-4">{dynamicPrice ? `$${dynamicPrice}` : "Calculating…"}</p>
                 <button
                   onClick={() => handleSelectClick("Minivan", 40)}
                   className={
