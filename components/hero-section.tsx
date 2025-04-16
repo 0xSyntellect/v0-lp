@@ -55,11 +55,11 @@ function AutoCompleteInput({
   
       if (data.predictions) {
         const parsed: Suggestion[] = data.predictions.map((pred: GooglePrediction) => ({
-          description: pred.description,
-          place_id: pred.place_id,
+          display_name: pred.description, // Fixes rendering issue
         }));
         setSuggestions(parsed);
-      } else {
+      }
+       else {
         setSuggestions([]);
       }
     } catch (error) {
