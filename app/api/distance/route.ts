@@ -30,9 +30,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(data);
   } catch (err: any) {
     console.error("[API:/distance] exception:", err);
-    return NextResponse.json(
-      { error: err.message || "Unknown server error" },
-      { status: 500 },
-    );
-  }
+        const message = err instanceof Error ? err.message : String(err);
+        return NextResponse.json(
+            { error: message },
+            { status: 500 },
+        );
 }
