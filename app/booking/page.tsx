@@ -31,8 +31,7 @@ function BookingContent() {
   // Steps: 1 = Form, 2 = Vehicle, 3 = Passenger, 4 = Review
   const [currentStep, setCurrentStep] = useState(2);
 
-    /* ── dynamic price state ──────────────────────────────────── */
-  const [dynamicPrice, setDynamicPrice] = useState<number | null>(null);
+
 
   // Step 2: Vehicle selection
   const [selectedVehicle, setSelectedVehicle] = useState<VehicleInfo | null>(null);
