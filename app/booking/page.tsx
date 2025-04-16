@@ -5,7 +5,9 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { getDistanceInKm } from "@/lib/utils";
+// at top of app/booking/page.tsx
+import { getMinivanPrice, getSprinterPrice } from "@/lib/pricing";
+
 
 type VehicleInfo = {
   name: string;
@@ -14,6 +16,9 @@ type VehicleInfo = {
 
 function BookingContent() {
   const searchParams = useSearchParams();
+
+  const [minivanPrice,  setMinivanPrice]  = useState<number | null>(null);
+  const [sprinterPrice, setSprinterPrice] = useState<number | null>(null);
 
   // Read query parameters including serviceType
   const fromLocation = searchParams.get("from") || "";
@@ -62,35 +67,21 @@ function BookingContent() {
      (runs whenever locations or serviceType change)
   ───────────────────────────────────────────────────────────── */
   useEffect(() => {
-    if (
-      serviceType !== "transfer" ||
-      !fromLocation.trim() ||
-      !toLocation.trim()
-    ) {
-      return;
-    }
-  
-    const calc = async () => {
+    if (serviceType !== "transfer" || !fromLocation || !toLocation) return;
+
+    (async () => {
       try {
-        // call your new API proxy
-        const res = await fetch(
-          `/api/distance?origins=${encodeURIComponent(fromLocation)}&destinations=${encodeURIComponent(toLocation)}`
-        );
-        const json = await res.json();
-  
-        // Distance Matrix returns meters
-        const meters = json.rows[0].elements[0].distance.value;
-        const km     = meters / 1000;
-        const price  = Math.ceil(km * 2); // $2/km
-  
-        console.log(`[Google] ${km.toFixed(1)} km → $${price}`);
-        setDynamicPrice(price);
-      } catch (err) {
-        console.error("Google Distance Matrix failed:", err);
+        const [mv, sp] = await Promise.all([
+          getMinivanPrice(fromLocation, toLocation),
+          getSprinterPrice(fromLocation, toLocation),
+        ]);
+        console.log(`Prices → minivan: $${mv}, sprinter: $${sp}`);
+        setMinivanPrice(mv);
+        setSprinterPrice(sp);
+      } catch (e) {
+        console.error("pricing failed:", e);
       }
-    };
-  
-    calc();
+    })();
   }, [fromLocation, toLocation, serviceType]);
   
 
@@ -321,9 +312,9 @@ function BookingContent() {
                 </div>
                 <h4 className="text-base font-medium mb-1 mt-2">Minivan</h4>
                 <p className="text-sm mb-1">Up to 6 passengers</p>
-                <p className="text-sm font-semibold mb-4">{dynamicPrice ? `$${dynamicPrice}` : "Calculating…"}</p>
+                <p className="text-sm font-semibold mb-4">{minivanPrice != null ? `$${minivanPrice}` : "Calculating…"}</p>
                 <button
-                  onClick={() => handleSelectClick("Minivan", dynamicPrice ?? 0)}
+                  onClick={() => handleSelectClick("Minivan", minivanPrice ?? 0)}
                   className={
                     paymentMethod
                       ? "px-4 py-2 rounded-md border border-[#BFA15B] text-[#BFA15B] bg-transparent hover:bg-[#BFA15B] hover:text-black transition-colors duration-300"
@@ -347,9 +338,9 @@ function BookingContent() {
                 </div>
                 <h4 className="text-base font-medium mb-1 mt-2">Sprinter</h4>
                 <p className="text-sm mb-1">Up to 12 passengers</p>
-                <p className="text-sm font-semibold mb-4">${dynamicPrice ? `${dynamicPrice*15/10}` : "Calculating…"}</p>
+                <p className="text-sm font-semibold mb-4">{sprinterPrice != null ? `$${sprinterPrice}` : "Calculating…"}</p>
                 <button
-                  onClick={() => handleSelectClick("Sprinter", dynamicPrice*15/10 ?? 0)}
+                  onClick={() => handleSelectClick("Sprinter", sprinterPrice ?? 0)}
                   className={
                     paymentMethod
                       ? "px-4 py-2 rounded-md border border-[#BFA15B] text-[#BFA15B] bg-transparent hover:bg-[#BFA15B] hover:text-black transition-colors duration-300"
