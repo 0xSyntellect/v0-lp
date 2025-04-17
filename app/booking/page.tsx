@@ -31,7 +31,8 @@ function BookingContent() {
   // Steps: 1 = Form, 2 = Vehicle, 3 = Passenger, 4 = Review
   const [currentStep, setCurrentStep] = useState(2);
 
-
+   // Compute hourly price
+   const hourlyPrice = passengersCount * 25;
 
   // Step 2: Vehicle selection
   const [selectedVehicle, setSelectedVehicle] = useState<VehicleInfo | null>(null);
@@ -311,9 +312,11 @@ function BookingContent() {
                 </div>
                 <h4 className="text-base font-medium mb-1 mt-2">Minivan</h4>
                 <p className="text-sm mb-1">Up to 6 passengers</p>
-                <p className="text-sm font-semibold mb-4">{minivanPrice != null ? `$${minivanPrice}` : "Calculating…"}</p>
+                <p className="text-sm font-semibold mb-4">{serviceType === "transfer"
+                  ? (minivanPrice != null ? `$${minivanPrice}` : "Calculating…")
+                  : `$${hourlyPrice}`}</p>
                 <button
-                  onClick={() => handleSelectClick("Minivan", minivanPrice ?? 0)}
+                  onClick={() => handleSelectClick("Minivan", serviceType === "transfer" ? (minivanPrice ?? 0) : hourlyPrice)}
                   className={
                     paymentMethod
                       ? "px-4 py-2 rounded-md border border-[#BFA15B] text-[#BFA15B] bg-transparent hover:bg-[#BFA15B] hover:text-black transition-colors duration-300"
@@ -337,7 +340,9 @@ function BookingContent() {
                 </div>
                 <h4 className="text-base font-medium mb-1 mt-2">Sprinter</h4>
                 <p className="text-sm mb-1">Up to 12 passengers</p>
-                <p className="text-sm font-semibold mb-4">{sprinterPrice != null ? `$${sprinterPrice}` : "Calculating…"}</p>
+                <p className="text-sm font-semibold mb-4">{serviceType === "transfer"
+                  ? (sprinterPrice != null ? `$${sprinterPrice}` : "Calculating…")
+                  : `$${hourlyPrice}`}</p>
                 <button
                   onClick={() => handleSelectClick("Sprinter", sprinterPrice ?? 0)}
                   className={

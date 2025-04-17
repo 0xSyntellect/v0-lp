@@ -45,13 +45,13 @@ function AutoCompleteInput({
       setSuggestions([]);
       return;
     }
-    console.log("Fetching suggestions for:", val); // Log the input value
+    
     try {
-      console.log("fetchSuggestions called with:", val);
+      
       const response = await fetch(`/api/google-places?q=${encodeURIComponent(val)}`);
-      console.log("fetch response: ", response);
+      
       const data = await response.json();
-      console.log("Received suggestions data:", data); // Log what is returned
+      
   
       if (data.predictions) {
         const parsed: Suggestion[] = data.predictions.map((pred: GooglePrediction) => ({
@@ -126,7 +126,7 @@ export default function HeroSection() {
   const [transferTo, setTransferTo] = useState("Taksim Square, Kocatepe, Beyoğlu/İstanbul, Türkiye")
   const [date, setDate] = useState<Date | undefined>(new Date())
   const [time, setTime] = useState("15:00")
-  const [passengers, setPassengers] = useState(1)
+  const [passengers, setPassengers] = useState(4)
   const [errorMessage, setErrorMessage] = useState("")
 
   const getDateTimeString = () => {
@@ -378,21 +378,21 @@ export default function HeroSection() {
                   <div className="space-y-2">
                     <label className="text-white text-sm font-medium">Hours</label>
                     <div className="flex items-center border border-white/20 rounded-md bg-white/10">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="rounded-r-none h-10 text-white"
-                        onClick={() => setPassengers(Math.max(1, passengers - 1))}
-                      >
+                    <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setPassengers(Math.max(4, passengers - 1))}  // min 4
+                    className="rounded-r-none h-10 text-white"
+                  >
                         <Minus className="h-4 w-4" />
                       </Button>
                       <div className="flex-1 text-center font-medium text-white">{passengers}</div>
                       <Button
-                        variant="ghost"
-                        size="icon"
-                        className="rounded-l-none h-10 text-white"
-                        onClick={() => setPassengers(Math.min(10, passengers + 1))}
-                      >
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setPassengers(Math.min(8, passengers + 1))}  // max 8
+                    className="rounded-l-none h-10 text-white"
+                  >
                         <Plus className="h-4 w-4" />
                       </Button>
                     </div>
