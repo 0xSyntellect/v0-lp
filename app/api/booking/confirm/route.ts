@@ -29,13 +29,14 @@ Vehicle: ${
 Passenger Details:
 ${bookingData.passengerDetails
   .map(
-    (p: { firstName: string; lastName: string; passportNumber: string; origin: string },
+    (p: { firstName: string; lastName: string; passportNumber: string; origin: string; flightNumber: string;  },
       i: number
     ) => `Passenger ${i + 1}:
   First Name: ${p.firstName}
   Last Name: ${p.lastName}
   Passport Number: ${p.passportNumber}
-  Origin: ${p.origin}`
+  Origin: ${p.origin}
+  Flight Number: ${p.flightNumber}`
   )
   .join("\n\n")}
 

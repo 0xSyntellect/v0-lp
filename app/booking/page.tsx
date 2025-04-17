@@ -46,6 +46,7 @@ function BookingContent() {
       lastName: "",
       passportNumber: "",
       origin: "",
+      flightNumber: "",
     }))
   );
 
@@ -114,7 +115,7 @@ function BookingContent() {
   // Handle typed passenger fields
   const handlePassengerChange = (
     index: number,
-    field: "firstName" | "lastName" | "passportNumber" | "origin",
+    field: "firstName" | "lastName" | "passportNumber" | "origin" | "flightNumber",
     value: string
   ) => {
     setPassengerDetails((prev) => {
@@ -134,19 +135,23 @@ function BookingContent() {
     ) {
       return false;
     }
-    // Passenger fields
+  
+    // Passenger fields (including flightNumber)
     for (const p of passengerDetails) {
       if (
         !p.firstName.trim() ||
         !p.lastName.trim() ||
         !p.passportNumber.trim() ||
-        !p.origin.trim()
+        !p.origin.trim() ||
+        !p.flightNumber.trim()    // <- make sure this matches `p` exactly
       ) {
         return false;
       }
     }
+  
     return true;
   }
+  
 
   // Step 3 => Step 4
   const confirmPassengerDetails = () => {
@@ -522,6 +527,20 @@ function BookingContent() {
                             }
                           />
                         </div>
+                        + <div>
+                            <label className="block text-sm font-medium mb-1">
+                              Flight Number
+                            </label>
+                            <input
+                              type="text"
+                              className="w-full px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
+                              placeholder="e.g. TK2021"
+                              value={passenger.flightNumber}
+                              onChange={(e) =>
+                                handlePassengerChange(i, "flightNumber", e.target.value)
+                              }
+                            />
+                          + </div>
                       </div>
                     </div>
                   )}
@@ -570,6 +589,9 @@ function BookingContent() {
                 </p>
                 <p>
                   <strong>Origin:</strong> {p.origin}
+                </p>
+                <p>
+                <strong>Flight Number:</strong> {p.flightNumber}
                 </p>
               </div>
             ))}
