@@ -5,8 +5,8 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-// at top of app/booking/page.tsx
 import { getMinivanPrice, getSprinterPrice } from "@/lib/pricing";
+import { calculateHourlyPrice } from "@/lib/hourlyPricing";
 
 
 type VehicleInfo = {
@@ -32,7 +32,9 @@ function BookingContent() {
   const [currentStep, setCurrentStep] = useState(2);
 
    // Compute hourly price
-   const hourlyPrice = passengersCount * 25;
+     // Hourly prices (separate rates)
+  const hourlyPriceMinivan = calculateHourlyPrice("minivan", passengersCount);
+  const hourlyPriceSprinter = calculateHourlyPrice("sprinter", passengersCount);
 
   // Step 2: Vehicle selection
   const [selectedVehicle, setSelectedVehicle] = useState<VehicleInfo | null>(null);
@@ -314,9 +316,9 @@ function BookingContent() {
                 <p className="text-sm mb-1">Up to 6 passengers</p>
                 <p className="text-sm font-semibold mb-4">{serviceType === "transfer"
                   ? (minivanPrice != null ? `$${minivanPrice}` : "Calculating…")
-                  : `$${hourlyPrice}`}</p>
+                  : `$${hourlyPriceMinivan}`}</p>
                 <button
-                  onClick={() => handleSelectClick("Minivan", serviceType === "transfer" ? (minivanPrice ?? 0) : hourlyPrice)}
+                  onClick={() => handleSelectClick("Minivan", serviceType === "transfer" ? (minivanPrice ?? 0) : hourlyPriceMinivan)}
                   className={
                     paymentMethod
                       ? "px-4 py-2 rounded-md border border-[#BFA15B] text-[#BFA15B] bg-transparent hover:bg-[#BFA15B] hover:text-black transition-colors duration-300"
@@ -342,9 +344,9 @@ function BookingContent() {
                 <p className="text-sm mb-1">Up to 12 passengers</p>
                 <p className="text-sm font-semibold mb-4">{serviceType === "transfer"
                   ? (sprinterPrice != null ? `$${sprinterPrice}` : "Calculating…")
-                  : `$${hourlyPrice}`}</p>
+                  : `$${hourlyPriceSprinter}`}</p>
                 <button
-                  onClick={() => handleSelectClick("Sprinter", sprinterPrice ?? 0)}
+                  onClick={() => handleSelectClick("Sprinter", serviceType === "transfer" ? (sprinterPrice ?? 0) : hourlyPriceSprinter)}
                   className={
                     paymentMethod
                       ? "px-4 py-2 rounded-md border border-[#BFA15B] text-[#BFA15B] bg-transparent hover:bg-[#BFA15B] hover:text-black transition-colors duration-300"
