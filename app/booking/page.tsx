@@ -65,6 +65,7 @@ function BookingContent() {
     email: "",
     phone: "",
     whatsapp: "",
+    notes:"",
   });
 
     /* ────────────────────────────────────────────────────────────
@@ -453,6 +454,19 @@ function BookingContent() {
                     }
                   />
                 </div>
+                {/* New Notes Field */}
+              <div>
+                <label className="block text-sm font-medium mb-1">Notes</label>
+                <textarea
+                  className="w-64 px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666] resize-none"
+                  placeholder="Any special requests or notes"
+                  rows={3}
+                  value={contactInfo.notes}
+                  onChange={(e) =>
+                    setContactInfo({ ...contactInfo, notes: e.target.value })
+                  }
+                />
+              </div>
               </div>
             </div>
 
