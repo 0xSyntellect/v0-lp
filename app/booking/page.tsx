@@ -317,8 +317,23 @@ function BookingContent() {
 
         {/* STEP 2 => Vehicle Selection */}
         {currentStep === 2 && (
-          <div className="bg-[#1F1F1F] p-6 rounded-xl border border-[#BFA15B] mb-8">
-            <h3 className="text-lg font-semibold mb-4 text-center text-[#BFA15B]">
+          <div className="bg-[#1F1F1F] p-4 rounded-xl border border-[#BFA15B] mb-8">
+                        <div className="mt-6">
+              <label className="block text-lg font-semibold mb-2 text-center">
+                Payment Method
+              </label>
+              <select
+                className="w-full px-4 py-3 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] text-center"
+                value={paymentMethod}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              >
+                <option value="">Choose Payment Method</option>
+                <option value="credit-card">Credit Card</option>
+                <option value="cash">Cash</option>
+              </select>
+            </div>
+
+            <h3 className="p-5 text-lg font-semibold mb-4 text-center text-[#BFA15B]">
               Choose Your Vehicle
             </h3>
 
@@ -380,20 +395,7 @@ function BookingContent() {
               </div>
             </div>
 
-            <div className="mt-6">
-              <label className="block text-sm font-medium mb-2 text-center">
-                Payment Method
-              </label>
-              <select
-                className="w-full px-4 py-3 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] text-center"
-                value={paymentMethod}
-                onChange={(e) => setPaymentMethod(e.target.value)}
-              >
-                <option value="">Choose Payment Method</option>
-                <option value="credit-card">Credit Card</option>
-                <option value="cash">Cash</option>
-              </select>
-            </div>
+
           </div>
         )}
 
