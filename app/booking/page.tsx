@@ -65,6 +65,7 @@ function BookingContent() {
     email: "",
     phone: "",
     whatsapp: "",
+    flightNumber: "",
     notes:"",
   });
 
@@ -467,6 +468,19 @@ function BookingContent() {
                   }
                 />
               </div>
+              {/* Flight Number */}
+              <div>
+                <label className="block text-sm font-medium mb-1">Flight Number</label>
+                <input
+                  type="text"
+                  className="w-64 px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
+                  placeholder="e.g. TK2021"
+                  value={contactInfo.flightNumber}
+                  onChange={e =>
+                    setContactInfo({ ...contactInfo, flightNumber: e.target.value })
+                  }
+                />
+              </div>
               </div>
             </div>
 
@@ -556,20 +570,7 @@ function BookingContent() {
                             }
                           />
                         </div>
-                        + <div>
-                            <label className="block text-sm font-medium mb-1">
-                              Flight Number
-                            </label>
-                            <input
-                              type="text"
-                              className="w-full px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
-                              placeholder="e.g. TK2021"
-                              value={passenger.flightNumber}
-                              onChange={(e) =>
-                                handlePassengerChange(i, "flightNumber", e.target.value)
-                              }
-                            />
-                          + </div>
+
                       </div>
                     </div>
                   )}
