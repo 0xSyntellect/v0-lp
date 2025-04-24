@@ -7,6 +7,8 @@ import { useEffect, useState, Suspense } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { getMinivanPrice, getSprinterPrice } from "@/lib/pricing";
 import { calculateHourlyPrice } from "@/lib/hourlyPricing";
+import { Check } from 'lucide-react';
+import { motion } from 'framer-motion'
 
 
 type VehicleInfo = {
@@ -263,40 +265,53 @@ function BookingContent() {
         </div>
 
         {/* Booking Details Card */}
-        <div className="bg-[#1F1F1F] p-6 rounded-xl border border-[#BFA15B] mb-8">
-          <h2 className="text-xl font-semibold mb-4 text-center text-[#BFA15B]">
-            Your Booking Details
-          </h2>
-          <div className="mb-2 text-center text-[#BFA15B]">
-            <p>
-              <strong>From:</strong> {fromLocation}
-            </p>
-            {serviceType === "transfer" ? (
-              <p>
-                <strong>To:</strong> {toLocation}
-              </p>
-            ) : (
-              <p>
-                <strong>Hours:</strong> {passengersCount}
-              </p>
-            )}
-            <p>
-              <strong>Date/Time:</strong> {dateTime}
-            </p>
-            <p>
-              <strong>Service:</strong>{" "}
-              {serviceType === "transfer"
-                ? "Istanbul Transfer"
-                : "Hourly Rental"}
-            </p>
-            {selectedVehicle && (
-              <p>
-                <strong>Vehicle:</strong> {selectedVehicle.name} — $
-                {selectedVehicle.price}
-              </p>
-            )}
-          </div>
-        </div>
+        <motion.div
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.5, ease: 'easeOut' }}
+  className="bg-[#1F1F1F] p-6 rounded-xl border border-[#BFA15B] mb-8"
+>
+  <h2 className="text-xl font-semibold mb-4 text-center text-[#BFA15B]">
+    Your Booking Details
+  </h2>
+  <div className="mb-2 text-[#BFA15B] space-y-2">
+    <div className="flex justify-between items-center">
+      <span><strong>From:</strong> {fromLocation}</span>
+      <Check className="w-5 h-5 text-green-500" />
+    </div>
+    {serviceType === 'transfer' ? (
+      <div className="flex justify-between items-center">
+        <span><strong>To:</strong> {toLocation}</span>
+        <Check className="w-5 h-5 text-green-500" />
+      </div>
+    ) : (
+      <div className="flex justify-between items-center">
+        <span><strong>Hours:</strong> {passengersCount}</span>
+        <Check className="w-5 h-5 text-green-500" />
+      </div>
+    )}
+    <div className="flex justify-between items-center">
+      <span><strong>Date/Time:</strong> {dateTime}</span>
+      <Check className="w-5 h-5 text-green-500" />
+    </div>
+    <div className="flex justify-between items-center">
+      <span>
+        <strong>Service:</strong>{' '}
+        {serviceType === 'transfer' ? 'Istanbul Transfer' : 'Hourly Rental'}
+      </span>
+      <Check className="w-5 h-5 text-green-500" />
+    </div>
+    {selectedVehicle && (
+      <div className="flex justify-between items-center">
+        <span>
+          <strong>Vehicle:</strong> {selectedVehicle.name} — $
+          {selectedVehicle.price}
+        </span>
+        <Check className="w-5 h-5 text-green-500" />
+      </div>
+    )}
+  </div>
+</motion.div>
 
         {/* STEP 2 => Vehicle Selection */}
         {currentStep === 2 && (
@@ -310,7 +325,7 @@ function BookingContent() {
               <div className="p-4 border border-[#BFA15B] rounded-md text-center bg-transparent">
                 <div className="relative w-[300px] h-[160px] mx-auto">
                   <Image
-                    src="/minivan.jpeg"
+                    src="/minivan.png"
                     alt="Minivan"
                     layout="fill"
                     objectFit="cover"
@@ -338,7 +353,7 @@ function BookingContent() {
               <div className="p-4 border border-[#BFA15B] rounded-md text-center bg-transparent">
                 <div className="relative w-[300px] h-[160px] mx-auto">
                   <Image
-                    src="/sprinter w background.jpg"
+                    src="/sprinter new.png"
                     alt="Sprinter"
                     layout="fill"
                     objectFit="cover"
