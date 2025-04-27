@@ -48,7 +48,6 @@ function BookingContent() {
       lastName: "",
       passportNumber: "",
       origin: "",
-      flightNumber: "",
     }))
   );
 
@@ -119,7 +118,7 @@ function BookingContent() {
   // Handle typed passenger fields
   const handlePassengerChange = (
     index: number,
-    field: "firstName" | "lastName" | "passportNumber" | "origin" | "flightNumber",
+    field: "firstName" | "lastName" | "passportNumber" | "origin",
     value: string
   ) => {
     setPassengerDetails((prev) => {
@@ -146,8 +145,7 @@ function BookingContent() {
         !p.firstName.trim() ||
         !p.lastName.trim() ||
         !p.passportNumber.trim() ||
-        !p.origin.trim() ||
-        !p.flightNumber.trim()    // <- make sure this matches `p` exactly
+        !p.origin.trim()
       ) {
         return false;
       }
