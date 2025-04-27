@@ -399,200 +399,124 @@ function BookingContent() {
 
         {/* STEP 3 => Passenger & Contact Information */}
         {currentStep === 3 && (
-          <div className="bg-[#1F1F1F] p-6 rounded-xl border border-[#BFA15B] mb-8 text-center">
-            <h3 className="text-lg font-semibold mb-8 text-[#BFA15B]">
-              Passenger & Contact Details
-            </h3>
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }}
+    className="bg-[#1F1F1F] p-8 rounded-2xl border border-[#BFA15B]/60 shadow-lg backdrop-blur-sm mb-12"
+  >
+    <h3 className="text-2xl font-semibold text-center mb-6 tracking-wide text-[#BFA15B]">
+      Passenger & Contact Details
+    </h3>
 
-            {/* Contact Information Form */}
-            <div className="mb-6 p-4 border border-[#BFA15B] rounded-md inline-block text-left">
-              <h4 className="font-medium mb-4 text-center text-[#BFA15B]">
-                Contact Information
-              </h4>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="w-64 px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
-                    placeholder="Enter your email"
-                    value={contactInfo.email}
-                    onChange={(e) =>
-                      setContactInfo({ ...contactInfo, email: e.target.value })
-                    }
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    className="w-64 px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
-                    placeholder="Enter your phone number"
-                    value={contactInfo.phone}
-                    onChange={(e) =>
-                      setContactInfo({ ...contactInfo, phone: e.target.value })
-                    }
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    WhatsApp
-                  </label>
-                  <input
-                    type="text"
-                    className="w-64 px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
-                    placeholder="Enter your WhatsApp number"
-                    value={contactInfo.whatsapp}
-                    onChange={(e) =>
-                      setContactInfo({
-                        ...contactInfo,
-                        whatsapp: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                {/* New Notes Field */}
-              <div>
-                <label className="block text-sm font-medium mb-1">Notes</label>
-                <textarea
-                  className="w-64 px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666] resize-none"
-                  placeholder="Any special requests or notes"
-                  rows={3}
-                  value={contactInfo.notes}
-                  onChange={(e) =>
-                    setContactInfo({ ...contactInfo, notes: e.target.value })
-                  }
-                />
-              </div>
-              {/* Flight Number */}
-              <div>
-                <label className="block text-sm font-medium mb-1">Flight Number</label>
-                <input
-                  type="text"
-                  className="w-64 px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
-                  placeholder="e.g. TK2021"
-                  value={contactInfo.flightNumber}
-                  onChange={e =>
-                    setContactInfo({ ...contactInfo, flightNumber: e.target.value })
-                  }
-                />
-              </div>
-              </div>
-            </div>
+    <div className="grid gap-6 md:grid-cols-2">
+      {/* CONTACT COLUMN */}
+      <div className="space-y-4">
+        <h4 className="font-medium text-[#BFA15B] mb-4">Contact Information</h4>
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full px-3 py-2 border rounded-md bg-transparent"
+          value={contactInfo.email}
+          onChange={(e) => setContactInfo({ ...contactInfo, email: e.target.value })}
+        />
+        <input
+          type="tel"
+          placeholder="Phone Number"
+          className="w-full px-3 py-2 border rounded-md bg-transparent"
+          value={contactInfo.phone}
+          onChange={(e) => setContactInfo({ ...contactInfo, phone: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="WhatsApp"
+          className="w-full px-3 py-2 border rounded-md bg-transparent"
+          value={contactInfo.whatsapp}
+          onChange={(e) => setContactInfo({ ...contactInfo, whatsapp: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="Flight Number"
+          className="w-full px-3 py-2 border rounded-md bg-transparent"
+          value={contactInfo.flightNumber}
+          onChange={(e) => setContactInfo({ ...contactInfo, flightNumber: e.target.value })}
+        />
+        <textarea
+          rows={3}
+          placeholder="Notes"
+          className="w-full px-3 py-2 border rounded-md bg-transparent resize-none"
+          value={contactInfo.notes}
+          onChange={(e) => setContactInfo({ ...contactInfo, notes: e.target.value })}
+        />
+      </div>
 
-            {/* Passenger Details */}
-            <h4 className="font-medium mb-4 text-[#BFA15B]">Passenger Details</h4>
-            {passengerDetails.map((passenger, i) => {
-              const open = isAccordionOpen[i];
-              return (
-                <div
-                  key={i}
-                  className="border border-[#BFA15B] rounded-md mb-4 inline-block text-left w-full max-w-md"
-                >
-                  <button
-                    type="button"
-                    className="w-full flex justify-between items-center px-4 py-3 bg-[#333333] hover:bg-[#444444] text-[#BFA15B]"
-                    onClick={() => toggleAccordion(i)}
-                  >
-                    <span className="font-medium">Passenger #{i + 1}</span>
-                    {open ? (
-                      <ChevronUp className="h-5 w-5" />
-                    ) : (
-                      <ChevronDown className="h-5 w-5" />
-                    )}
-                  </button>
-                  {open && (
-                    <div className="px-4 py-4 space-y-4 bg-[#1F1F1F]">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium mb-1">
-                            First Name
-                          </label>
-                          <input
-                            type="text"
-                            className="w-full px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
-                            placeholder="First name"
-                            value={passenger.firstName}
-                            onChange={(e) =>
-                              handlePassengerChange(i, "firstName", e.target.value)
-                            }
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium mb-1">
-                            Last Name
-                          </label>
-                          <input
-                            type="text"
-                            className="w-full px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
-                            placeholder="Last name"
-                            value={passenger.lastName}
-                            onChange={(e) =>
-                              handlePassengerChange(i, "lastName", e.target.value)
-                            }
-                          />
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium mb-1">
-                            Passport Number
-                          </label>
-                          <input
-                            type="text"
-                            className="w-full px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
-                            placeholder="Passport number"
-                            value={passenger.passportNumber}
-                            onChange={(e) =>
-                              handlePassengerChange(
-                                i,
-                                "passportNumber",
-                                e.target.value
-                              )
-                            }
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium mb-1">
-                            Where are you from?
-                          </label>
-                          <input
-                            type="text"
-                            className="w-full px-3 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] placeholder-[#666666]"
-                            placeholder="Your country/origin"
-                            value={passenger.origin}
-                            onChange={(e) =>
-                              handlePassengerChange(i, "origin", e.target.value)
-                            }
-                          />
-                        </div>
-
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-
-            {/* Single Confirm button for Step 3 */}
-            <div className="flex justify-center mt-6">
-              <button
-                className="px-40 py-2 rounded-md border border-[#BFA15B] text-[#BFA15B] bg-transparent hover:bg-[#BFA15B] hover:text-black transition-colors duration-300"
-                onClick={confirmPassengerDetails}
-              >
-                Confirm
-              </button>
-            </div>
+      {/* PASSENGER COLUMN */}
+      <div className="space-y-6">
+        <h4 className="font-medium text-[#BFA15B] mb-4">Passenger Details</h4>
+        {passengerDetails.map((p, i) => (
+          <div
+            key={i}
+            className="rounded-xl border border-[#BFA15B]/40 p-4 bg-[#262626]"
+          >
+            <button
+              className="w-full flex justify-between items-center mb-4"
+              onClick={() => toggleAccordion(i)}
+            >
+              <span className="font-medium text-[#BFA15B]">Passenger {i + 1}</span>
+              {isAccordionOpen[i] ? <ChevronUp /> : <ChevronDown />}
+            </button>
+            {isAccordionOpen[i] && (
+                  <div className="space-y-4">
+                    <input
+                      type="text"
+                      placeholder="First Name"
+                      className="w-full px-3 py-2 border rounded-md bg-transparent text-[#BFA15B]"
+                      value={p.firstName}
+                      onChange={(e) => handlePassengerChange(i, "firstName", e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Last Name"
+                      className="w-full px-3 py-2 border rounded-md bg-transparent text-[#BFA15B]"
+                      value={p.lastName}
+                      onChange={(e) => handlePassengerChange(i, "lastName", e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Passport Number"
+                      className="w-full px-3 py-2 border rounded-md bg-transparent text-[#BFA15B]"
+                      value={p.passportNumber}
+                      onChange={(e) => handlePassengerChange(i, "passportNumber", e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Origin"
+                      className="w-full px-3 py-2 border rounded-md bg-transparent text-[#BFA15B]"
+                      value={p.origin}
+                      onChange={(e) => handlePassengerChange(i, "origin", e.target.value)}
+                    />
+                  </div>
+                )}
           </div>
-        )}
+        ))}
+      </div>
+    </div>
 
-        {/* STEP 4 => Final Review & Confirmation */}
-                {/* STEP 4 ⇒ Modern Review & Confirm */}
-                {currentStep === 4 && (
+    <div className="flex justify-center mt-8">
+      <button
+        className="w-40 py-3 rounded-lg border border-[#BFA15B] bg-[#BFA15B] text-[#1F1F1F] hover:bg-transparent hover:text-[#BFA15B]"
+        onClick={confirmPassengerDetails}
+      >
+        Confirm
+      </button>
+    </div>
+  </motion.div>
+)}
+
+
+        
+        {/* STEP 4 ⇒ Modern Review & Confirm */}
+        {currentStep === 4 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
