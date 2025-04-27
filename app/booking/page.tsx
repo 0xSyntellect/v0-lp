@@ -591,73 +591,62 @@ function BookingContent() {
         )}
 
         {/* STEP 4 => Final Review & Confirmation */}
-        {currentStep === 4 && (
-          <div className="bg-[#1F1F1F] p-6 rounded-xl border border-[#BFA15B] mb-8">
-            <h3 className="text-lg font-semibold mb-4 text-center text-[#BFA15B]">
-              Review & Confirmation
+                {/* STEP 4 ⇒ Modern Review & Confirm */}
+                {currentStep === 4 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="bg-[#1F1F1F] p-8 rounded-2xl border border-[#BFA15B]/60 shadow-lg backdrop-blur-sm mb-12"
+          >
+            <h3 className="text-2xl font-semibold text-center mb-6 tracking-wide text-[#BFA15B]">
+              Final Review
             </h3>
-            <p className="mb-4 text-center text-[#BFA15B]">
-              Please review your booking details.
-            </p>
-
-            {passengerDetails.map((p, i) => (
-              <div
-                key={i}
-                className="mb-4 p-4 border border-[#BFA15B] rounded-md text-center"
-              >
-                <p className="font-medium mb-2 text-center text-[#BFA15B]">
-                  Passenger #{i + 1}
-                </p>
-                <p>
-                  <strong>First Name:</strong> {p.firstName}
-                </p>
-                <p>
-                  <strong>Last Name:</strong> {p.lastName}
-                </p>
-                <p>
-                  <strong>Passport Number:</strong> {p.passportNumber}
-                </p>
-                <p>
-                  <strong>Origin:</strong> {p.origin}
-                </p>
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="space-y-6">
+                {passengerDetails.map((p, i) => (
+                  <div
+                    key={i}
+                    className="rounded-xl border border-[#BFA15B]/40 p-4 bg-[#262626]"
+                  >
+                    <p className="font-medium mb-2 text-[#BFA15B]">Passenger {i + 1}</p>
+                    <ul className="text-sm space-y-1">
+                      <li><span className="font-semibold">First:</span> {p.firstName}</li>
+                      <li><span className="font-semibold">Last:</span> {p.lastName}</li>
+                      <li><span className="font-semibold">Passport:</span> {p.passportNumber}</li>
+                      <li><span className="font-semibold">Origin:</span> {p.origin}</li>
+                    </ul>
+                  </div>
+                ))}
               </div>
-            ))}
-
-            <p className="mb-2 text-center text-[#BFA15B]">
-              <strong>Payment Method:</strong> {paymentMethod}
-            </p>
-            {selectedVehicle && (
-              <p className="mb-6 text-center text-[#BFA15B]">
-                <strong>Vehicle:</strong> {selectedVehicle.name} — $
-                {selectedVehicle.price}
-              </p>
-            )}
-
-            {/* Contact Summary */}
-            <div className="mb-4 p-4 border border-[#BFA15B] rounded-md text-center">
-              <p className="font-medium mb-2 text-center text-[#BFA15B]">
-                Summary of Contact Info
-              </p>
-              <p>
-                <strong>Email:</strong> {contactInfo.email || "N/A"}
-              </p>
-              <p>
-                <strong>Phone:</strong> {contactInfo.phone || "N/A"}
-              </p>
-              <p>
-                <strong>WhatsApp:</strong> {contactInfo.whatsapp || "N/A"}
-              </p>
+              <div className="rounded-xl border border-[#BFA15B]/40 p-6 bg-[#262626] flex flex-col justify-between">
+                <div className="space-y-4 text-sm">
+                  <p><span className="font-semibold">Payment:</span> {paymentMethod}</p>
+                  {selectedVehicle && (
+                    <p><span className="font-semibold">Vehicle:</span> {selectedVehicle.name} — ${selectedVehicle.price}</p>
+                  )}
+                  <div className="border-t border-[#BFA15B]/20 pt-4">
+                    <p className="font-medium text-[#BFA15B] mb-2">Contact</p>
+                    <p><span className="font-semibold">Email:</span> {contactInfo.email || "N/A"}</p>
+                    <p><span className="font-semibold">Phone:</span> {contactInfo.phone || "N/A"}</p>
+                    <p><span className="font-semibold">WhatsApp:</span> {contactInfo.whatsapp || "N/A"}</p>
+                    {contactInfo.flightNumber && (
+                      <p><span className="font-semibold">Flight #:</span> {contactInfo.flightNumber}</p>
+                    )}
+                    {contactInfo.notes && (
+                      <p><span className="font-semibold">Notes:</span> {contactInfo.notes}</p>
+                    )}
+                  </div>
+                </div>
+                <button
+                  className="mt-8 w-full py-3 rounded-lg border border-[#BFA15B] text-[#1F1F1F] bg-[#BFA15B] hover:bg-transparent hover:text-[#BFA15B]"
+                  onClick={confirmBooking}
+                >
+                  Confirm Booking
+                </button>
+              </div>
             </div>
-
-            <div className="flex justify-center mt-6">
-              <button
-                className="px-40 py-2 rounded-md border border-[#BFA15B] text-[#BFA15B] bg-transparent hover:bg-[#BFA15B] hover:text-black transition-colors duration-300"
-                onClick={confirmBooking}
-              >
-                Confirm Booking
-              </button>
-            </div>
-          </div>
+          </motion.div>
         )}
       </div>
     </main>
