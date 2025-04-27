@@ -620,9 +620,6 @@ function BookingContent() {
                 <p>
                   <strong>Origin:</strong> {p.origin}
                 </p>
-                <p>
-                <strong>Flight Number:</strong> {p.flightNumber}
-                </p>
               </div>
             ))}
 
