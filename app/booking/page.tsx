@@ -81,7 +81,7 @@ function BookingContent() {
           getMinivanPrice(fromLocation, toLocation),
           getSprinterPrice(fromLocation, toLocation),
         ]);
-        console.log(`Prices → minivan: $${mv}, sprinter: $${sp}`);
+        
         setMinivanPrice(mv);
         setSprinterPrice(sp);
       } catch (e) {

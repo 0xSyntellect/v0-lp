@@ -1,5 +1,5 @@
 "use client";
-console.log("AutoCompleteInput has mounted in production");
+
 
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
@@ -67,7 +67,7 @@ function AutoCompleteInput({
       setSuggestions([]);
     }
   };
-  console.log("AutoCompleteInput component has mounted!");
+  
 
   // Click outside to close suggestions
   useEffect(() => {
