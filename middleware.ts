@@ -23,7 +23,10 @@ export async function middleware(request: NextRequest) {
   }
 
   // 2) Rate-limit by IP
-  const ip = request.ip ?? request.headers.get("x-forwarded-for") ?? "unknown";
+  const xff = request.headers.get("x-forwarded-for");
+  const ip = xff
+    ? xff.split(",")[0].trim()
+    : request.headers.get("x-real-ip") ?? "unknown";
   const { success } = await ratelimit.limit(ip);
   if (!success) {
     return new NextResponse("Too Many Requests", { status: 429 });
