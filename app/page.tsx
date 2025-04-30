@@ -5,6 +5,7 @@ import FleetSection from "@/components/fleet-section"
 import TestimonialsSection from "@/components/testimonials-section"
 import CTASection from "@/components/cta-section"
 import Footer from "@/components/footer"
+import FAQSection from '@/components/faq-section';
 
 /*
   Hero and Footer remain full width,
@@ -25,7 +26,7 @@ export default function Home() {
         <FleetSection />
         <TestimonialsSection />
       </div>
-
+      <FAQSection />
       {/* Full-width CTA */}
       <CTASection />
 
