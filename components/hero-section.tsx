@@ -83,7 +83,7 @@ function AutoCompleteInput({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
     }
-    console.log("Running useEffect – all set?");
+    
   }, [])
 
   return (
@@ -93,7 +93,7 @@ function AutoCompleteInput({
         className={className}
         value={value}
         onChange={(e) => {
-          console.log("Input changed:", e.target.value);
+          
           onChange(e.target.value)
           fetchSuggestions(e.target.value)
           setShowSuggestions(true)
@@ -170,8 +170,8 @@ export default function HeroSection() {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 pt-20 md:pt-24 pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="text-white max-w-xl">
+      <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-12 items-center">
+      <div className="hidden lg:block text-white max-w-xl">
             <div className="inline-block px-4 py-1 mb-6 rounded-full bg-[#C2A36C]/20 border border-[#C2A36C]/30">
               <span className="text-[#C2A36C] font-medium">Premium Transportation in Istanbul</span>
             </div>
