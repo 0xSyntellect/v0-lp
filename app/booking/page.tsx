@@ -215,54 +215,54 @@ function BookingContent() {
         </div>
 
         {/* Progress Bar */}
-        <div className="flex items-center justify-center mb-8">
-          {steps.map(({ step, title }, index) => {
-            const circleClass = `rounded-full w-10 h-10 flex items-center justify-center font-bold ${
-              currentStep >= step
-                ? "bg-[#BFA15B] text-black"
-                : "bg-[#333333] text-[#BFA15B]"
-            }`;
+<div className="flex items-center w-full px-4 mb-8">
+  {steps.map(({ step, title }, index) => {
+    const circleClass = `rounded-full w-10 h-10 flex items-center justify-center font-bold ${
+      currentStep >= step
+        ? "bg-[#BFA15B] text-black"
+        : "bg-[#333333] text-[#BFA15B]"
+    }`;
 
-            let circleContent;
-            if (step === 1) {
-              // Link to "/" if they want to go back
-              circleContent = (
-                <Link href="/" className="cursor-pointer">
-                  <div className={circleClass}>{step}</div>
-                </Link>
-              );
-            } else if (step < currentStep) {
-              circleContent = (
-                <div
-                  className="cursor-pointer"
-                  onClick={() => setCurrentStep(step)}
-                >
-                  <div className={circleClass}>{step}</div>
-                </div>
-              );
-            } else {
-              circleContent = <div className={circleClass}>{step}</div>;
-            }
-
-            return (
-              <div key={step} className="flex items-center">
-                <div className="flex flex-col items-center">
-                  {circleContent}
-                  <span className="text-sm mt-1 text-[#BFA15B]">{title}</span>
-                </div>
-                {index < steps.length - 1 && (
-                  <div
-                    className={`h-1 w-16 mx-2 ${
-                      currentStep >= step + 1
-                        ? "bg-[#BFA15B]"
-                        : "bg-[#333333]"
-                    }`}
-                  />
-                )}
-              </div>
-            );
-          })}
+    let circleContent;
+    if (step === 1) {
+      circleContent = (
+        <Link href="/" className="cursor-pointer">
+          <div className={circleClass}>{step}</div>
+        </Link>
+      );
+    } else if (step < currentStep) {
+      circleContent = (
+        <div className="cursor-pointer" onClick={() => setCurrentStep(step)}>
+          <div className={circleClass}>{step}</div>
         </div>
+      );
+    } else {
+      circleContent = <div className={circleClass}>{step}</div>;
+    }
+
+    return (
+      <>
+        <div className="flex-1 flex flex-col items-center">
+          {circleContent}
+          <span className="text-sm leading-tight mt-1 text-[#BFA15B] h-12 text-center">
+            {title}
+          </span>
+        </div>
+        {index < steps.length - 1 && (
+          <div
+            className={`h-1 flex-1 mx-2 ${
+              currentStep >= step + 1 ? "bg-[#BFA15B]" : "bg-[#333333]"
+            }`}
+          />
+        )}
+      </>
+    );
+  })}
+</div>
+
+
+
+
 
         {/* Booking Details Card */}
         <motion.div
@@ -277,29 +277,29 @@ function BookingContent() {
   <div className="mb-2 text-[#BFA15B] space-y-2">
     <div className="flex justify-between items-center">
       <span><strong>From:</strong> {fromLocation}</span>
-      <Check className="w-5 h-5 text-green-500" />
+      <Check className="shrink-0 w-5 h-5 text-green-500" />
     </div>
     {serviceType === 'transfer' ? (
       <div className="flex justify-between items-center">
         <span><strong>To:</strong> {toLocation}</span>
-        <Check className="w-5 h-5 text-green-500" />
+        <Check className="shrink-0 w-5 h-5 text-green-500" />
       </div>
     ) : (
       <div className="flex justify-between items-center">
         <span><strong>Hours:</strong> {passengersCount}</span>
-        <Check className="w-5 h-5 text-green-500" />
+        <Check className="shrink-0 w-5 h-5 text-green-500" />
       </div>
     )}
     <div className="flex justify-between items-center">
       <span><strong>Date/Time:</strong> {dateTime}</span>
-      <Check className="w-5 h-5 text-green-500" />
+      <Check className="shrink-0 w-5 h-5 text-green-500" />
     </div>
     <div className="flex justify-between items-center">
       <span>
         <strong>Service:</strong>{' '}
         {serviceType === 'transfer' ? 'Istanbul Transfer' : 'Hourly Rental'}
       </span>
-      <Check className="w-5 h-5 text-green-500" />
+      <Check className="shrink-0 w-5 h-5 text-green-500" />
     </div>
     {selectedVehicle && (
       <div className="flex justify-between items-center">
@@ -307,7 +307,7 @@ function BookingContent() {
           <strong>Vehicle:</strong> {selectedVehicle.name} — $
           {selectedVehicle.price}
         </span>
-        <Check className="w-5 h-5 text-green-500" />
+        <Check className="shrink-0 w-5 h-5 text-green-500" />
       </div>
     )}
   </div>
