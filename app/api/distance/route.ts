@@ -15,6 +15,10 @@ export async function GET(request: NextRequest) {
     );
   }
 
+
+
+  
+
   const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${encodeURIComponent(
     origins
   )}&destinations=${encodeURIComponent(destinations)}&key=${key}`;
