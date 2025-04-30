@@ -196,6 +196,15 @@ function BookingContent() {
       );
     }
   };
+  const handleConfirmBooking = () => {
+    if (!paymentMethod) {
+      window.alert("Please choose a payment method before confirming your booking.");
+      const el = document.getElementById("payment-method-select");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    confirmBooking();
+  };
   {/* Currency selector */}
 <div className="flex justify-end mb-4">
   <select
@@ -644,29 +653,33 @@ function BookingContent() {
           
           <motion.div
           
+          
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="bg-[#1F1F1F] p-8 rounded-2xl border border-[#BFA15B]/60 shadow-lg backdrop-blur-sm mb-12"
           >
+            <div className="bg-[#262626] p-4 rounded-xl border border-[#BFA15B] mb-6 max-w-3xl mx-auto">
+    <h4 className="text-lg font-semibold mb-2 text-[#BFA15B]">
+      Payment Method
+    </h4>
+    <select
+  id="payment-method-select"
+  className="w-full px-4 py-2 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B]"
+  value={paymentMethod}
+  onChange={(e) => setPaymentMethod(e.target.value)}
+>
+      <option value="">Choose Payment Method</option>
+      <option value="credit-card">Credit Card</option>
+      <option value="cash">Cash</option>
+    </select>
+  </div>
             <h3 className="text-2xl font-semibold text-center mb-6 tracking-wide text-[#BFA15B]">
               Final Review
             </h3>
             <div className="grid gap-6 md:grid-cols-2">
-            <div className="mt-6">
-              <label className="block text-lg font-semibold mb-2 text-center">
-                Payment Method
-              </label>
-              <select
-                className="w-full px-4 py-3 border border-[#BFA15B] rounded-md bg-transparent text-[#BFA15B] text-center"
-                value={paymentMethod}
-                onChange={(e) => setPaymentMethod(e.target.value)}
-              >
-                <option value="">Choose Payment Method</option>
-                <option value="credit-card">Credit Card</option>
-                <option value="cash">Cash</option>
-              </select>
-            </div>
+
+
               <div className="space-y-6">
                 {passengerDetails.map((p, i) => (
                   <div
@@ -709,11 +722,12 @@ function BookingContent() {
                   </div>
                 </div>
                 <button
-                  className="mt-8 w-full py-3 rounded-lg border border-[#BFA15B] text-[#1F1F1F] bg-[#BFA15B] hover:bg-transparent hover:text-[#BFA15B]"
-                  onClick={confirmBooking}
-                >
-                  Confirm Booking
-                </button>
+  className="mt-8 w-full py-3 rounded-lg border border-[#BFA15B] text-[#1F1F1F] bg-[#BFA15B] hover:bg-transparent hover:text-[#BFA15B]"
+  onClick={handleConfirmBooking}
+>
+  Confirm Booking
+</button>
+
               </div>
             </div>
           </motion.div>
