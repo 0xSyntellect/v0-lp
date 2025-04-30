@@ -4,10 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Check, Users, Luggage, Tag } from "lucide-react";
 import { getMinivanPrice, getSprinterPrice } from "@/lib/pricing";
 import { calculateHourlyPrice } from "@/lib/hourlyPricing";
-import { Check } from 'lucide-react';
 import { motion } from 'framer-motion'
 
 
@@ -310,80 +309,145 @@ function BookingContent() {
   </div>
 </motion.div>
 
-        {/* STEP 2 => Vehicle Selection */}
-        {currentStep === 2 && (
-          <div className="bg-[#1F1F1F] p-4 rounded-xl border border-[#BFA15B] mb-8">
+{/* STEP 2 ⇒ Vehicle Selection */}
+{currentStep === 2 && (
+  <div className="bg-[#1F1F1F] p-4 rounded-xl border border-[#BFA15B] mb-8">
+    <h3 className="p-5 text-lg font-semibold mb-4 text-center text-[#BFA15B]">
+      Choose Your Vehicle
+    </h3>
 
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Minivan */}
+      <div className="rounded-2xl border border-[#BFA15B]/60 bg-[#262626] p-6 flex flex-col gap-4 items-center">
+        {/* image on top */}
+        <div className="relative w-[300px] h-[160px]">
+          <Image
+            src="/minivan.png"
+            alt="Minivan"
+            fill
+            className="object-cover rounded-lg"
+          />
+        </div>
 
-            <h3 className="p-5 text-lg font-semibold mb-4 text-center text-[#BFA15B]">
-              Choose Your Vehicle
-            </h3>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Minivan */}
-              <div className="p-4 border border-[#BFA15B] rounded-md text-center bg-transparent">
-                <div className="relative w-[300px] h-[160px] mx-auto">
-                  <Image
-                    src="/minivan.png"
-                    alt="Minivan"
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-md"
-                  />
-                </div>
-                <h4 className="text-base font-medium mb-1 mt-2">Minivan</h4>
-                <p className="text-sm mb-1">Up to 6 passengers</p>
-                <p className="text-sm font-semibold mb-4">{serviceType === "transfer"
-                  ? (minivanPrice != null ? `$${minivanPrice}` : "Calculating…")
-                  : `$${hourlyPriceMinivan}`}</p>
-                    <button
-                      onClick={() =>
-                        handleSelectClick(
-                          "Minivan",
-                          serviceType === "transfer" ? (minivanPrice ?? 0) : hourlyPriceMinivan
-                        )
-                      }
-                      className="px-4 py-2 rounded-md border border-[#BFA15B] text-[#BFA15B] bg-transparent hover:bg-[#BFA15B] hover:text-black transition-colors duration-300 cursor-pointer"
-                    >
-                      Select
-                    </button>
-
-              </div>
-
-              {/* Sprinter */}
-              <div className="p-4 border border-[#BFA15B] rounded-md text-center bg-transparent">
-                <div className="relative w-[300px] h-[160px] mx-auto">
-                  <Image
-                    src="/sprinter new.png"
-                    alt="Sprinter"
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-md"
-                  />
-                </div>
-                <h4 className="text-base font-medium mb-1 mt-2">Sprinter</h4>
-                <p className="text-sm mb-1">Up to 12 passengers</p>
-                <p className="text-sm font-semibold mb-4">{serviceType === "transfer"
-                  ? (sprinterPrice != null ? `$${sprinterPrice}` : "Calculating…")
-                  : `$${hourlyPriceSprinter}`}</p>
-                <button
-                  onClick={() =>
-                    handleSelectClick(
-                      "Sprinter",
-                      serviceType === "transfer" ? (sprinterPrice ?? 0) : hourlyPriceSprinter
-                    )
-                  }
-                  className="px-4 py-2 rounded-md border border-[#BFA15B] text-[#BFA15B] bg-transparent hover:bg-[#BFA15B] hover:text-black transition-colors duration-300 cursor-pointer"
-                >
-                  Select
-                </button>
-
-              </div>
-            </div>
-
-
+        {/* details below image */}
+        <div className="flex flex-col gap-2 text-sm w-full">
+          <h4 className="text-lg font-semibold text-[#BFA15B]">Minivan</h4>
+          <div className="flex items-center gap-2">
+            <Users className="w-4 h-4 text-[#BFA15B]" />
+            <span className="text-[#BFA15B]/90">Up to 6 passengers</span>
           </div>
-        )}
+          <div className="flex items-center gap-2">
+            <Luggage className="w-4 h-4 text-[#BFA15B]" />
+            <span className="text-[#BFA15B]/90">Fits 5 suitcases</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Tag className="w-4 h-4 text-[#BFA15B]" />
+            {serviceType === "transfer" ? (
+              <>
+                <span className="line-through text-[#BFA15B]/60">
+                  ${Math.round((minivanPrice ?? 0) * 1.1)}
+                </span>
+                <span className="text-[#BFA15B] font-semibold">
+                  ${minivanPrice ?? "–"}
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="line-through text-[#BFA15B]/60">
+                  ${Math.round(hourlyPriceMinivan * 1.1)}
+                </span>
+                <span className="text-[#BFA15B] font-semibold">
+                  ${hourlyPriceMinivan}
+                </span>
+                <span className="text-xs text-[#BFA15B]/80 ml-1">/hour</span>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* CTA at bottom */}
+        <button
+          onClick={() =>
+            handleSelectClick(
+              "Minivan",
+              serviceType === "transfer"
+                ? (minivanPrice ?? 0)
+                : hourlyPriceMinivan
+            )
+          }
+          className="px-6 py-2 rounded-full border border-[#BFA15B] text-[#1F1F1F] bg-[#BFA15B] hover:bg-transparent hover:text-[#BFA15B] transition-colors"
+        >
+          Select
+        </button>
+      </div>
+
+      {/* Sprinter */}
+      <div className="rounded-2xl border border-[#BFA15B]/60 bg-[#262626] p-6 flex flex-col gap-4 items-center">
+        {/* image on top */}
+        <div className="relative w-[300px] h-[160px]">
+          <Image
+            src="/sprinter new.png"
+            alt="Sprinter"
+            fill
+            className="object-cover rounded-lg"
+          />
+        </div>
+
+        {/* details below image */}
+        <div className="flex flex-col gap-2 text-sm w-full">
+          <h4 className="text-lg font-semibold text-[#BFA15B]">Sprinter</h4>
+          <div className="flex items-center gap-2">
+            <Users className="w-4 h-4 text-[#BFA15B]" />
+            <span className="text-[#BFA15B]/90">Up to 12 passengers</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Luggage className="w-4 h-4 text-[#BFA15B]" />
+            <span className="text-[#BFA15B]/90">Fits 10 suitcases</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Tag className="w-4 h-4 text-[#BFA15B]" />
+            {serviceType === "transfer" ? (
+              <>
+                <span className="line-through text-[#BFA15B]/60">
+                  ${Math.round((sprinterPrice ?? 0) * 1.1)}
+                </span>
+                <span className="text-[#BFA15B] font-semibold">
+                  ${sprinterPrice ?? "–"}
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="line-through text-[#BFA15B]/60">
+                  ${Math.round(hourlyPriceSprinter * 1.1)}
+                </span>
+                <span className="text-[#BFA15B] font-semibold">
+                  ${hourlyPriceSprinter}
+                </span>
+                <span className="text-xs text-[#BFA15B]/80 ml-1">/hour</span>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* CTA at bottom */}
+        <button
+          onClick={() =>
+            handleSelectClick(
+              "Sprinter",
+              serviceType === "transfer"
+                ? (sprinterPrice ?? 0)
+                : hourlyPriceSprinter
+            )
+          }
+          className="px-6 py-2 rounded-full border border-[#BFA15B] text-[#1F1F1F] bg-[#BFA15B] hover:bg-transparent hover:text-[#BFA15B] transition-colors"
+        >
+          Select
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
 
         {/* STEP 3 => Passenger & Contact Information */}
         {currentStep === 3 && (
