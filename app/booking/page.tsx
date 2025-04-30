@@ -3,11 +3,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState, Suspense } from "react";
-import { ChevronDown, ChevronUp, Check, Users, Luggage, Tag } from "lucide-react";
+import { useEffect, useState, Suspense,Fragment } from "react";
+import { ChevronDown, ChevronUp, Check, Users, Luggage, Tag } from 'lucide-react';
 import { getMinivanPrice, getSprinterPrice } from "@/lib/pricing";
 import { calculateHourlyPrice } from "@/lib/hourlyPricing";
 import { motion } from 'framer-motion'
+import {useCurrency,convert,format} from '@/context/CurrencyContext';
+import { Listbox } from "@headlessui/react";
 
 
 type VehicleInfo = {
@@ -16,6 +18,7 @@ type VehicleInfo = {
 };
 
 function BookingContent() {
+  const { rates, selectedCurrency, setSelectedCurrency, loading: ratesLoading } = useCurrency();
   const searchParams = useSearchParams();
 
   const [minivanPrice,  setMinivanPrice]  = useState<number | null>(null);
@@ -193,6 +196,20 @@ function BookingContent() {
       );
     }
   };
+  {/* Currency selector */}
+<div className="flex justify-end mb-4">
+  <select
+    value={selectedCurrency}
+    onChange={e => setSelectedCurrency(e.target.value)}
+    disabled={ratesLoading}
+    className="bg-[#262626] border border-[#BFA15B] text-[#BFA15B] px-3 py-1 rounded-md"
+  >
+    {['USD','EUR','GBP','TRY'].map(c => (
+      <option key={c} value={c}>{c}</option>
+    ))}
+  </select>
+</div>
+
 
   // Steps for progress bar
   const steps = [
@@ -205,6 +222,7 @@ function BookingContent() {
   return (
     <main className="min-h-screen py-10 bg-[#1F1F1F] text-[#BFA15B]">
       <div className="max-w-3xl mx-auto px-4">
+
         {/* Logo at the top */}
         <div className="flex justify-center mb-6">
           <Image src="/pickupist logo.png" alt="Brand Logo" width={150} height={50} />
@@ -237,7 +255,7 @@ function BookingContent() {
     }
 
     return (
-      <>
+      <Fragment key={step}>
         <div className="flex-1 flex flex-col items-center">
           {circleContent}
           <span className="text-sm leading-tight mt-1 text-[#BFA15B] h-12 text-center">
@@ -251,7 +269,7 @@ function BookingContent() {
             }`}
           />
         )}
-      </>
+       </Fragment>
     );
   })}
 </div>
@@ -298,24 +316,57 @@ function BookingContent() {
       <Check className="shrink-0 w-5 h-5 text-green-500" />
     </div>
     {selectedVehicle && (
-      <div className="flex justify-between items-center">
-        <span>
-          <strong>Vehicle:</strong> {selectedVehicle.name} — $
-          {selectedVehicle.price}
-        </span>
-        <Check className="shrink-0 w-5 h-5 text-green-500" />
-      </div>
-    )}
+  <div className="flex justify-between items-center">
+    <span>
+      <strong>Vehicle:</strong> {selectedVehicle.name} —{' '}
+      {format(
+        convert(selectedVehicle.price, rates, selectedCurrency),
+        selectedCurrency
+      )}
+    </span>
+    <Check className="shrink-0 w-5 h-5 text-green-500" />
+  </div>
+)}
+
   </div>
 </motion.div>
 
 {/* STEP 2 ⇒ Vehicle Selection */}
 {currentStep === 2 && (
   <div className="bg-[#1F1F1F] p-4 rounded-xl border border-[#BFA15B] mb-8">
-    <h3 className="p-5 text-lg font-semibold mb-4 text-center text-[#BFA15B]">
-      Choose Your Vehicle
-    </h3>
+   {/* Header + Currency selector, side by side */}
+   <div className="flex items-center justify-between px-5 mb-4">
+  <h3 className="text-lg font-semibold text-[#BFA15B]">
+    Choose Your Vehicle
+  </h3>
 
+  <div className="relative inline-block">
+    <Listbox value={selectedCurrency} onChange={setSelectedCurrency}>
+      <Listbox.Button className="flex items-center gap-2 bg-[#262626] border border-[#BFA15B] text-[#BFA15B] px-3 py-1 rounded-md">
+        {selectedCurrency}
+        <ChevronDown className="w-4 h-4" />
+      </Listbox.Button>
+      <Listbox.Options className="absolute right-0 mt-1 w-full bg-[#262626] border border-[#BFA15B] rounded-md z-20 overflow-auto max-h-40">
+        {["USD","EUR","GBP","TRY"].map((c) => (
+          <Listbox.Option
+            key={c}
+            value={c}
+            className={({ active, selected }) =>
+              `cursor-pointer px-3 py-1 ${
+                active ? "bg-[#BFA15B]/30" : ""
+              } ${selected ? "font-semibold" : ""}`
+            }
+          >
+            {c}
+          </Listbox.Option>
+        ))}
+      </Listbox.Options>
+    </Listbox>
+  </div>
+</div>
+
+
+    
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {/* Minivan */}
       <div className="rounded-2xl border border-[#BFA15B]/60 bg-[#262626] p-6 flex flex-col gap-4 items-center">
@@ -343,26 +394,36 @@ function BookingContent() {
           <div className="flex items-center gap-2">
             <Tag className="w-4 h-4 text-[#BFA15B]" />
             {serviceType === "transfer" ? (
-              <>
-                <span className="line-through text-[#BFA15B]/60">
-                  ${Math.round((minivanPrice ?? 0) * 1.1)}
-                </span>
-                <span className="text-[#BFA15B] font-semibold">
-                  ${minivanPrice ?? "–"}
-                </span>
-              </>
-            ) : (
-              <>
-                <span className="line-through text-[#BFA15B]/60">
-                  ${Math.round(hourlyPriceMinivan * 1.1)}
-                </span>
-                <span className="text-[#BFA15B] font-semibold">
-                  ${hourlyPriceMinivan}
-                </span>
-                <span className="text-xs text-[#BFA15B]/80 ml-1">/hour</span>
-              </>
-            )}
-          </div>
+  <>
+    <span className="line-through text-[#BFA15B]/60">
+      {format(
+        convert((minivanPrice ?? 0) * 1.1, rates, selectedCurrency),
+        selectedCurrency
+      )}
+    </span>
+    <span className="text-[#BFA15B] font-semibold">
+      {minivanPrice != null
+        ? format(convert(minivanPrice, rates, selectedCurrency), selectedCurrency)
+        : "–"}
+    </span>
+  </>
+) : (
+  <>
+    <span className="line-through text-[#BFA15B]/60">
+      {format(
+        convert(hourlyPriceMinivan * 1.1, rates, selectedCurrency),
+        selectedCurrency
+      )}
+    </span>
+    <span className="text-[#BFA15B] font-semibold">
+      {format(
+        convert(hourlyPriceMinivan, rates, selectedCurrency),
+        selectedCurrency
+      )}
+    </span>
+    <span className="text-xs text-[#BFA15B]/80 ml-1">/hour</span>
+  </>
+)}          </div>
         </div>
 
         {/* CTA at bottom */}
@@ -407,25 +468,36 @@ function BookingContent() {
           <div className="flex items-center gap-2">
             <Tag className="w-4 h-4 text-[#BFA15B]" />
             {serviceType === "transfer" ? (
-              <>
-                <span className="line-through text-[#BFA15B]/60">
-                  ${Math.round((sprinterPrice ?? 0) * 1.1)}
-                </span>
-                <span className="text-[#BFA15B] font-semibold">
-                  ${sprinterPrice ?? "–"}
-                </span>
-              </>
-            ) : (
-              <>
-                <span className="line-through text-[#BFA15B]/60">
-                  ${Math.round(hourlyPriceSprinter * 1.1)}
-                </span>
-                <span className="text-[#BFA15B] font-semibold">
-                  ${hourlyPriceSprinter}
-                </span>
-                <span className="text-xs text-[#BFA15B]/80 ml-1">/hour</span>
-              </>
-            )}
+  <>
+    <span className="line-through text-[#BFA15B]/60">
+      {format(
+        convert((sprinterPrice ?? 0) * 1.1, rates, selectedCurrency),
+        selectedCurrency
+      )}
+    </span>
+    <span className="text-[#BFA15B] font-semibold">
+      {sprinterPrice != null
+        ? format(convert(sprinterPrice, rates, selectedCurrency), selectedCurrency)
+        : "–"}
+    </span>
+  </>
+) : (
+  <>
+    <span className="line-through text-[#BFA15B]/60">
+      {format(
+        convert(hourlyPriceSprinter * 1.1, rates, selectedCurrency),
+        selectedCurrency
+      )}
+    </span>
+    <span className="text-[#BFA15B] font-semibold">
+      {format(
+        convert(hourlyPriceSprinter, rates, selectedCurrency),
+        selectedCurrency
+      )}
+    </span>
+    <span className="text-xs text-[#BFA15B]/80 ml-1">/hour</span>
+  </>
+)}
           </div>
         </div>
 
@@ -615,7 +687,13 @@ function BookingContent() {
                 <div className="space-y-4 text-sm">
                   <p><span className="font-semibold">Payment:</span> {paymentMethod}</p>
                   {selectedVehicle && (
-                    <p><span className="font-semibold">Vehicle:</span> {selectedVehicle.name} — ${selectedVehicle.price}</p>
+                    <p>
+                    <span className="font-semibold">Vehicle:</span> {selectedVehicle.name} —{' '}
+                    {format(
+                      convert(selectedVehicle.price, rates, selectedCurrency),
+                      selectedCurrency
+                    )}
+                  </p>
                   )}
                   <div className="border-t border-[#BFA15B]/20 pt-4">
                     <p className="font-medium text-[#BFA15B] mb-2">Contact</p>

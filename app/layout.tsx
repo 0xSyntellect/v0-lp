@@ -5,6 +5,7 @@ import Head from "next/head";
 import { Analytics } from "@vercel/analytics/react";
 import FloatingIcon from "@/components/floating-icon";
 import GoTopButton from "@/components/go-top-button";
+import { CurrencyProvider } from '@/context/CurrencyContext';
 
 
 
@@ -63,15 +64,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <Head>
-        {/* iOS Safari meta tags */}
+        {/* iOS Safari meta */}
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
@@ -79,12 +76,16 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </Head>
+
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {children}
-        <Analytics />
-        <FloatingIcon />
-        <GoTopButton />
+        <CurrencyProvider>
+          {children}
+          <Analytics />
+          <FloatingIcon />
+          <GoTopButton />
+        </CurrencyProvider>
       </body>
     </html>
   );
+
 }
