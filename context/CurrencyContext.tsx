@@ -37,39 +37,26 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Fetch exchange rates once, parse quotes into simple map
+  
+
+  // ── Fetch USD ⇒ EUR/GBP/TRY via exchangerate.host live endpoint ─────────
   useEffect(() => {
-    const key = process.env.NEXT_PUBLIC_EXCHANGE_API_KEY;
-    if (!key) {
-      console.error('Missing NEXT_PUBLIC_EXCHANGE_API_KEY');
-      setLoading(false);
-      return;
-    }
-
-    const url = new URL('https://api.exchangerate.host/live');
-    url.searchParams.set('access_key', key);
-    url.searchParams.set('source', 'USD');
-    url.searchParams.set('currencies', 'USD,EUR,GBP,TRY');
-
-    fetch(url.toString())
-      .then(res => res.json())
-      .then(json => {
-        if (json.success && json.quotes) {
-          // json.quotes: { USDAED:3.67, USDEUR:0.88, … }
-          const parsed: Rates = { USD: 1 };
-          for (const [pair, rate] of Object.entries(json.quotes)) {
-            // strip leading 'USD'
-            const code = pair.substring(3);
-            parsed[code] = rate as number;
+        async function fetchRates() {
+          try {
+            const res = await fetch('/api/exchange');
+            const data: Record<'USD'|'EUR'|'GBP'|'TRY', number> = await res.json();
+            setRates(data);
+          } catch (err) {
+            console.error('Failed to fetch rates via proxy', err);
+          } finally {
+            setLoading(false);
           }
-          setRates(parsed);
-        } else {
-          console.error('Exchange API error:', json.error);
         }
-      })
-      .catch(err => console.error('Failed to fetch rates', err))
-      .finally(() => setLoading(false));
-  }, []);
+        fetchRates();
+      }, []);
+  
+
+  
 
   // Persist user choice
   useEffect(() => {
