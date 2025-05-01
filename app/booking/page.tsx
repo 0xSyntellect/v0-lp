@@ -398,7 +398,7 @@ function BookingContent() {
           </div>
           <div className="flex items-center gap-2">
             <Luggage className="w-4 h-4 text-[#BFA15B]" />
-            <span className="text-[#BFA15B]/90">Fits 5 suitcases</span>
+            <span className="text-[#BFA15B]/90">Fits 6 medium-sized suitcases</span>
           </div>
           <div className="flex items-center gap-2">
             <Tag className="w-4 h-4 text-[#BFA15B]" />
@@ -472,7 +472,7 @@ function BookingContent() {
           </div>
           <div className="flex items-center gap-2">
             <Luggage className="w-4 h-4 text-[#BFA15B]" />
-            <span className="text-[#BFA15B]/90">Fits 10 suitcases</span>
+            <span className="text-[#BFA15B]/90">Fits 12 medium-sized suitcases</span>
           </div>
           <div className="flex items-center gap-2">
             <Tag className="w-4 h-4 text-[#BFA15B]" />
