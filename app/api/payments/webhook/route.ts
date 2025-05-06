@@ -13,11 +13,11 @@ export async function POST(req: NextRequest) {
 
   if (expected !== sig) return new NextResponse('FAIL', { status: 400 });
 
-  const { merchant_oid, status } = Object.fromEntries(
-    new URLSearchParams(body)
-  ) as any;
+  const params = new URLSearchParams(body);
+  const merchant_oid = params.get('merchant_oid');
+  const status = params.get('status');
 
-  if (status === 'success') {
+  if (status === 'success' && merchant_oid) {
     await supabaseAdmin
       .from('offers')
       .update({ paid_at: new Date().toISOString() })

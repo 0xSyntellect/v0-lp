@@ -1,5 +1,3 @@
-import { logger } from './logger';
-
 export async function geocode(text: string) {
   const url = new URL('https://maps.googleapis.com/maps/api/geocode/json');
   url.searchParams.set('address', text);
