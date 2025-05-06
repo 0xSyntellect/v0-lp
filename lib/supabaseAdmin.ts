@@ -1,12 +1,15 @@
-// lib/supabase.ts
+// lib/supabaseAdmin.ts
 import { createClient } from '@supabase/supabase-js';
 
-/**
- * Returns a browser‑safe Supabase client that uses the public anon key.
- * Call as a function so every invocation runs in its own component scope.
- */
-export const supabase = () =>
-  createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  throw new Error('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY env var');
+}
+
+export const supabaseAdmin = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY,
+  { auth: { persistSession: false } }
+);
+
+// ← add this:
+export default supabaseAdmin;

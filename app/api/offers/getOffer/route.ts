@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withSentry } from '@/lib/withSentry';
-import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import supabaseAdmin from '@/lib/supabaseAdmin';
 import { GetOfferSchema } from '../_shared';
 import { geocode, getDistanceKm } from '@/lib/geo';
 import { calculateTransferPrice } from '@/lib/calculateTransferPrice';
