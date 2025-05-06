@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { withSentry } from '@/lib/withSentry';
-import supabaseAdmin from '@/lib/supabaseAdmin';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { AcceptOfferSchema } from '../_shared';
 
 export const POST = withSentry(async (req: NextRequest) => {
