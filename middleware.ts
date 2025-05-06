@@ -9,41 +9,35 @@ import { Redis } from "@upstash/redis";
    60 requests / minute per client IP
 ────────────────────────────────────────────────── */
 const redis = Redis.fromEnv();
-
 const ratelimit = new Ratelimit({
   redis,
   limiter: Ratelimit.slidingWindow(60, "1 m"),
   analytics: true,
 });
 
-/* Apply middleware only to Google helper endpoints */
 export const config = {
-  matcher: ["/api/distance", "/api/google-places"],
+  matcher: ['/api/(distance|google-places|offers.*)'],
 };
 
 export async function middleware(request: NextRequest) {
-  /* ── 1. Referer allow-list ───────────────────── */
-  const referer = request.headers.get("referer") ?? "";
-
-  if (process.env.NODE_ENV === "production") {
-    try {
-      // e.g. https://www.pickupist.com/booking → www.pickupist.com
-      const host = new URL(referer).hostname;
-      if (!host.endsWith("pickupist.com")) {
-        return new NextResponse("Forbidden", { status: 403 });
-      }
-    } catch {
-      // malformed or missing Referer → block
-      return new NextResponse("Forbidden", { status: 403 });
-    }
-  } else {
-    // dev / preview → allow any localhost origin
-    if (!referer.startsWith("http://localhost")) {
-      return new NextResponse("Forbidden", { status: 403 });
-    }
+  // ── 0. Dev-only bypass ─────────────────────────
+  if (process.env.NODE_ENV !== "production") {
+    return NextResponse.next();
   }
 
-  /* ── 2. IP rate-limit (Upstash) ──────────────── */
+  // ── 1. Referer allow-list (production) ─────────
+  const referer = request.headers.get("referer") ?? "";
+  try {
+    const host = new URL(referer).hostname;
+    if (!host.endsWith("pickupist.com")) {
+      return new NextResponse("Forbidden", { status: 403 });
+    }
+  } catch {
+    // malformed or missing Referer → block
+    return new NextResponse("Forbidden", { status: 403 });
+  }
+
+  // ── 2. IP rate-limit (Upstash) ──────────────────
   const xff = request.headers.get("x-forwarded-for") ?? "";
   const ip =
     xff.split(",")[0]?.trim() ||

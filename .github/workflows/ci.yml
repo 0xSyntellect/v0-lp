@@ -1,0 +1,48 @@
+name: CI
+
+# Trigger on pushes to any branch and on pull‐requests
+on:
+  push:
+    branches-ignore:
+      - 'dependabot/**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Check out your code
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # 2. Use Node.js (specify same version you use locally)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'        # or your version
+          cache: 'pnpm'
+
+      # 3. Install pnpm and deps
+      - name: Install pnpm
+        run: npm install -g pnpm@latest
+
+      - name: Install dependencies
+        run: pnpm install
+
+      # 4. Run your linter (if you have one)
+      - name: Run lint
+        run: pnpm exec eslint .
+
+      # 5. Run your unit & integration tests
+      - name: Run tests
+        run: pnpm exec vitest run --coverage
+
+      # 6. Upload coverage as an artifact (optional)
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage
