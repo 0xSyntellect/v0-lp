@@ -51,3 +51,19 @@ export async function middleware(request: NextRequest) {
 
   return NextResponse.next();
 }
+
+
+// // app/middleware.ts
+// if (process.env.NODE_ENV === 'production') {
+//   try {
+//     const host = new URL(referer).hostname;
+// -     if (!host.endsWith('pickupist.com')) {
+// +     if (
+// +       !host.endsWith('pickupist.com') &&
+// +       !host.endsWith('.vercel.app')
+// +     ) {
+//       return new NextResponse('Forbidden', { status: 403 });
+//     }
+//   } catch {
+//     return new NextResponse('Forbidden', { status: 403 });
+//   }

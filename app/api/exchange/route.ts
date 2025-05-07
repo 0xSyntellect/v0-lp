@@ -1,3 +1,4 @@
+// app/api/exchange/route.ts
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -9,25 +10,37 @@ export async function GET() {
     );
   }
 
-  // Fetch live quotes for only the currencies you need
-  const res = await fetch(
-    `https://api.exchangerate.host/live?access_key=${key}&currencies=EUR,GBP,TRY&format=1`
-  );
-  const data = await res.json();
+  // build the URL for just the currencies we care about
+  const currencies = ['USD', 'EUR', 'GBP', 'TRY'].join(',');
+  const url = `https://api.freecurrencyapi.com/v1/latest?apikey=${key}&currencies=${currencies}`;
 
-  if (!data.success || !data.quotes) {
+  const res = await fetch(url);
+  if (!res.ok) {
     return NextResponse.json(
-      { error: data.error || 'Bad response from provider' },
+      { error: `Provider error: ${res.status}` },
       { status: 502 }
     );
   }
 
-  // Map quotes into a simple Rates object
+  const json = await res.json() as {
+    meta?: any;
+    data?: Record<string, number>;
+    error?: string;
+  };
+
+  // freecurrencyapi returns { data: { USD:1, EUR:0.92, GBP:0.78, TRY:27.5 } }
+  if (!json.data) {
+    return NextResponse.json(
+      { error: json.error || 'Bad response from provider' },
+      { status: 502 }
+    );
+  }
+
   const rates = {
-    USD: 1,
-    EUR: data.quotes['USDEUR'],
-    GBP: data.quotes['USDGBP'],
-    TRY: data.quotes['USDTRY'],
+    USD: json.data['USD'],
+    EUR: json.data['EUR'],
+    GBP: json.data['GBP'],
+    TRY: json.data['TRY'],
   };
 
   return NextResponse.json(rates);
