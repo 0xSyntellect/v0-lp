@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/react";
 import FloatingIcon from "@/components/floating-icon";
 import GoTopButton from "@/components/go-top-button";
 import { CurrencyProvider } from '@/context/CurrencyContext';
+import { AuthProvider } from '@/context/AuthContext';
 
 
 
@@ -78,12 +79,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </Head>
 
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <AuthProvider>
         <CurrencyProvider>
           {children}
           <Analytics />
           <FloatingIcon />
           <GoTopButton />
         </CurrencyProvider>
+        </AuthProvider>
       </body>
     </html>
   );
