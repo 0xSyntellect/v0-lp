@@ -23,7 +23,7 @@ export async function GET() {
   }
 
   const json = await res.json() as {
-    meta?: any;
+    meta?: unknown;
     data?: Record<string, number>;
     error?: string;
   };

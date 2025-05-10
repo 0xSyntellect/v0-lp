@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import Image from 'next/image'; 
 
 export default function LoginPage() {
   const { signIn, signInWithGoogle } = useAuth();
@@ -16,8 +17,9 @@ export default function LoginPage() {
     try {
       await signIn(email, password);
       // TODO: redirect on success
-    } catch (err: any) {
-      setError(err.message || 'Login failed');
+    } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Login failed';
+    setError(message);
     } finally {
       setLoading(false);
     }
@@ -42,7 +44,13 @@ export default function LoginPage() {
         onClick={handleGoogle}
         className="w-full mb-4 border border-gray-300 p-2 rounded flex items-center justify-center"
       >
-        <img src="/google-logo.png" alt="Google" className="w-5 h-5 mr-2" />
+        <Image
+          src="/google-logo.png"
+          alt="Google"
+          width={20}
+          height={20}
+          className="mr-2"
+        />
         Sign in with Google
       </button>
 

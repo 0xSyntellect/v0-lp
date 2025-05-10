@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 
+
 export default function SignUpPage() {
   const { signUp } = useAuth();
   const [email, setEmail] = useState('');
@@ -21,8 +22,9 @@ export default function SignUpPage() {
       setSuccess(
         'Registration successful! Please check your email to confirm your account.'
       );
-    } catch (err: any) {
-      setError(err.message || 'Registration failed');
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Registration failed';
+        setError(message);
     } finally {
       setLoading(false);
     }
