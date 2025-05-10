@@ -27,11 +27,17 @@ export default function LoginPage() {
 
   const handleGoogle = async () => {
     setError(null);
+    setLoading(true);
     try {
       await signInWithGoogle();
       // will redirect to Google and back
-    } catch (err: any) {
-      setError(err.message || 'Google sign-in failed');
+    } catch (err: unknown) {                          // ← strict type
+      const message = err instanceof Error
+        ? err.message
+        : 'Google sign-in failed';
+      setError(message);
+    } finally {
+      setLoading(false);
     }
   };
 
