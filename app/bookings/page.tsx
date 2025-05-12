@@ -2,23 +2,38 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-
+import { createServerClient } from "@supabase/ssr";
 
 export default async function BookingsPage() {
-  // 1) Initialize Supabase in a Server Component
-  const supabase = createServerComponentClient({ cookies });
+  // initialize Next.js cookie store
+  const cookieStore = cookies();
 
-  // 2) Check auth
+  // initialize Supabase with getAll/setAll cookie handlers
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        // read all incoming cookies
+        getAll: () => cookieStore.getAll(),
+        // write any Set-Cookie headers from Supabase
+        setAll: (toSet) =>
+          toSet.forEach(({ name, value, options }) =>
+            cookieStore.set(name, value, options)
+          ),
+      },
+    }
+  );
+
+  // check auth
   const {
     data: { session },
   } = await supabase.auth.getSession();
   if (!session) {
-    // not logged in → redirect to login page
     redirect("/login");
   }
 
-  // 3) Fetch the user's bookings
+  // fetch bookings
   const { data: bookings, error } = await supabase
     .from("bookings")
     .select("id, service_type, date_time, vehicle, total_price, status")
