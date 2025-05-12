@@ -8,13 +8,11 @@ import { useState, useEffect } from "react"
 import { useAuth } from "../context/AuthContext"
 import { FEATURE_GUEST_FLOW } from "@/lib/flags"
 
-
 export default function Navbar() {
   const { session } = useAuth()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  // Handle scroll event to change navbar appearance
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10)
@@ -23,12 +21,11 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Smooth scroll to section
   const scrollToSection = (sectionId: string) => {
     setIsMobileMenuOpen(false)
     const section = document.getElementById(sectionId)
     if (section) {
-      const offset = 80 // Adjust offset if needed
+      const offset = 80
       const top = section.getBoundingClientRect().top + window.scrollY
       window.scrollTo({ top: top - offset, behavior: "smooth" })
     }
@@ -60,7 +57,6 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
           <Link
             href="#services"
@@ -108,7 +104,6 @@ export default function Navbar() {
           </Button>
 
           {FEATURE_GUEST_FLOW && !session && (
-            
             <>
               <Link
                 href="/login"
@@ -122,14 +117,13 @@ export default function Navbar() {
                   size="sm"
                   className="border-white text-white transition-all duration-200 hover:bg-white/10"
                 >
-                  <a>Sign Up</a>
+                  Sign Up
                 </Button>
               </Link>
             </>
           )}
         </nav>
 
-        {/* Mobile Menu Button */}
         <Button
           variant="ghost"
           size="icon"
@@ -144,7 +138,6 @@ export default function Navbar() {
         </Button>
       </div>
 
-      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-[#1F1F1F]/95 backdrop-blur-md">
           <div className="container mx-auto px-4 py-6 flex flex-col space-y-4">
@@ -207,7 +200,6 @@ export default function Navbar() {
                 </Link>
               </>
             )}
-            
           </div>
         </div>
       )}
