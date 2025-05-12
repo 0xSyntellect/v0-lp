@@ -64,7 +64,7 @@ export default function AuthPromptModal({
           <DialogClose />
         </DialogHeader>
 
-        <Tabs value={tab} onValueChange={setTab}>
+         <Tabs value={tab} onValueChange={(val) => setTab(val as "signup" | "login")}>
           <TabsList>
             <TabsTrigger value="signup">Sign Up</TabsTrigger>
             <TabsTrigger value="login">Log In</TabsTrigger>
