@@ -5,21 +5,20 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { PhoneCall, Menu, X } from "lucide-react"
 import { useState, useEffect } from "react"
+import { useAuth } from "../context/AuthContext"
+import { FEATURE_GUEST_FLOW } from "@/lib/flags"
+
 
 export default function Navbar() {
+  const { session } = useAuth()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   // Handle scroll event to change navbar appearance
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setIsScrolled(true)
-      } else {
-        setIsScrolled(false)
-      }
+      setIsScrolled(window.scrollY > 10)
     }
-
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
@@ -30,19 +29,24 @@ export default function Navbar() {
     const section = document.getElementById(sectionId)
     if (section) {
       const offset = 80 // Adjust offset if needed
-      const elementPosition = section.getBoundingClientRect().top + window.scrollY
-      window.scrollTo({ top: elementPosition - offset, behavior: "smooth" })
+      const top = section.getBoundingClientRect().top + window.scrollY
+      window.scrollTo({ top: top - offset, behavior: "smooth" })
     }
   }
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-[#1F1F1F]/95 backdrop-blur-md shadow-md" : "bg-transparent"
+        isScrolled
+          ? "bg-[#1F1F1F]/95 backdrop-blur-md shadow-md"
+          : "bg-transparent"
       }`}
     >
       <div className="container mx-auto flex h-20 items-center justify-between px-4">
-        <Link href="/" className="flex items-center space-x-2 transition-transform duration-200 hover:scale-105">
+        <Link
+          href="/"
+          className="flex items-center space-x-2 transition-transform duration-200 hover:scale-105"
+        >
           <Image
             src="/pickupist logo.png"
             alt="Pickup Istanbul Logo"
@@ -51,11 +55,13 @@ export default function Navbar() {
             priority
             className="h-12 w-auto"
           />
-          <span className="text-xl font-bold tracking-tight text-white">PICKUP ISTANBUL</span>
+          <span className="text-xl font-bold tracking-tight text-white">
+            PICKUP ISTANBUL
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-6">
           <Link
             href="#services"
             onClick={(e) => {
@@ -100,6 +106,27 @@ export default function Navbar() {
               <span>+90 532 057 97 34</span>
             </a>
           </Button>
+
+          {FEATURE_GUEST_FLOW && !session && (
+            
+            <>
+              <Link
+                href="/login"
+                className="text-sm font-medium text-white transition-all duration-200 hover:text-[#C2A36C]"
+              >
+                Log In
+              </Link>
+              <Link href="/signup" asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="border-white text-white transition-all duration-200 hover:bg-white/10"
+                >
+                  <a>Sign Up</a>
+                </Button>
+              </Link>
+            </>
+          )}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -109,7 +136,11 @@ export default function Navbar() {
           className="md:hidden text-white hover:bg-white/10"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {isMobileMenuOpen ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <Menu className="h-6 w-6" />
+          )}
         </Button>
       </div>
 
@@ -150,16 +181,36 @@ export default function Navbar() {
               CONTACT
             </Link>
 
-            <Button asChild className="gap-2 bg-[#C2A36C] text-black border-[#C2A36C] w-full justify-center">
+            <Button
+              asChild
+              className="gap-2 bg-[#C2A36C] text-black border-[#C2A36C] w-full justify-center"
+            >
               <a href="tel:+905320579734">
                 <PhoneCall className="h-4 w-4" />
                 <span>+90 532 057 97 34</span>
               </a>
             </Button>
+
+            {!session && (
+              <>
+                <Link
+                  href="/login"
+                  className="text-white py-2 px-4 hover:bg-white/10 rounded-md"
+                >
+                  Log In
+                </Link>
+                <Link
+                  href="/signup"
+                  className="text-black py-2 px-4 bg-[#C2A36C] rounded-md hover:bg-[#b1945e]"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+            
           </div>
         </div>
       )}
     </header>
   )
 }
-

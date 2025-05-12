@@ -10,6 +10,9 @@ import { calculateHourlyPrice } from "@/lib/hourlyPricing";
 import { motion } from 'framer-motion'
 import {useCurrency,convert,format} from '@/context/CurrencyContext';
 import { Listbox } from "@headlessui/react";
+import { useAuth } from "@/context/AuthContext"
+import AuthPromptModal from "@/components/ui/AuthPromptModal"
+import { FEATURE_GUEST_FLOW } from "@/lib/flags"
 
 
 type VehicleInfo = {
@@ -19,6 +22,8 @@ type VehicleInfo = {
 
 function BookingContent() {
   const { rates, selectedCurrency, setSelectedCurrency, loading: ratesLoading } = useCurrency();
+  const { session } = useAuth()
+  const [showAuthModal, setShowAuthModal] = useState(false)
   const searchParams = useSearchParams();
 
   const [minivanPrice,  setMinivanPrice]  = useState<number | null>(null);
@@ -231,6 +236,16 @@ function BookingContent() {
   return (
     <main className="min-h-screen py-10 bg-[#1F1F1F] text-[#BFA15B]">
       <div className="max-w-3xl mx-auto px-4">
+      {FEATURE_GUEST_FLOW && !session && (
+  <div className="mb-6 p-4 bg-yellow-50 border-l-4 border-yellow-400">
+    <p className="text-yellow-700">
+      Save your booking for later —{" "}
+      <Link href="/login" className="underline">Log In</Link>{" "}
+      or{" "}
+      <Link href="/signup" className="underline">Sign Up</Link>
+    </p>
+  </div>
+)}
 
         {/* Logo at the top */}
         <div className="flex justify-center mb-6">
@@ -721,12 +736,22 @@ function BookingContent() {
                     )}
                   </div>
                 </div>
-                <button
-  className="mt-8 w-full py-3 rounded-lg border border-[#BFA15B] text-[#1F1F1F] bg-[#BFA15B] hover:bg-transparent hover:text-[#BFA15B]"
-  onClick={handleConfirmBooking}
->
-  Confirm Booking
-</button>
+                {FEATURE_GUEST_FLOW && !session ? (
+  <button
+    className="mt-8 w-full py-3 rounded-lg border border-[#BFA15B] bg-[#BFA15B] text-[#1F1F1F] hover:bg-transparent hover:text-[#BFA15B]"
+    onClick={() => setShowAuthModal(true)}
+  >
+    Confirm Booking
+  </button>
+) : (
+  <button
+    className="mt-8 w-full py-3 rounded-lg border border-[#BFA15B] bg-[#BFA15B] text-[#1F1F1F] hover:bg-transparent hover:text-[#BFA15B]"
+    onClick={handleConfirmBooking}
+  >
+    Confirm Booking
+  </button>
+)}
+
 
               </div>
             </div>
@@ -734,7 +759,16 @@ function BookingContent() {
         )}
         
       </div>
-      
+      {FEATURE_GUEST_FLOW && (
+      <AuthPromptModal
+        open={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={() => {
+          setShowAuthModal(false)
+          handleConfirmBooking()
+        }}
+      />
+    )}
     </main>
   );
 }

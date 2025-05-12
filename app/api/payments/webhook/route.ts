@@ -23,5 +23,6 @@ export async function POST(req: NextRequest) {
       .update({ paid_at: new Date().toISOString() })
       .eq('id', merchant_oid);
   }
+  
   return new NextResponse('OK');
 }

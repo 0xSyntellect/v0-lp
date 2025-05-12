@@ -32,4 +32,16 @@ export async function getMinivanPrice(
     const { price } = await res.json();
     return price;
   }
+
+  // lib/pricing.ts
+export function applyFirstBookingDiscount(
+  base: number,
+  bookingsCount: number
+) {
+  const isFirst = bookingsCount === 0;
+  const rate = isFirst ? 5 : 0;
+  const total = isFirst ? base * (1 - rate / 100) : base;
+  return { total, discountApplied: isFirst, discountRate: rate };
+}
+
   

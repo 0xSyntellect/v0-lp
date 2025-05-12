@@ -9,6 +9,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { CalendarIcon, MapPin, Minus, Plus, ChevronRight } from "lucide-react"
 import { format } from "date-fns"
+import Link from "next/link";
 
 // Define the GooglePrediction interface to type the predictions from the Google Places API
 interface GooglePrediction {
@@ -217,7 +218,7 @@ export default function HeroSection() {
 
           <div
             id="booking-form"
-            className="bg-white/10 backdrop-filter backdrop-blur-md rounded-xl shadow-2xl p-6 border border-white/20"
+            className="bg-white/10 backdrop-filter backdrop-blur-md rounded-xl shadow-2xl p-3 border border-white/20"
           >
             <h3 className="text-white text-xl font-semibold mb-6 text-center">Book Your Ride</h3>
             {errorMessage && (
@@ -329,6 +330,17 @@ export default function HeroSection() {
                 >
                   Book Now
                 </Button>
+                <div className="mt-4 text-center text-sm">
+  <Link href="/login" className="underline">
+    Log In
+  </Link>
+  . Don’t have an account?{" "}
+  <Link href="/signup" className="underline">
+    Register here
+  </Link>
+  .
+</div>
+
               </TabsContent>
 
               <TabsContent value="hourly" className="mt-6 space-y-6">
@@ -405,6 +417,17 @@ export default function HeroSection() {
                 >
                   Book Now
                 </Button>
+                <div className="mt-4 text-center text-sm">
+  <Link href="/login" className="underline">
+    Log In
+  </Link>
+  . Don’t have an account?{" "}
+  <Link href="/signup" className="underline">
+    Register here
+  </Link>
+  .
+</div>
+
               </TabsContent>
             </Tabs>
           </div>
