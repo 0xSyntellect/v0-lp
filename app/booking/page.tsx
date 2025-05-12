@@ -461,7 +461,7 @@ function BookingContent() {
           </div>
         </div>
         <Button
-          variant={selectedOfferId === "minivan" ? "solid" : "outline"}
+          variant={selectedOfferId === "minivan" ? "default" : "outline"}
           className="px-6 py-2 rounded-full w-full"
           onClick={() => setSelectedOfferId("minivan")}
         >
@@ -538,7 +538,7 @@ function BookingContent() {
           </div>
         </div>
         <Button
-          variant={selectedOfferId === "sprinter" ? "solid" : "outline"}
+          variant={selectedOfferId === "sprinter" ? "default" : "outline"}
           className="px-6 py-2 rounded-full w-full"
           onClick={() => setSelectedOfferId("sprinter")}
         >
