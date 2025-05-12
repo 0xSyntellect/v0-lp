@@ -36,19 +36,19 @@ export default function AuthPromptModal({
   const handleAction = async () => {
     setError("");
 
-    if (tab === "signup") {
-      const { error: signUpError } = await signUp({ email, password });
-      if (signUpError) {
-        setError(signUpError.message);
-        return;
-      }
-    } else {
-      const { error: signInError } = await signIn({ email, password });
-      if (signInError) {
-        setError(signInError.message);
-        return;
-      }
-    }
+      try {
+            if (tab === "signup") {
+              await signUp(email, password);          // positional args
+            } else {
+              await signIn(email, password);
+            }
+            onSuccess();      // only if no error thrown
+            onClose();
+          } catch (err: unknown) {
+            const msg =
+              err instanceof Error ? err.message : "Authentication failed";
+            setError(msg);
+          }
 
     onSuccess();
     onClose();
