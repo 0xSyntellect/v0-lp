@@ -60,11 +60,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (error) throw error;
   };
 
-  // Trigger Google OAuth flow
-  const signInWithGoogle = async () => {
-    const { error } = await supabase().auth.signInWithOAuth({ provider: 'google' });
-    if (error) throw error;
-  };
+    // context/AuthContext.tsx
+    const signInWithGoogle = async () => {
+        const { error } = await supabase().auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+            redirectTo: `${location.origin}/auth/callback`,   // 👈 new line
+        },
+        })
+        if (error) throw error
+    }
+  
 
   // Log out the current user
   const signOut = async () => {

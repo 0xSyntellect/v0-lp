@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 
+
 export default async function BookingsPage() {
   // 1) Initialize Supabase in a Server Component
   const supabase = createServerComponentClient({ cookies });
