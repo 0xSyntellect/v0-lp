@@ -31,7 +31,7 @@ export async function GET(req: Request) {
   return NextResponse.json(data);
 }
 
-export async function POST(req: Request) {
+export async function POST(_req: Request) {
   const supabase = createRouteHandlerClient({ cookies });
   const {
     data: { user },
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
-  const body = await req.json();
+  const body = await _req.json();
   const { selectedVehicle, serviceType, from, to, dateTime, passengers, offerId } = body;
 
   if (

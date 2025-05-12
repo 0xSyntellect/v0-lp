@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense, Fragment } from "react";
 import { ChevronDown, ChevronUp, Check, Users, Luggage, Tag } from "lucide-react";
 import { getMinivanPrice, getSprinterPrice } from "@/lib/pricing";
@@ -24,7 +24,7 @@ type VehicleInfo = {
 };
 
 function BookingContent() {
-  const router = useRouter()
+  
   const [selectedOfferId, setSelectedOfferId] = useState<string | null>(null)
   const { rates, selectedCurrency, setSelectedCurrency, loading: ratesLoading } = useCurrency();
   const { session } = useAuth()
