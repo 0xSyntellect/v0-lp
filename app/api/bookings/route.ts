@@ -7,7 +7,7 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { applyFirstBookingDiscount } from "@/lib/pricing";
 import { FEATURE_GUEST_FLOW } from "@/lib/flags";
 
-export async function GET(req: Request) {
+export async function GET() {
   const supabase = createRouteHandlerClient({ cookies });
   const {
     data: { user },
