@@ -1,7 +1,18 @@
 "use client";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogClose,
+} from "@/components/ui/dialog";
+import {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from "@/components/ui/tabs";
 import { useAuth } from "@/context/AuthContext";
 import { useState } from "react";
 
@@ -11,7 +22,11 @@ interface AuthPromptModalProps {
   onSuccess: () => void;
 }
 
-export default function AuthPromptModal({ open, onClose, onSuccess }: AuthPromptModalProps) {
+export default function AuthPromptModal({
+  open,
+  onClose,
+  onSuccess,
+}: AuthPromptModalProps) {
   const { signIn, signUp } = useAuth();
   const [tab, setTab] = useState<"signup" | "login">("signup");
   const [email, setEmail] = useState("");
@@ -22,13 +37,13 @@ export default function AuthPromptModal({ open, onClose, onSuccess }: AuthPrompt
     setError("");
 
     if (tab === "signup") {
-      const { data, error: signUpError } = await signUp({ email, password });
+      const { error: signUpError } = await signUp({ email, password });
       if (signUpError) {
         setError(signUpError.message);
         return;
       }
     } else {
-      const { data, error: signInError } = await signIn({ email, password });
+      const { error: signInError } = await signIn({ email, password });
       if (signInError) {
         setError(signInError.message);
         return;
@@ -43,7 +58,9 @@ export default function AuthPromptModal({ open, onClose, onSuccess }: AuthPrompt
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{tab === "signup" ? "Sign Up & Save 5%!" : "Log In"}</DialogTitle>
+          <DialogTitle>
+            {tab === "signup" ? "Sign Up & Save 5%!" : "Log In"}
+          </DialogTitle>
           <DialogClose />
         </DialogHeader>
 
@@ -53,7 +70,9 @@ export default function AuthPromptModal({ open, onClose, onSuccess }: AuthPrompt
             <TabsTrigger value="login">Log In</TabsTrigger>
           </TabsList>
           <TabsContent value="signup">
-            <p className="mb-4">Create an account now and get 5% off your first booking.</p>
+            <p className="mb-4">
+              Create an account now and get 5% off your first booking.
+            </p>
           </TabsContent>
           <TabsContent value="login">
             <p className="mb-4">Log in to manage your bookings.</p>
