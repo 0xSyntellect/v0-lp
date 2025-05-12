@@ -14,9 +14,7 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
+    const handleScroll = () => setIsScrolled(window.scrollY > 10)
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
@@ -68,7 +66,6 @@ export default function Navbar() {
           >
             SERVICES
           </Link>
-
           <Link
             href="#fleet"
             onClick={(e) => {
@@ -79,7 +76,6 @@ export default function Navbar() {
           >
             FLEET
           </Link>
-
           <Link
             href="#contact"
             onClick={(e) => {
@@ -111,15 +107,14 @@ export default function Navbar() {
               >
                 Log In
               </Link>
-              <Link href="/signup" asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="border-white text-white transition-all duration-200 hover:bg-white/10"
-                >
-                  Sign Up
-                </Button>
-              </Link>
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="border-white text-white transition-all duration-200 hover:bg-white/10"
+              >
+                <Link href="/signup">Sign Up</Link>
+              </Button>
             </>
           )}
         </nav>
@@ -130,11 +125,7 @@ export default function Navbar() {
           className="md:hidden text-white hover:bg-white/10"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {isMobileMenuOpen ? (
-            <X className="h-6 w-6" />
-          ) : (
-            <Menu className="h-6 w-6" />
-          )}
+          {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </Button>
       </div>
 
@@ -151,7 +142,6 @@ export default function Navbar() {
             >
               SERVICES
             </Link>
-
             <Link
               href="#fleet"
               onClick={(e) => {
@@ -162,7 +152,6 @@ export default function Navbar() {
             >
               FLEET
             </Link>
-
             <Link
               href="#contact"
               onClick={(e) => {
@@ -192,12 +181,11 @@ export default function Navbar() {
                 >
                   Log In
                 </Link>
-                <Link
-                  href="/signup"
-                  className="text-black py-2 px-4 bg-[#C2A36C] rounded-md hover:bg-[#b1945e]"
-                >
-                  Sign Up
-                </Link>
+                <Button asChild className="w-full">
+                  <Link href="/signup" className="block py-2 px-4 bg-[#C2A36C] text-black rounded-md hover:bg-[#b1945e] text-center">
+                    Sign Up
+                  </Link>
+                </Button>
               </>
             )}
           </div>
