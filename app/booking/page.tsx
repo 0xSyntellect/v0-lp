@@ -2,17 +2,20 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState, Suspense,Fragment } from "react";
-import { ChevronDown, ChevronUp, Check, Users, Luggage, Tag } from 'lucide-react';
+import { useSearchParams, useRouter } from "next/navigation";
+import { useEffect, useState, Suspense, Fragment } from "react";
+import { ChevronDown, ChevronUp, Check, Users, Luggage, Tag } from "lucide-react";
 import { getMinivanPrice, getSprinterPrice } from "@/lib/pricing";
 import { calculateHourlyPrice } from "@/lib/hourlyPricing";
-import { motion } from 'framer-motion'
-import {useCurrency,convert,format} from '@/context/CurrencyContext';
+import { motion } from "framer-motion";
+import { useCurrency, convert, format } from "@/context/CurrencyContext";
 import { Listbox } from "@headlessui/react";
-import { useAuth } from "@/context/AuthContext"
-import AuthPromptModal from "@/components/ui/AuthPromptModal"
-import { FEATURE_GUEST_FLOW } from "@/lib/flags"
+import { useAuth } from "@/context/AuthContext";
+import AuthPromptModal from "@/components/ui/AuthPromptModal";
+import { FEATURE_GUEST_FLOW } from "@/lib/flags";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+
 
 
 type VehicleInfo = {
@@ -21,6 +24,8 @@ type VehicleInfo = {
 };
 
 function BookingContent() {
+  const router = useRouter()
+  const [selectedOfferId, setSelectedOfferId] = useState<string | null>(null)
   const { rates, selectedCurrency, setSelectedCurrency, loading: ratesLoading } = useCurrency();
   const { session } = useAuth()
   const [showAuthModal, setShowAuthModal] = useState(false)
@@ -355,46 +360,48 @@ function BookingContent() {
   </div>
 </motion.div>
 
-{/* STEP 2 ⇒ Vehicle Selection */}
 {currentStep === 2 && (
   <div className="bg-[#1F1F1F] p-4 rounded-xl border border-[#BFA15B] mb-8">
-   {/* Header + Currency selector, side by side */}
-   <div className="flex items-center justify-between px-5 mb-4">
-  <h3 className="text-lg font-semibold text-[#BFA15B]">
-    Choose Your Vehicle
-  </h3>
+    {/* Header + Currency selector */}
+    <div className="flex items-center justify-between px-5 mb-4">
+      <h3 className="text-lg font-semibold text-[#BFA15B]">
+        Choose Your Vehicle
+      </h3>
+      <div className="relative inline-block">
+        <Listbox value={selectedCurrency} onChange={setSelectedCurrency}>
+          <Listbox.Button className="flex items-center gap-2 bg-[#262626] border border-[#BFA15B] text-[#BFA15B] px-3 py-1 rounded-md">
+            {selectedCurrency}
+            <ChevronDown className="w-4 h-4" />
+          </Listbox.Button>
+          <Listbox.Options className="absolute right-0 mt-1 w-full bg-[#262626] border border-[#BFA15B] rounded-md z-20 overflow-auto max-h-40">
+            {["USD","EUR","GBP","TRY"].map((c) => (
+              <Listbox.Option
+                key={c}
+                value={c}
+                className={({ active, selected }) =>
+                  `cursor-pointer px-3 py-1 ${
+                    active ? "bg-[#BFA15B]/30" : ""
+                  } ${selected ? "font-semibold" : ""}`
+                }
+              >
+                {c}
+              </Listbox.Option>
+            ))}
+          </Listbox.Options>
+        </Listbox>
+      </div>
+    </div>
 
-  <div className="relative inline-block">
-    <Listbox value={selectedCurrency} onChange={setSelectedCurrency}>
-      <Listbox.Button className="flex items-center gap-2 bg-[#262626] border border-[#BFA15B] text-[#BFA15B] px-3 py-1 rounded-md">
-        {selectedCurrency}
-        <ChevronDown className="w-4 h-4" />
-      </Listbox.Button>
-      <Listbox.Options className="absolute right-0 mt-1 w-full bg-[#262626] border border-[#BFA15B] rounded-md z-20 overflow-auto max-h-40">
-        {["USD","EUR","GBP","TRY"].map((c) => (
-          <Listbox.Option
-            key={c}
-            value={c}
-            className={({ active, selected }) =>
-              `cursor-pointer px-3 py-1 ${
-                active ? "bg-[#BFA15B]/30" : ""
-              } ${selected ? "font-semibold" : ""}`
-            }
-          >
-            {c}
-          </Listbox.Option>
-        ))}
-      </Listbox.Options>
-    </Listbox>
-  </div>
-</div>
-
-
-    
+    {/* Vehicle cards */}
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {/* Minivan */}
-      <div className="rounded-2xl border border-[#BFA15B]/60 bg-[#262626] p-6 flex flex-col gap-4 items-center">
-        {/* image on top */}
+      <Card
+        key="minivan"
+        className={
+          `rounded-2xl border border-[#BFA15B]/60 bg-[#262626] p-6 flex flex-col gap-4 items-center ` +
+          (selectedOfferId === "minivan" ? "ring-2 ring-indigo-500" : "")
+        }
+      >
         <div className="relative w-[300px] h-[160px]">
           <Image
             src="/minivan.png"
@@ -403,8 +410,6 @@ function BookingContent() {
             className="object-cover rounded-lg"
           />
         </div>
-
-        {/* details below image */}
         <div className="flex flex-col gap-2 text-sm w-full">
           <h4 className="text-lg font-semibold text-[#BFA15B]">Minivan</h4>
           <div className="flex items-center gap-2">
@@ -413,62 +418,65 @@ function BookingContent() {
           </div>
           <div className="flex items-center gap-2">
             <Luggage className="w-4 h-4 text-[#BFA15B]" />
-            <span className="text-[#BFA15B]/90">Fits 6 medium-sized suitcases</span>
+            <span className="text-[#BFA15B]/90">
+              Fits 6 medium-sized suitcases
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <Tag className="w-4 h-4 text-[#BFA15B]" />
             {serviceType === "transfer" ? (
-  <>
-    <span className="line-through text-[#BFA15B]/60">
-      {format(
-        convert((minivanPrice ?? 0) * 1.1, rates, selectedCurrency),
-        selectedCurrency
-      )}
-    </span>
-    <span className="text-[#BFA15B] font-semibold">
-      {minivanPrice != null
-        ? format(convert(minivanPrice, rates, selectedCurrency), selectedCurrency)
-        : "–"}
-    </span>
-  </>
-) : (
-  <>
-    <span className="line-through text-[#BFA15B]/60">
-      {format(
-        convert(hourlyPriceMinivan * 1.1, rates, selectedCurrency),
-        selectedCurrency
-      )}
-    </span>
-    <span className="text-[#BFA15B] font-semibold">
-      {format(
-        convert(hourlyPriceMinivan, rates, selectedCurrency),
-        selectedCurrency
-      )}
-    </span>
-    <span className="text-xs text-[#BFA15B]/80 ml-1">/hour</span>
-  </>
-)}          </div>
+              <>
+                <span className="line-through text-[#BFA15B]/60">
+                  {format(
+                    convert((minivanPrice ?? 0) * 1.1, rates, selectedCurrency),
+                    selectedCurrency
+                  )}
+                </span>
+                <span className="text-[#BFA15B] font-semibold">
+                  {minivanPrice != null
+                    ? format(
+                        convert(minivanPrice, rates, selectedCurrency),
+                        selectedCurrency
+                      )
+                    : "–"}
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="line-through text-[#BFA15B]/60">
+                  {format(
+                    convert(hourlyPriceMinivan * 1.1, rates, selectedCurrency),
+                    selectedCurrency
+                  )}
+                </span>
+                <span className="text-[#BFA15B] font-semibold">
+                  {format(
+                    convert(hourlyPriceMinivan, rates, selectedCurrency),
+                    selectedCurrency
+                  )}
+                </span>
+                <span className="text-xs text-[#BFA15B]/80 ml-1">/hour</span>
+              </>
+            )}
+          </div>
         </div>
-
-        {/* CTA at bottom */}
-        <button
-          onClick={() =>
-            handleSelectClick(
-              "Minivan",
-              serviceType === "transfer"
-                ? (minivanPrice ?? 0)
-                : hourlyPriceMinivan
-            )
-          }
-          className="px-6 py-2 rounded-full border border-[#BFA15B] text-[#1F1F1F] bg-[#BFA15B] hover:bg-transparent hover:text-[#BFA15B] transition-colors"
+        <Button
+          variant={selectedOfferId === "minivan" ? "solid" : "outline"}
+          className="px-6 py-2 rounded-full w-full"
+          onClick={() => setSelectedOfferId("minivan")}
         >
           Select
-        </button>
-      </div>
+        </Button>
+      </Card>
 
       {/* Sprinter */}
-      <div className="rounded-2xl border border-[#BFA15B]/60 bg-[#262626] p-6 flex flex-col gap-4 items-center">
-        {/* image on top */}
+      <Card
+        key="sprinter"
+        className={
+          `rounded-2xl border border-[#BFA15B]/60 bg-[#262626] p-6 flex flex-col gap-4 items-center ` +
+          (selectedOfferId === "sprinter" ? "ring-2 ring-indigo-500" : "")
+        }
+      >
         <div className="relative w-[300px] h-[160px]">
           <Image
             src="/sprinter new.png"
@@ -477,72 +485,102 @@ function BookingContent() {
             className="object-cover rounded-lg"
           />
         </div>
-
-        {/* details below image */}
         <div className="flex flex-col gap-2 text-sm w-full">
           <h4 className="text-lg font-semibold text-[#BFA15B]">Sprinter</h4>
           <div className="flex items-center gap-2">
             <Users className="w-4 h-4 text-[#BFA15B]" />
-            <span className="text-[#BFA15B]/90">Up to 12 passengers</span>
+            <span className="text-[#BFA15B]/90">
+              Up to 12 passengers
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <Luggage className="w-4 h-4 text-[#BFA15B]" />
-            <span className="text-[#BFA15B]/90">Fits 12 medium-sized suitcases</span>
+            <span className="text-[#BFA15B]/90">
+              Fits 12 medium-sized suitcases
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <Tag className="w-4 h-4 text-[#BFA15B]" />
             {serviceType === "transfer" ? (
-  <>
-    <span className="line-through text-[#BFA15B]/60">
-      {format(
-        convert((sprinterPrice ?? 0) * 1.1, rates, selectedCurrency),
-        selectedCurrency
-      )}
-    </span>
-    <span className="text-[#BFA15B] font-semibold">
-      {sprinterPrice != null
-        ? format(convert(sprinterPrice, rates, selectedCurrency), selectedCurrency)
-        : "–"}
-    </span>
-  </>
-) : (
-  <>
-    <span className="line-through text-[#BFA15B]/60">
-      {format(
-        convert(hourlyPriceSprinter * 1.1, rates, selectedCurrency),
-        selectedCurrency
-      )}
-    </span>
-    <span className="text-[#BFA15B] font-semibold">
-      {format(
-        convert(hourlyPriceSprinter, rates, selectedCurrency),
-        selectedCurrency
-      )}
-    </span>
-    <span className="text-xs text-[#BFA15B]/80 ml-1">/hour</span>
-  </>
-)}
+              <>
+                <span className="line-through text-[#BFA15B]/60">
+                  {format(
+                    convert((sprinterPrice ?? 0) * 1.1, rates, selectedCurrency),
+                    selectedCurrency
+                  )}
+                </span>
+                <span className="text-[#BFA15B] font-semibold">
+                  {sprinterPrice != null
+                    ? format(
+                        convert(sprinterPrice, rates, selectedCurrency),
+                        selectedCurrency
+                      )
+                    : "–"}
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="line-through text-[#BFA15B]/60">
+                  {format(
+                    convert(hourlyPriceSprinter * 1.1, rates, selectedCurrency),
+                    selectedCurrency
+                  )}
+                </span>
+                <span className="text-[#BFA15B] font-semibold">
+                  {format(
+                    convert(hourlyPriceSprinter, rates, selectedCurrency),
+                    selectedCurrency
+                  )}
+                </span>
+                <span className="text-xs text-[#BFA15B]/80 ml-1">/hour</span>
+              </>
+            )}
           </div>
         </div>
-
-        {/* CTA at bottom */}
-        <button
-          onClick={() =>
-            handleSelectClick(
-              "Sprinter",
-              serviceType === "transfer"
-                ? (sprinterPrice ?? 0)
-                : hourlyPriceSprinter
-            )
-          }
-          className="px-6 py-2 rounded-full border border-[#BFA15B] text-[#1F1F1F] bg-[#BFA15B] hover:bg-transparent hover:text-[#BFA15B] transition-colors"
+        <Button
+          variant={selectedOfferId === "sprinter" ? "solid" : "outline"}
+          className="px-6 py-2 rounded-full w-full"
+          onClick={() => setSelectedOfferId("sprinter")}
         >
           Select
-        </button>
-      </div>
+        </Button>
+      </Card>
+    </div>
+
+    {/* Continue / Login buttons */}
+{/* Continue / Login buttons */}
+<div className="mt-6 flex flex-col items-center space-y-3">
+      <Button
+        size="lg"
+        className="w-full max-w-sm"
+        disabled={!selectedOfferId}
+        onClick={() => {
+          if (selectedOfferId === "minivan") {
+            handleSelectClick(
+              "Minivan",
+              serviceType === "transfer" ? (minivanPrice ?? 0) : hourlyPriceMinivan
+            );
+          } else if (selectedOfferId === "sprinter") {
+            handleSelectClick(
+              "Sprinter",
+              serviceType === "transfer" ? (sprinterPrice ?? 0) : hourlyPriceSprinter
+            );
+          }
+        }}
+      >
+        Continue as guest
+      </Button>
+
+      <Link href="/login" className="w-full max-w-sm">
+        <Button variant="link" size="sm" className="w-full">
+          Login / Sign up
+        </Button>
+      </Link>
     </div>
   </div>
 )}
+
+
 
 
         {/* STEP 3 => Passenger & Contact Information */}
@@ -774,6 +812,7 @@ function BookingContent() {
 }
 
 export default function BookingPage() {
+
   return (
     <Suspense
       fallback={
