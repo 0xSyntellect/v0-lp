@@ -7,9 +7,7 @@ import { applyFirstBookingDiscount } from "@/lib/pricing";
 import { FEATURE_GUEST_FLOW } from "@/lib/flags";
 
 export async function GET() {
-  
   const supabase = await createSupabaseServerClient();
-
 
   const {
     data: { user },
@@ -34,9 +32,7 @@ export async function GET() {
 }
 
 export async function POST(_req: Request) {
-  
   const supabase = await createSupabaseServerClient();
-
 
   const {
     data: { user },
@@ -60,16 +56,19 @@ export async function POST(_req: Request) {
     return new NextResponse("Missing required fields", { status: 400 });
   }
 
+  // ensure profile exists & fetch bookings_count
   const { data: profile, error: profileErr } = await supabaseAdmin
     .from("profiles")
     .upsert({ id: user.id }, { onConflict: 'id' })
     .select("bookings_count")
     .maybeSingle();
 
-  if (profileErr) { 
+  if (profileErr) {
     return new NextResponse(profileErr.message, { status: 500 });
-
   }
+
+  // safely get current count
+  const bookingsCount = profile?.bookings_count ?? 0;
 
   let totalPrice: number;
   let discountApplied: boolean;
@@ -78,7 +77,7 @@ export async function POST(_req: Request) {
   if (FEATURE_GUEST_FLOW) {
     const discount = applyFirstBookingDiscount(
       selectedVehicle.price,
-      profile.bookings_count
+      bookingsCount
     );
     totalPrice = discount.total;
     discountApplied = discount.discountApplied;
@@ -109,7 +108,7 @@ export async function POST(_req: Request) {
     .from("bookings")
     .insert(bookingPayload)
     .select()
-    .single();
+    .maybeSingle();
 
   if (insertErr) {
     return new NextResponse(insertErr.message, { status: 500 });
