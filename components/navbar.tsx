@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { PhoneCall, Menu, X } from "lucide-react"
 import { useState, useEffect } from "react"
 import { useAuth } from "../context/AuthContext"
-import { FEATURE_GUEST_FLOW } from "@/lib/flags"
+
 
 export default function Navbar() {
   const { session, signOut } = useAuth()
