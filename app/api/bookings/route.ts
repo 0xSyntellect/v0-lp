@@ -62,14 +62,13 @@ export async function POST(_req: Request) {
 
   const { data: profile, error: profileErr } = await supabaseAdmin
     .from("profiles")
+    .upsert({ id: user.id }, { onConflict: 'id' })
     .select("bookings_count")
-    .eq("id", user.id)
-    .single();
+    .maybeSingle();
 
-  if (profileErr || !profile) {
-    return new NextResponse(profileErr?.message || "Profile not found", {
-      status: 500,
-    });
+  if (profileErr) { 
+    return new NextResponse(profileErr.message, { status: 500 });
+
   }
 
   let totalPrice: number;

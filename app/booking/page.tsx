@@ -15,6 +15,7 @@ import AuthPromptModal from "@/components/ui/AuthPromptModal";
 import { FEATURE_GUEST_FLOW } from "@/lib/flags";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useRouter } from "next/navigation"; 
 
 
 
@@ -28,6 +29,7 @@ function BookingContent() {
   const [selectedOfferId, setSelectedOfferId] = useState<string | null>(null)
   const { rates, selectedCurrency, setSelectedCurrency, loading: ratesLoading } = useCurrency();
   const { session } = useAuth()
+  const router = useRouter();
   const [showAuthModal, setShowAuthModal] = useState(false)
   const searchParams = useSearchParams();
 
@@ -188,17 +190,27 @@ function BookingContent() {
     };
 
     try {
-      const response = await fetch("/api/booking/confirm", {
+      const insertRes = await fetch("/api/bookings", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(bookingData),
       });
-      if (!response.ok) {
+      if (!insertRes.ok) {
         throw new Error("Failed to confirm booking");
       }
-      window.alert("Booking confirmed! Confirmation email sent.");
+           // 2) Send notification email (optional)
+      await fetch("/api/booking/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bookingData),
+      });
+
+      window.alert("Booking confirmed!");
+
+      // 3) Redirect to the My Bookings page
+      router.push("/bookings");
     } catch (error) {
       console.error("Error confirming booking:", error);
       window.alert(
