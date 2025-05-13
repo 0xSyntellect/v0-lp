@@ -1,34 +1,16 @@
 // app/api/bookings/route.ts
 
 import { NextResponse } from "next/server";
-import { createServerClient, type CookieOptions } from "@supabase/ssr";
-import { cookies } from "next/headers";
+import { createSupabaseServerClient } from "@/lib/createSupabaseServerClient";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { applyFirstBookingDiscount } from "@/lib/pricing";
 import { FEATURE_GUEST_FLOW } from "@/lib/flags";
 
-// Adapt Next.js 15 cookies() into the shape @supabase/ssr expects
-function cookieAdapter(): CookieOptions {
-    const store = cookies();
-    return {
-      getAll() {
-        // returns Array<{ name, value }>
-        return store.getAll().map(({ name, value }) => ({ name, value }));
-      },
-      setAll(toSet) {
-        toSet.forEach(({ name, value, options }) =>
-          store.set(name, value, options)
-        );
-      },
-    };
-  }
-
-
 export async function GET() {
-  const supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-        { cookies: cookieAdapter() }
-      );
+  
+  const supabase = await createSupabaseServerClient();
+
+
   const {
     data: { user },
     error: authError,
@@ -52,10 +34,10 @@ export async function GET() {
 }
 
 export async function POST(_req: Request) {
-  const supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: cookieAdapter() }
-  );
+  
+  const supabase = await createSupabaseServerClient();
+
+
   const {
     data: { user },
     error: authError,

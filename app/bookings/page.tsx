@@ -1,29 +1,14 @@
 // app/bookings/page.tsx
 
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { createServerClient } from "@supabase/ssr";
+import { createSupabaseServerClient } from "@/lib/createSupabaseServerClient";
 
 export default async function BookingsPage() {
-  // initialize Next.js cookie store
-  const cookieStore = cookies();
+  
+  
 
   // initialize Supabase with getAll/setAll cookie handlers
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        // read all incoming cookies
-        getAll: () => cookieStore.getAll(),
-        // write any Set-Cookie headers from Supabase
-        setAll: (toSet) =>
-          toSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          ),
-      },
-    }
-  );
+  const supabase = await createSupabaseServerClient();
 
   // check auth
   const {

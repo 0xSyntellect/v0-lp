@@ -1,27 +1,14 @@
 // app/auth/callback/route.ts
 
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { createServerClient } from "@supabase/ssr";
+import { createSupabaseServerClient } from "@/lib/createSupabaseServerClient";
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
-  const cookieStore = cookies();
+  
 
   // 1) Initialize Supabase with getAll/setAll cookie handlers
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll: () => cookieStore.getAll(),
-        setAll: (toSet) =>
-          toSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          ),
-      },
-    }
-  );
+  const supabase = await createSupabaseServerClient();
 
   // 2) Pull out just the code string
   const code = url.searchParams.get("code");
