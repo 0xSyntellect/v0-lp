@@ -1,12 +1,10 @@
 // app/bookings/page.tsx
 
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/createSupabaseServerClient";
 
 export default async function BookingsPage() {
-  
-  
-
   // initialize Supabase with getAll/setAll cookie handlers
   const supabase = await createSupabaseServerClient();
 
@@ -34,7 +32,12 @@ export default async function BookingsPage() {
       <h1 className="text-2xl font-bold mb-6 text-[#BFA15B]">My Bookings</h1>
 
       {(!bookings || bookings.length === 0) ? (
-        <p className="text-center text-[#BFA15B]">You have no bookings yet.</p>
+        <p className="text-center text-[#BFA15B]">
+          You have no bookings yet.{" "}
+          <Link href="/" className="underline hover:text-white">
+            Book your first ride now!
+          </Link>
+        </p>
       ) : (
         <table className="min-w-full table-auto border-collapse bg-[#1F1F1F] text-[#BFA15B]">
           <thead>
