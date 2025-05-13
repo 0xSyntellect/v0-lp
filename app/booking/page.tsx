@@ -550,6 +550,29 @@ function BookingContent() {
     {/* Continue / Login buttons */}
 {/* Continue / Login buttons */}
 <div className="mt-6 flex flex-col items-center space-y-3">
+  {session ? (
+    <Button
+      size="lg"
+      className="w-full max-w-sm"
+      disabled={!selectedOfferId}
+      onClick={() => {
+        if (selectedOfferId === "minivan") {
+          handleSelectClick(
+            "Minivan",
+            serviceType === "transfer" ? (minivanPrice ?? 0) : hourlyPriceMinivan
+          );
+        } else if (selectedOfferId === "sprinter") {
+          handleSelectClick(
+            "Sprinter",
+            serviceType === "transfer" ? (sprinterPrice ?? 0) : hourlyPriceSprinter
+          );
+        }
+      }}
+    >
+      Continue
+    </Button>
+  ) : (
+    <>
       <Button
         size="lg"
         className="w-full max-w-sm"
@@ -576,6 +599,8 @@ function BookingContent() {
           Login / Sign up
         </Button>
       </Link>
+    </>
+  )}
     </div>
   </div>
 )}
