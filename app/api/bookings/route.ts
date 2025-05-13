@@ -1,7 +1,7 @@
 // app/api/bookings/route.ts
 
 import { NextResponse } from "next/server";
-import { createServerClient } from "@supabase/ssr";
+import { createRouteHandlerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { applyFirstBookingDiscount } from "@/lib/pricing";
@@ -9,11 +9,7 @@ import { FEATURE_GUEST_FLOW } from "@/lib/flags";
 
 
 export async function GET() {
-    const supabase = createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-        { cookies }
-      );
+  const supabase = createRouteHandlerClient({ cookies });
   const {
     data: { user },
     error: authError,
