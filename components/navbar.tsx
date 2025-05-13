@@ -9,7 +9,8 @@ import { useAuth } from "../context/AuthContext"
 import { FEATURE_GUEST_FLOW } from "@/lib/flags"
 
 export default function Navbar() {
-  const { session } = useAuth()
+  const { session, signOut } = useAuth()
+
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -99,7 +100,23 @@ export default function Navbar() {
             </a>
           </Button>
 
-          {FEATURE_GUEST_FLOW && !session && (
+                    {session ? (
+            <>
+              <Link
+                href="/bookings"
+                className="text-sm font-medium text-white transition-all duration-200 hover:text-[#C2A36C]"
+              >
+                My Bookings
+              </Link>
+              <button
+                type="button"
+                onClick={() => signOut()}
+                className="text-sm font-medium text-white transition-all duration-200 hover:text-[#C2A36C]"
+              >
+                Log Out
+              </button>
+            </>
+          ) : (
             <>
               <Link
                 href="/login"
