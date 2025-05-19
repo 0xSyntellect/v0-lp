@@ -58,7 +58,7 @@ export default function AuthPromptModal({
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="text-xl font-semibold text-[#BFA15B]">
             {tab === "signup" ? "Sign Up & Save 5%!" : "Log In"}
           </DialogTitle>
           <DialogClose />
@@ -70,12 +70,12 @@ export default function AuthPromptModal({
             <TabsTrigger value="login">Log In</TabsTrigger>
           </TabsList>
           <TabsContent value="signup">
-            <p className="mb-4">
+            <p className="mb-4 text-gray-600">
               Create an account now and get 5% off your first booking.
             </p>
           </TabsContent>
           <TabsContent value="login">
-            <p className="mb-4">Log in to manage your bookings.</p>
+            <p className="mb-4 text-gray-600">Log in to manage your bookings.</p>
           </TabsContent>
         </Tabs>
 
@@ -97,7 +97,7 @@ export default function AuthPromptModal({
           {error && <p className="text-red-500">{error}</p>}
           <button
             onClick={handleAction}
-            className="w-full py-2 bg-[#BFA15B] text-[#1F1F1F] rounded hover:opacity-90"
+            className="w-full py-2 bg-[#BFA15B] text-gray-600 rounded hover:opacity-90"
           >
             {tab === "signup" ? "Sign Up" : "Log In"}
           </button>
