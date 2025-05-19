@@ -85,10 +85,17 @@ export function convert(
   return amountUSD * (rates?.[currency] ?? 1);
 }
 
-// Format with the Intl API
-export function format(amount: number, currency: string) {
+/**
+ * Format a number as a localized currency string.
+ *
+ * @param value    The amount in base units (e.g. USD decimals)
+ * @param currency A 3-letter currency code, e.g. 'USD','EUR','TRY'
+ */
+export function format(value: number, currency: string): string {
   return new Intl.NumberFormat(undefined, {
-    style: 'currency',
+    style: "currency",
     currency,
-  }).format(amount);
+    // minimumFractionDigits: 2, // usually automatic
+    // maximumFractionDigits: 2,
+  }).format(value);
 }

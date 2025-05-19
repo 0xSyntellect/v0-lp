@@ -1,0 +1,51 @@
+// app/bookings/components/PassengerForm/index.tsx
+"use client";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import ContactForm from "./ContactForm";
+import PassengerAccordion from "./PassengerAccordion";
+
+export default function PassengerForm({
+  passengerDetails,
+  isAccordionOpen,
+  contactInfo,
+  onPassengerChange,
+  onToggleAccordion,
+  onContactChange,
+  onConfirm,
+}: {
+  passengerDetails: Array<{ firstName: string; lastName: string; passportNumber: string; origin: string }>
+  isAccordionOpen: boolean[];
+  contactInfo: { email: string; phone: string; whatsapp: string; flightNumber: string; notes: string };
+  onPassengerChange: (idx: number, field: string, value: string) => void;
+  onToggleAccordion: (idx: number) => void;
+  onContactChange: (field: string, value: string) => void;
+  onConfirm: () => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="bg-[#1F1F1F] p-8 rounded-2xl border border-[#BFA15B]/60 shadow-lg backdrop-blur-sm mb-12"
+    >
+      <h3 className="text-2xl font-semibold text-center mb-6 tracking-wide text-[#BFA15B]">
+        Passenger & Contact Details
+      </h3>
+      <div className="grid gap-6 md:grid-cols-2">
+        <ContactForm contactInfo={contactInfo} onChange={onContactChange} />
+        <PassengerAccordion
+          passengerDetails={passengerDetails}
+          isAccordionOpen={isAccordionOpen}
+          onChange={onPassengerChange}
+          onToggle={onToggleAccordion}
+        />
+      </div>
+      <div className="flex justify-center mt-8">
+        <Button onClick={onConfirm}>
+          Confirm
+        </Button>
+      </div>
+    </motion.div>
+  );
+}

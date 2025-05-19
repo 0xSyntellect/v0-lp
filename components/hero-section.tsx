@@ -151,7 +151,7 @@ export default function HeroSection() {
     setErrorMessage("")
     const dateTime = getDateTimeString()
     const toParam = activeTab === "hourly" ? "" : transferTo
-    window.location.href = `/booking?from=${encodeURIComponent(
+    window.location.href = `/bookings?from=${encodeURIComponent(
       transferFrom,
     )}&to=${encodeURIComponent(toParam)}&date=${encodeURIComponent(
       dateTime,
