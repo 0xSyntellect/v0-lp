@@ -38,7 +38,6 @@ export default function usePassengerState(count: number) {
   ) => {
     setPassengerDetails(prev => {
       const copy = [...prev];
-      // @ts-ignore
       copy[idx][field] = value;
       return copy;
     });

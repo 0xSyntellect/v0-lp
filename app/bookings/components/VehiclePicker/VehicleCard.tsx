@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { useCurrency, format } from "@/context/CurrencyContext";   // NEW
 
 export default function VehicleCard({
-  id,
   title,
   img,
   capacity,
@@ -13,7 +12,6 @@ export default function VehicleCard({
   selected,
   onSelect,
 }: {
-  id: string;
   title: string;
   img: string;
   capacity: { pax: number; bags: number };

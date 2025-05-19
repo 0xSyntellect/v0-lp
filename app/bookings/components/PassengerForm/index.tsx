@@ -5,6 +5,21 @@ import { Button } from "@/components/ui/button";
 import ContactForm from "./ContactForm";
 import PassengerAccordion from "./PassengerAccordion";
 
+type Passenger = {
+  firstName: string;
+  lastName: string;
+  passportNumber: string;
+  origin: string;
+};
+
+type Contact = {
+  email: string;
+  phone: string;
+  whatsapp: string;
+  flightNumber: string;
+  notes: string;
+};
+
 export default function PassengerForm({
   passengerDetails,
   isAccordionOpen,
@@ -14,12 +29,12 @@ export default function PassengerForm({
   onContactChange,
   onConfirm,
 }: {
-  passengerDetails: Array<{ firstName: string; lastName: string; passportNumber: string; origin: string }>
+  passengerDetails: Passenger[];
   isAccordionOpen: boolean[];
-  contactInfo: { email: string; phone: string; whatsapp: string; flightNumber: string; notes: string };
-  onPassengerChange: (idx: number, field: string, value: string) => void;
+  contactInfo: Contact;
+  onPassengerChange: (idx: number, field: keyof Passenger, value: string) => void;
   onToggleAccordion: (idx: number) => void;
-  onContactChange: (field: string, value: string) => void;
+  onContactChange: (field: keyof Contact, value: string) => void;
   onConfirm: () => void;
 }) {
   return (
@@ -33,22 +48,21 @@ export default function PassengerForm({
         Passenger & Contact Details
       </h3>
       <div className="grid gap-6 md:grid-cols-2">
-        <ContactForm contactInfo={contactInfo} onChange={onContactChange} />
+        <ContactForm contactInfo={contactInfo} onChange={(field, value) => onContactChange(field as keyof Contact, value)} />
         <PassengerAccordion
           passengerDetails={passengerDetails}
           isAccordionOpen={isAccordionOpen}
-          onChange={onPassengerChange}
+          onChange={(idx, field, value) =>onPassengerChange(idx, field as keyof Passenger, value)}
           onToggle={onToggleAccordion}
         />
       </div>
       <div className="flex justify-center mt-8">
-      <Button
-        className="w-full max-w-sm bg-[#C2A36C] hover:bg-[#b1945e] text-black h-12 text-base font-medium transition-all duration-300"
-        onClick={onConfirm}
+        <Button
+          className="w-full max-w-sm bg-[#C2A36C] hover:bg-[#b1945e] text-black h-12 text-base font-medium transition-all duration-300"
+          onClick={onConfirm}
         >
-        Confirm as guest
-      </Button>
-
+          Confirm as guest
+        </Button>
       </div>
     </motion.div>
   );

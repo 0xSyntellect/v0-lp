@@ -130,9 +130,11 @@ export default function BookingWizard() {
             minivan={minivan}
             sprinter={sprinter}
             loading={pricingLoading}
-            error={pricingError}
+            error={pricingError as string | Error | null}
             selected={selectedVehicle}
-            onSelect={(name: string, price: number) =>setSelectedVehicle({ name, price })}
+            onSelect={(name: string, price: number) =>
+              setSelectedVehicle({ name, price })
+            }
             onContinue={next}
           />
         )}
@@ -153,12 +155,8 @@ export default function BookingWizard() {
         {/* Step 4: Payment & review */}
         {current === 4 && (
           <>
-            <PaymentSelect
-              value={paymentMethod}
-              onChange={setPaymentMethod}
-            />
+            <PaymentSelect value={paymentMethod} onChange={setPaymentMethod} />
             <ReviewSummary
-              passengerDetails={passengerDetails}
               contactInfo={contactInfo}
               selectedVehicle={selectedVehicle}
               paymentMethod={paymentMethod}
