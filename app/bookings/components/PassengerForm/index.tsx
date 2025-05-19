@@ -42,9 +42,13 @@ export default function PassengerForm({
         />
       </div>
       <div className="flex justify-center mt-8">
-        <Button onClick={onConfirm}>
-          Confirm
-        </Button>
+      <Button
+        className="w-full max-w-sm bg-[#C2A36C] hover:bg-[#b1945e] text-black h-12 text-base font-medium transition-all duration-300"
+        onClick={onConfirm}
+        >
+        Confirm as guest
+      </Button>
+
       </div>
     </motion.div>
   );
