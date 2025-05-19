@@ -79,14 +79,14 @@ export default function VehiclePicker({
       )}
 
       <div className="mt-6 flex justify-center">
-        <Button
-          size="lg"
-          className="w-full max-w-sm"
-          disabled={!selected}
-          onClick={onContinue}
-        >
-          Continue
-        </Button>
+            <Button
+              className="w-full max-w-sm bg-[#C2A36C] hover:bg-[#b1945e] text-black h-12 text-base font-medium transition-all duration-300"
+              disabled={!selected}
+              onClick={onContinue}
+              >
+              Continue as guest
+            </Button>
+
       </div>
     </div>
   );
