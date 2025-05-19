@@ -1,6 +1,12 @@
 // app/bookings/components/VehiclePicker/index.tsx
 "use client";
-import { Listbox } from "@headlessui/react";
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOptions,
+  ListboxOption,
+} from "@headlessui/react";
+
 import { ChevronDown } from "lucide-react";
 import { useCurrency, convert, format } from "@/context/CurrencyContext";
 import VehicleCard from "./VehicleCard";
@@ -30,11 +36,11 @@ export default function VehiclePicker({
       <div className="flex items-center justify-between px-5 mb-4">
         <h3 className="text-lg font-semibold text-[#BFA15B]">Choose Your Vehicle</h3>
         <Listbox value={selectedCurrency} onChange={setSelectedCurrency}>
-          <Listbox.Button className="flex items-center gap-2 bg-[#262626] border border-[#BFA15B] text-[#BFA15B] px-3 py-1 rounded-md">
+          <ListboxButton className="flex items-center gap-2 bg-[#262626] border border-[#BFA15B] text-[#BFA15B] px-3 py-1 rounded-md w-20">
             {selectedCurrency}
             <ChevronDown className="w-4 h-4" />
-          </Listbox.Button>
-          <Listbox.Options className="absolute right-0 mt-1 w-full bg-[#262626] border border-[#BFA15B] rounded-md z-20 overflow-auto max-h-40">
+          </ListboxButton>
+          <ListboxOptions className="absolute right-106 mt-24 w-20 bg-[#262626] border border-[#BFA15B] rounded-md z-20 overflow-auto max-h-40">
             {['USD','EUR','GBP','TRY'].map(c => (
               <Listbox.Option key={c} value={c} className={({ active, selected }) =>
                 `cursor-pointer px-3 py-1 ${active ? "bg-[#BFA15B]/30" : ""} ${selected ? "font-semibold" : ""}`
@@ -42,7 +48,7 @@ export default function VehiclePicker({
                 {c}
               </Listbox.Option>
             ))}
-          </Listbox.Options>
+          </ListboxOptions>
         </Listbox>
       </div>
 
