@@ -14,6 +14,7 @@ export default function VehiclePicker({
   selected,
   onSelect,
   onContinue,
+  onSignup,
 }: {
   minivan: number | null;
   sprinter: number | null;
@@ -22,6 +23,7 @@ export default function VehiclePicker({
   selected: { name: string; price: number } | null;
   onSelect: (name: string, price: number) => void;
   onContinue: () => void;
+  onSignup;
 }) {
   const { rates, selectedCurrency, setSelectedCurrency} = useCurrency();
 
@@ -82,6 +84,16 @@ export default function VehiclePicker({
             </Button>
 
       </div>
+      <p className="mt-4 text-center text-sm text-[#BFA15B]">
+    Don’t have an account?{" "}
+    <button
+      type="button"
+      onClick={onSignup}
+      className="underline hover:text-[#e0c285]"
+    >
+      Sign up here
+    </button>
+  </p>
     </div>
   );
 }

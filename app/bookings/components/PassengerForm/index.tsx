@@ -28,6 +28,7 @@ export default function PassengerForm({
   onToggleAccordion,
   onContactChange,
   onConfirm,
+  onSignup,
 }: {
   passengerDetails: Passenger[];
   isAccordionOpen: boolean[];
@@ -36,6 +37,7 @@ export default function PassengerForm({
   onToggleAccordion: (idx: number) => void;
   onContactChange: (field: keyof Contact, value: string) => void;
   onConfirm: () => void;
+  onSignup: () => void;
 }) {
   return (
     <motion.div
@@ -64,6 +66,16 @@ export default function PassengerForm({
           Confirm as guest
         </Button>
       </div>
+      <p className="mt-4 text-center text-sm text-[#BFA15B]">
+    Don’t have an account?{" "}
+    <button
+      type="button"
+      onClick={onSignup}
+      className="underline hover:text-[#e0c285]"
+    >
+      Sign up here
+    </button>
+  </p>
     </motion.div>
   );
 }

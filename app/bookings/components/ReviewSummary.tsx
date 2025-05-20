@@ -16,11 +16,18 @@ export default function ReviewSummary({
   contactInfo,
   selectedVehicle,
   paymentMethod,
+  passengerDetails,
   onConfirm,
 }: {
   contactInfo: ContactInfo;
   selectedVehicle: { name: string; price: number } | null;
   paymentMethod: string;
+  passengerDetails: {
+        firstName: string;
+        lastName: string;
+        passportNumber: string;
+        origin: string;
+      }[];  
   onConfirm: () => void;
 }) {
   const { selectedCurrency, rates } = useCurrency();
@@ -45,6 +52,16 @@ export default function ReviewSummary({
         <p>
           <span className="font-semibold">Payment:</span> {paymentMethod}
         </p>
+{/* ↓↓↓ Passenger info block ↓↓↓ */}
+<div className="border-t border-[#BFA15B]/20 pt-4">
+  <p className="font-medium text-[#BFA15B] mb-2">Passenger Information</p>
+  {passengerDetails.map((p, i) => (
+    <p key={i}>
+      FirstName: {p.firstName} LastName: {p.lastName} &mdash; Passport: {p.passportNumber}, Origin: {p.origin}
+    </p>
+  ))}
+</div>
+
 
         <div className="border-t border-[#BFA15B]/20 pt-4">
           <p className="font-medium text-[#BFA15B] mb-2">Contact</p>
@@ -64,6 +81,10 @@ export default function ReviewSummary({
           Confirm Booking
         </Button>
       </div>
+      <p className="mt-4 text-center text-sm text-[#BFA15B]">
+        First time here? <span className="underline">Sign up</span> before
+        checkout and enjoy <strong>5 % off</strong> your first ride!
+      </p>
     </div>
   );
 }

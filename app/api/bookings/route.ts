@@ -34,14 +34,19 @@ export async function GET() {
 export async function POST(_req: Request) {
   const supabase = await createSupabaseServerClient();
 
+  // get current user (if any)
   const {
     data: { user },
     error: authError,
   } = await supabase.auth.getUser();
 
-  if (authError || !user) {
+  // if auth errored and guest flow is off, block
+  if (authError && !FEATURE_GUEST_FLOW) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
+
+  // treat user_id = null for true guests
+  const userId: string | null = user?.id ?? null;
 
   const body = await _req.json();
   const { selectedVehicle, serviceType, from, to, dateTime, passengers, offerId } = body;
@@ -56,40 +61,38 @@ export async function POST(_req: Request) {
     return new NextResponse("Missing required fields", { status: 400 });
   }
 
-  // ensure profile exists & fetch bookings_count
-  const { data: profile, error: profileErr } = await supabaseAdmin
-    .from("profiles")
-    .upsert({ id: user.id }, { onConflict: 'id' })
-    .select("bookings_count")
-    .maybeSingle();
+  // if we have a user, ensure their profile exists & fetch bookings_count
+  let bookingsCount = 0;
+  if (userId) {
+    const { data: profile, error: profileErr } = await supabaseAdmin
+      .from("profiles")
+      .upsert({ id: userId }, { onConflict: "id" })
+      .select("bookings_count")
+      .maybeSingle();
 
-  if (profileErr) {
-    return new NextResponse(profileErr.message, { status: 500 });
+    if (profileErr) {
+      return new NextResponse(profileErr.message, { status: 500 });
+    }
+
+    bookingsCount = profile?.bookings_count ?? 0;
   }
 
-  // safely get current count
-  const bookingsCount = profile?.bookings_count ?? 0;
-
+  // compute pricing (with discount only if guest flow enabled)
   let totalPrice: number;
-  let discountApplied: boolean;
-  let discountRate: number;
+  let discountApplied = false;
+  let discountRate = 0;
 
   if (FEATURE_GUEST_FLOW) {
-    const discount = applyFirstBookingDiscount(
-      selectedVehicle.price,
-      bookingsCount
-    );
+    const discount = applyFirstBookingDiscount(selectedVehicle.price, bookingsCount);
     totalPrice = discount.total;
     discountApplied = discount.discountApplied;
     discountRate = discount.discountRate;
   } else {
     totalPrice = selectedVehicle.price;
-    discountApplied = false;
-    discountRate = 0;
   }
 
   const bookingPayload = {
-    user_id: user.id,
+    user_id: userId,
     offer_id: offerId ?? null,
     status: "pending",
     service_type: serviceType,

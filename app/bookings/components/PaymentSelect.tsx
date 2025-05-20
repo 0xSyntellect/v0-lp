@@ -18,7 +18,7 @@ export default function PaymentSelect({ value, onChange }: PaymentSelectProps) {
         onChange={(e: ChangeEvent<HTMLSelectElement>) => onChange(e.target.value)}
       >
         <option value="">Choose Payment Method</option>
-        <option value="credit-card">Credit Card</option>
+        <option value="Credit Card">Credit Card</option>
         <option value="cash">Cash</option>
       </select>
     </div>

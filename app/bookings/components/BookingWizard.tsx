@@ -94,6 +94,7 @@ export default function BookingWizard() {
 
   // Handler for the final confirm button
   const handleFinalConfirm = () => {
+    // 1) Make sure a payment option is chosen
     if (!paymentMethod) {
       alert("Please choose a payment method before continuing.");
       document
@@ -102,12 +103,10 @@ export default function BookingWizard() {
       return;
     }
 
-    if (FEATURE_GUEST_FLOW && !session) {
-      setShowAuthModal(true);
-    } else {
-      confirmBooking();
-    }
+    // 2) Directly create the booking (no sign-up modal on step 4)
+    confirmBooking();
   };
+
 
   return (
     <main className="min-h-screen py-10 bg-[#1F1F1F] text-[#BFA15B]">
@@ -136,6 +135,7 @@ export default function BookingWizard() {
               setSelectedVehicle({ name, price })
             }
             onContinue={next}
+            onSignup={() => setShowAuthModal(true)}
           />
         )}
 
@@ -149,6 +149,7 @@ export default function BookingWizard() {
             onToggleAccordion={toggleAccordion}
             onContactChange={updateContactInfo}
             onConfirm={next}
+            onSignup={() => setShowAuthModal(true)} 
           />
         )}
 
@@ -160,6 +161,7 @@ export default function BookingWizard() {
               contactInfo={contactInfo}
               selectedVehicle={selectedVehicle}
               paymentMethod={paymentMethod}
+              passengerDetails={passengerDetails}      // ← NEW
               onConfirm={handleFinalConfirm}
             />
           </>
