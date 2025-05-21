@@ -18,9 +18,12 @@ import PassengerForm from "./PassengerForm";
 import PaymentSelect from "./PaymentSelect";
 import ReviewSummary from "./ReviewSummary";
 import AuthPromptModal from "@/components/ui/AuthPromptModal";
+import { useAuth } from "@/context/AuthContext";   // ← NEW
+
 
 export default function BookingWizard() {
   const router = useRouter();
+  const { user } = useAuth(); 
   
 
   // 1. Query params
@@ -85,7 +88,7 @@ export default function BookingWizard() {
       });
 
       alert("Booking confirmed!");
-      router.push("/bookings");
+      router.push(user ? "/my-bookings" : "/bookings?success=1");
     } catch (err) {
       console.error(err);
       alert("Error confirming booking. Please try again.");
