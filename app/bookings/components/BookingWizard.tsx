@@ -3,8 +3,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
-import { FEATURE_GUEST_FLOW } from "@/lib/flags";
+
+
 
 import useBookingQuery from "@/lib/hooks/useBookingQuery";
 import useVehiclePricing from "@/lib/hooks/useVehiclePricing";
@@ -21,7 +21,7 @@ import AuthPromptModal from "@/components/ui/AuthPromptModal";
 
 export default function BookingWizard() {
   const router = useRouter();
-  const { session } = useAuth();
+  
 
   // 1. Query params
   const { from, to, dateTime, passengersCount, serviceType } = useBookingQuery();

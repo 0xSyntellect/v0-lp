@@ -23,7 +23,7 @@ export default function VehiclePicker({
   selected: { name: string; price: number } | null;
   onSelect: (name: string, price: number) => void;
   onContinue: () => void;
-  onSignup;
+  onSignup: () => void;
 }) {
   const { rates, selectedCurrency, setSelectedCurrency} = useCurrency();
 
